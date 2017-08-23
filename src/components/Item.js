@@ -7,16 +7,19 @@ class Item extends Component {
         display: "none"
       }
 
+      let photo = this.props.owner && this.props.owner.photo;
+      let name = this.props.owner && this.props.owner.name;
+
 	    return (
-        <div className={this.props.item.completed ? 'list-row completed' : 'list-row'} style={this.props.item ? null : displayNone}>
+        <div className={this.props.item && this.props.item.completed ? 'list-row completed' : 'list-row'} style={this.props.item ? null : displayNone}>
           <div className="list-bullet" onClick={(e) => this.props.toggleItemComplete(this.props.index)}></div>
           <div className="item-info">
-            <div className="item-title">{this.props.item.title}</div>
-            <div className="item-detail" style={this.props.item.detail ? null : displayNone}>{this.props.item.detail}</div>
+            <div className="item-title">{this.props.item && this.props.item.title}</div>
+            <div className="item-detail" style={this.props.item && this.props.item.detail ? null : displayNone}>{this.props.item && this.props.item.detail}</div>
           </div>
           <div className="owner">
             <div className="owner-img">
-              <img src="https://cdn.dribbble.com/users/1370654/avatars/small/b5cc39a6cef2c6730c3e31a8fbfa2330.png?1500408665" />
+              <img src={photo} alt={name} />
             </div>
           </div>
 

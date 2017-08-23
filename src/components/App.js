@@ -4,6 +4,7 @@ import LeftNav from './LeftNav';
 import RightNav from './RightNav';
 import EditModal from './EditModal';
 import Item from './Item';
+import Owners from './Owners';
 import AddModal from './AddModal';
 
 import base from '../base';
@@ -20,52 +21,96 @@ class App extends Component {
     this.toggleEdit = this.toggleEdit.bind(this);
     this.toggleAdd = this.toggleAdd.bind(this);
 
+    this.renderLogin = this.renderLogin.bind(this);
+    this.authenticate = this.authenticate.bind(this);
+    this.authHandler = this.authHandler.bind(this);
+    this.logout = this.logout.bind(this);
+
 		// get initial states
 		this.state = {
 			editableTitle: false,
+      removableList: false,
       addItem: false,
-      id: 'Ann-sho-90e0bc6e-713a',
-      currentUser: 'anna-uid',
-      title: '',
+      title: {
+        listName: ""
+      },
       items: {},
-      owners: {
-        'anna-uid': true,
-        'tony-uid': true
-			},
-      users: {
-        'anna-uid': {
-          name: 'Anna',
-          image: 'https://cdn.dribbble.com/users/1370654/avatars/small/b5cc39a6cef2c6730c3e31a8fbfa2330.png?1500408665',
-        },
-        'tony-uid': {
-          name: 'Tony',
-          image: 'https://cdn.dribbble.com/users/1370654/avatars/small/b5cc39a6cef2c6730c3e31a8fbfa2330.png?1500408665',
-        }
-      }
-		}
-	}
+      uid: null,
+      owners: {},
+      members: {},
+      lists: {},
+    }
+  }
 
     componentWillMount() {
       // this runs right before <App> is rendered
-      this.listRef = base.syncState(`${this.state.id}/items`,{
+      this.ref = base.syncState(`${this.props.params.listId}/items`,{
         context: this,
         state: 'items'
       });
 
-      this.titleRef = base.syncState(`${this.state.id}/title`,{
+      this.titleRef = base.syncState(`${this.props.params.listId}/title`,{
         context: this,
         state: 'title',
+        default: 'New List',
       });
+
+      this.ownersRef = base.syncState(`${this.props.params.listId}/owners`,{
+        context: this,
+        state: 'owners',
+      });
+
+      this.membersRef = base.syncState(`/members`,{
+        context: this,
+        state: 'members',
+      });
+
+      // this.ownersRef = base.syncState(`/owners`,{
+      //   context: this,
+      //   state: 'owners',
+      // });
+
+
+    base.onAuth((user) => {
+      if (user) {
+        this.authHandler(null, { user });
+      }
+    });
+
+    // this.refreshMembersInfo();
+    this.updateOwner(this.state.members[this.state.uid]);
+
+
   }
 
     componentWillUnmount() {
-      base.removeBinding(this.listRef);
+      base.removeBinding(this.ref);
       base.removeBinding(this.titleRef);
+      base.removeBinding(this.ownersRef);
+      base.removeBinding(this.membersRef);
     }
+
+  // refreshMembersInfo() {
+  //        // grab the owners list
+  //     const ownersRef = base.database().ref('owners');
+
+  //       // query the firebase once to get the owners of this particular list
+  //     ownersRef.once('value', (snapshot) => {
+  //       const data = snapshot.val() || {};
+
+  //       const members = {...this.state.members};
+
+  //       Object.keys(members).map((key) => {
+  //         members[key] = data[key];
+  //       });
+
+  //       this.setState({members})
+  //   });
+  // }
 
 	updateTitle(newTitle) {
 		let title = {...this.state.title};
-		title = newTitle;
+		title.listName = newTitle;
 		this.setState({
 			title,
       editableTitle: !this.state.editableTitle
@@ -95,7 +140,8 @@ class App extends Component {
     if (e.target.name === "add") {
       this.setState({
         addItem : true,
-        editableTitle: false
+        editableTitle: false,
+        removableList: false
       })
     }
     else {
@@ -104,15 +150,27 @@ class App extends Component {
 
       this.setState({
         addItem : addable,
-        editableTitle : false
+        editableTitle : false,
+        removableList: false
       })
     }
+  }
+
+  toggleRemovableList(e) {
+    let removableList = this.state.removableList;
+    removableList = !removableList;
+
+    this.setState({
+      addItem : false,
+      editableTitle : false,
+      removableList
+    })
+
   }
 
   deleteItem(key) {
     const items = {...this.state.items};
     items[key] = null;
-    delete items[key];
     this.setState({items});
   }
 
@@ -122,24 +180,112 @@ class App extends Component {
     this.setState({items});
   }
 
+  renderLogin() {
+    return (
+      <div>
+        <span onClick={() => this.authenticate('github')}>Github</span>
+        <span onClick={() => this.authenticate('google')}>Google</span>
+        </div>
+    )
+  }
+
+  authenticate(provider) {
+    base.authWithOAuthPopup(provider, this.authHandler);
+  }
+
+  logout() {
+    base.unauth();
+    this.setState( {uid: null});
+  }
+
+  updateOwner(user) {
+    console.log(user);
+    if (!user) {
+      return;
+    }
+    const owners = {...this.state.owners};
+    const members = {...this.state.members}; 
+    const title = this.state.title.listName;
+    const uid = this.state.uid;
+
+    if (!members[uid]) {
+      const newList = {};
+      newList[this.props.params.listId] = {};
+      newList[this.props.params.listId].title = title || "New List";
+      user.lists = newList;
+      members[uid] = user;
+      this.setState({members});
+    }
+    else {
+      let oldList = members[uid].lists;
+      oldList[this.props.params.listId] = {};
+      oldList[this.props.params.listId].title = title || "New List";
+      this.setState({members});
+    }
+
+    owners[uid] = true;
+    this.setState({owners});
+
+    let lists = {...this.state.lists};
+    lists = members[uid].lists;
+    this.setState({lists});
+
+
+  }
+
+  authHandler(err, authData) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    // //grab the list info
+    // const listRef = base.database().ref(this.props.listId);
+
+    let uid = authData.user.uid;
+
+    this.setState({
+      uid
+    });
+
+    let user = {
+        name: authData.user.displayName,
+        photo: authData.user.photoURL,
+      };
+
+    this.updateOwner(user);
+
+
+  }
+
 
   render() {
 
+    if (!this.state.uid) {
+      // no one has logged in
+      return <div className="dashboard">{this.renderLogin()}</div>;
+    }
+
+
     return (
       <div className="dashboard">
-      	<LeftNav />
+      	<LeftNav
+          listId={this.props.params.listId}
+          owner={this.state.members[this.state.uid]}
+          logout={this.logout}
+        />
 
       	<div className="list">
 
       		<div className="list-top">
       			<div className="list-title">
-      				<span className="title">{this.state.title}</span>
+      				<span className="title">{this.state.title && this.state.title.listName || "New List"}</span>
 
       				<button onClick={this.toggleEdit}>Edit Title</button>
 
       				<EditModal
       					editable={this.state.editableTitle}
-      					currentTitle={this.state.title}
+      					currentTitle={this.state.title.listName}
                 updateTitle={this.updateTitle}
                 toggleEdit={this.toggleEdit}
       					/>
@@ -148,20 +294,11 @@ class App extends Component {
 
             <div className="members">
 
-
-              <div className="member">
-                <div className="member-image">
-                  <img src="https://cdn.dribbble.com/users/1370654/avatars/small/b5cc39a6cef2c6730c3e31a8fbfa2330.png?1500408665" alt="Anna" />
-                  <div className="member-name">Anna</div>
-                </div>
-              </div>
-
-              <div className="member">
-                <div className="member-image">
-                  <img src="https://cdn.dribbble.com/users/1370654/avatars/small/b5cc39a6cef2c6730c3e31a8fbfa2330.png?1500408665" alt="Anna" />
-                  <div className="member-name">Anna</div>
-                </div>
-              </div>
+            {this.state.owners &&
+              Object.keys(this.state.owners).map((uid) =>
+                <Owners owner={this.state.members[uid]} key={uid} />
+              )
+            }
             </div>
 
 
@@ -176,6 +313,7 @@ class App extends Component {
               <AddModal
                 addable={this.state.addItem}
                 addItem={this.addItem}
+                owner={this.state.uid}
                 toggleAdd={this.toggleAdd}
               />
 
@@ -200,6 +338,7 @@ class App extends Component {
               .map((key) =>
                 <Item
                 item={this.state.items[key]}
+                owner={this.state.items[key] && this.state.members[this.state.items[key].owner]}
                 key={key}
                 index={key}
                 deleteItem={this.deleteItem}
@@ -213,7 +352,10 @@ class App extends Component {
 
       	</div>
 
-      	<RightNav />
+      	<RightNav
+          removable={this.state.removableList}
+          lists={this.state.lists || {}}
+         />
       </div>
     );
   }

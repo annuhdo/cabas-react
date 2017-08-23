@@ -22,3 +22,5 @@ yarn-error.log*
 
 src/**/*.css
 src/base.js
+
+README.md

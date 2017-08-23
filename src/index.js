@@ -12,7 +12,8 @@ const Root = () => {
 	return (
 		<BrowserRouter>
 		<div>
-			<Match exactly pattern="/" component={App} />
+			<Match exactly pattern="/" component={FrontPage} />
+			<Match exactly pattern="/lists/:listId" component={App} />
 			<Miss component={NotFound} />
 		</div>
 		</BrowserRouter>

@@ -12,7 +12,7 @@ class AddModal extends Component {
 		const item = {
 			title: this.title.value,
 			detail: this.detail.value,
-			owner: 'anna-uid',
+			owner: this.props.owner,
 			completed: false
 		}
 
