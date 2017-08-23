@@ -17,7 +17,7 @@ class LeftNav extends Component {
       	<div className="navigation">
 	      	<ul>
 	      		<li>
-	      			<a href="#">About</a>
+	      			<a href="" onClick={this.props.refreshLists}>My Lists</a>
 	      		</li>
 	      		<li>
 	      			<a href="" onClick={this.props.logout}>Sign Out</a>

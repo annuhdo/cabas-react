@@ -25,12 +25,18 @@ class App extends Component {
     this.authenticate = this.authenticate.bind(this);
     this.authHandler = this.authHandler.bind(this);
     this.logout = this.logout.bind(this);
+    this.refreshLists = this.refreshLists.bind(this);
+
+    this.toggleRemovableList = this.toggleRemovableList.bind(this);
+    this.leaveList = this.leaveList.bind(this);
 
 		// get initial states
 		this.state = {
 			editableTitle: false,
       removableList: false,
       addItem: false,
+      showLists: false,
+      removableList: false,
       title: {
         listName: ""
       },
@@ -65,20 +71,11 @@ class App extends Component {
         state: 'members',
       });
 
-      // this.ownersRef = base.syncState(`/owners`,{
-      //   context: this,
-      //   state: 'owners',
-      // });
-
-
-    base.onAuth((user) => {
-      if (user) {
-        this.authHandler(null, { user });
-      }
-    });
-
-    // this.refreshMembersInfo();
-    this.updateOwner(this.state.members[this.state.uid]);
+      base.onAuth((user) => {
+        if (user) {
+          this.authHandler(null, { user });
+        }
+      });
 
 
   }
@@ -88,29 +85,53 @@ class App extends Component {
       base.removeBinding(this.titleRef);
       base.removeBinding(this.ownersRef);
       base.removeBinding(this.membersRef);
+      base.removeBinding(this.listsRef);
     }
 
-  // refreshMembersInfo() {
-  //        // grab the owners list
-  //     const ownersRef = base.database().ref('owners');
+    refreshLists(e) {
+      e.preventDefault();
 
-  //       // query the firebase once to get the owners of this particular list
-  //     ownersRef.once('value', (snapshot) => {
-  //       const data = snapshot.val() || {};
+      let members = {...this.state.members};
+      const uid = this.state.uid;
+      const lists = {...this.state.members[this.state.uid].lists};
 
-  //       const members = {...this.state.members};
+      const path = `/members/${uid}`;
 
-  //       Object.keys(members).map((key) => {
-  //         members[key] = data[key];
-  //       });
+      this.listsRef = base.syncState(`${path}/lists`,{
+        context: this,
+        state: 'lists',
+      });
 
-  //       this.setState({members})
-  //   });
-  // }
+      lists[this.props.params.listId] = true;
+      members.lists = lists;
+      this.setState( {
+        members,
+        lists,
+        showLists: true});
+      }
+
+    leaveList(listId) {
+
+      if (listId === this.props.params.listId) {
+        this.context.router.transitionTo(`/`);
+      }
+
+      // delete the list from the members
+      const members = {...this.state.members};
+      const uid = this.state.uid;
+      members[uid].lists[listId] = null;
+
+      // remove member from list's owner
+      base.database().ref(`${listId}/owners/${uid}`).set(null);
+
+      this.setState({members});
+
+    }
 
 	updateTitle(newTitle) {
 		let title = {...this.state.title};
 		title.listName = newTitle;
+
 		this.setState({
 			title,
       editableTitle: !this.state.editableTitle
@@ -198,41 +219,6 @@ class App extends Component {
     this.setState( {uid: null});
   }
 
-  updateOwner(user) {
-    console.log(user);
-    if (!user) {
-      return;
-    }
-    const owners = {...this.state.owners};
-    const members = {...this.state.members}; 
-    const title = this.state.title.listName;
-    const uid = this.state.uid;
-
-    if (!members[uid]) {
-      const newList = {};
-      newList[this.props.params.listId] = {};
-      newList[this.props.params.listId].title = title || "New List";
-      user.lists = newList;
-      members[uid] = user;
-      this.setState({members});
-    }
-    else {
-      let oldList = members[uid].lists;
-      oldList[this.props.params.listId] = {};
-      oldList[this.props.params.listId].title = title || "New List";
-      this.setState({members});
-    }
-
-    owners[uid] = true;
-    this.setState({owners});
-
-    let lists = {...this.state.lists};
-    lists = members[uid].lists;
-    this.setState({lists});
-
-
-  }
-
   authHandler(err, authData) {
     if (err) {
       console.error(err);
@@ -242,18 +228,35 @@ class App extends Component {
     // //grab the list info
     // const listRef = base.database().ref(this.props.listId);
 
-    let uid = authData.user.uid;
-
-    this.setState({
-      uid
-    });
+    const uid = authData.user.uid;
+    const owners = {...this.state.owners};
 
     let user = {
         name: authData.user.displayName,
         photo: authData.user.photoURL,
       };
 
-    this.updateOwner(user);
+    let members = {...this.state.members};
+    // check if user exists in members
+    if (members[uid]) {
+      // add current listId to their lists
+      members[uid].lists[this.props.params.listId] = true;
+    }
+    else {
+      // member has never logged in before
+      user.lists = {};
+      user.lists[this.props.params.listId] = true;
+      members[uid] = user;
+    }
+
+    owners[uid] = true;
+
+    // regardless update members state
+    this.setState({
+      members,
+      owners,
+      uid});
+
 
 
   }
@@ -267,19 +270,21 @@ class App extends Component {
     }
 
 
+
     return (
       <div className="dashboard">
       	<LeftNav
           listId={this.props.params.listId}
           owner={this.state.members[this.state.uid]}
           logout={this.logout}
+          refreshLists={this.refreshLists}
         />
 
       	<div className="list">
 
       		<div className="list-top">
       			<div className="list-title">
-      				<span className="title">{this.state.title && this.state.title.listName || "New List"}</span>
+      				<span className="title">{this.state.title && this.state.title.listName || this.props.params.listId}</span>
 
       				<button onClick={this.toggleEdit}>Edit Title</button>
 
@@ -347,18 +352,26 @@ class App extends Component {
 
           </div>
 
-</div>
+          </div>
 
 
       	</div>
 
-      	<RightNav
-          removable={this.state.removableList}
-          lists={this.state.lists || {}}
-         />
+        <RightNav
+        removableList={this.state.removableList}
+        toggleRemovableList={this.toggleRemovableList}
+        updateState={this.updateState}
+        showLists={this.state.showLists}
+        lists={this.state.lists}
+        leaveList={this.leaveList} />
+
       </div>
     );
   }
+}
+
+App.contextTypes = {
+  router: React.PropTypes.object
 }
 
 export default App;

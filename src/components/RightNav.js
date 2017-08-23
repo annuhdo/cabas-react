@@ -1,29 +1,46 @@
 import React, { Component } from 'react';
 
 class RightNav extends Component {
-  render() {
-	let displayNone = {
-		display: "none"
-	}
+  constructor() {
+    super();
+    this.renderLists = this.renderLists.bind(this);
+    this.leaveList = this.leaveList.bind(this);
+  }
 
+  leaveList(key) {
+    this.props.leaveList(key);
+  }
 
+  renderLists(key) {
+    const leaveButton = <div className="leave" onClick={() => this.props.leaveList(key)}>Leave this list</div>
     return (
-      <div className="my-lists">
-      	<h1>My Lists</h1>
-      	<div className="my-lists-top">
-      		<button className="edit-lists">Remove</button>
-      		<button className="add-list">Add</button>
-      	</div>
+          <li key={key}>{key}
+            {this.props.removableList ? leaveButton : null}
+          </li>
+    )
+  }
 
-      	<ul className={this.props.removableList ? "owned-lists editable" : "owned-lists"}>
+  render() {
+    let displayNone = {
+        display: "none"
+      }
+    return (
+        <div className="my-lists" style={this.props.showLists ? null : displayNone}>
+        <h1>My Lists</h1>
+        <div className="my-lists-top">
+          <button className="edit-lists" onClick={this.props.toggleRemovableList}>{this.props.removableList ? "Done" : "Edit"}</button>
+          <button className="add-list">New</button>
+        </div>
 
-      		<li>{this.props.lists && this.props.lists["reg"].title}
-      			{this.props.removableList ? <div className="leave">Leave this list</div> : null}
-      		</li>
-      	</ul>
+        
+      <ul className={this.props.removableList ? "owned-lists editable" : "owned-lists"}>
+        {Object.keys(this.props.lists).map(this.renderLists)}
+      </ul>
 
-      	{this.props.removableList ? <div className="footnote">You will be able to join the list again by accessing the URL of the list.</div> : null}
-      	
+
+        {this.props.removableList ? <div className="footnote">You will be able to join the list again by accessing the URL of the list.</div> : null}
+        
+
       </div>
     );
   }
