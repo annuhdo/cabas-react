@@ -38,7 +38,7 @@ class App extends Component {
       showLists: false,
       removableList: false,
       title: {
-        listName: ""
+        listName: "New List"
       },
       items: {},
       uid: null,
@@ -163,14 +163,6 @@ class App extends Component {
   }
 
   toggleAdd(e) {
-    if (e.target.name === "add") {
-      this.setState({
-        addItem : true,
-        editableTitle: false,
-        removableList: false
-      })
-    }
-    else {
       let addable = this.state.addItem;
       addable = !addable;
 
@@ -179,7 +171,6 @@ class App extends Component {
         editableTitle : false,
         removableList: false
       })
-    }
   }
 
   toggleRemovableList(e) {
