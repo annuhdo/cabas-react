@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
 import base from '../base';
+import logo from '../images/cabas_logo.png';
 
 class LeftNav extends Component {
+  constructor() {
+    super();
+
+    this.logo =  this.logo.bind(this);
+  }
+
+  logo() {
+    return (
+        <p>hello</p>
+    )
+  }
   render() {
   	let photo = this.props.owner && this.props.owner.photo;
   	let name = this.props.owner && this.props.owner.name;
     return (
       <div className="nav">
+        <img src={logo} />
       	<div className="user">
       		<div className="user-img">
       			<img src={photo} alt={name} />
