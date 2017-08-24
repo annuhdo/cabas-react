@@ -95,12 +95,14 @@ class App extends Component {
       const uid = this.state.uid;
       const lists = {...this.state.members[this.state.uid].lists};
 
-      const path = `/members/${uid}`;
+      if (uid) {
+        const path = `/members/${uid}`;
 
-      this.listsRef = base.syncState(`${path}/lists`,{
-        context: this,
-        state: 'lists',
-      });
+        this.listsRef = base.syncState(`${path}/lists`,{
+          context: this,
+          state: 'lists',
+        });
+      }
 
       lists[this.props.params.listId] = true;
       members.lists = lists;
@@ -123,6 +125,9 @@ class App extends Component {
 
       // remove member from list's owner
       base.database().ref(`${listId}/owners/${uid}`).set(null);
+
+      // remove the list from all lists
+      base.database().ref(`/members/lists/${listId}`).set(null);
 
       this.setState({members});
 
@@ -293,6 +298,7 @@ class App extends Component {
       					currentTitle={this.state.title.listName}
                 updateTitle={this.updateTitle}
                 toggleEdit={this.toggleEdit}
+                listId={this.props.params.listId}
       					/>
 
       			</div>

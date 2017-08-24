@@ -1,23 +1,45 @@
 import React, { Component } from 'react';
+import { randomId } from '../helpers.js';
 
 class RightNav extends Component {
   constructor() {
     super();
     this.renderLists = this.renderLists.bind(this);
     this.leaveList = this.leaveList.bind(this);
+    this.redirectNewList = this.redirectNewList.bind(this);
   }
 
   leaveList(key) {
     this.props.leaveList(key);
   }
 
+  transitionToList(key) {
+    console.log("let's go", key);
+    location.href = `/lists/${key}`;
+  }
+
+  decideLeave(key) {
+    if (this.props.removableList) {
+      this.leaveList(key);
+    }
+    else {
+      this.transitionToList(key);
+    }
+  }
+
   renderLists(key) {
-    const leaveButton = <div className="leave" onClick={() => this.props.leaveList(key)}>Leave this list</div>
+    const leaveButton = <div className="leave">Leave this list</div>
     return (
-          <li key={key}>{key}
+          <li key={key} onClick={() => this.decideLeave(key)}>
+          <div className="list-route">{key}</div>
             {this.props.removableList ? leaveButton : null}
           </li>
     )
+  }
+
+  redirectNewList(e) {
+    const newPath = randomId();
+    location.href = `/lists/${newPath}`;
   }
 
   render() {
@@ -29,7 +51,7 @@ class RightNav extends Component {
         <h1>My Lists</h1>
         <div className="my-lists-top">
           <button className="edit-lists" onClick={this.props.toggleRemovableList}>{this.props.removableList ? "Done" : "Edit"}</button>
-          <button className="add-list">New</button>
+          <button className="add-list" onClick={this.redirectNewList}>New</button>
         </div>
 
         
@@ -44,6 +66,10 @@ class RightNav extends Component {
       </div>
     );
   }
+}
+
+RightNav.contextTypes = {
+  router: React.PropTypes.object
 }
 
 export default RightNav;
