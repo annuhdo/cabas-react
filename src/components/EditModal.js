@@ -1,33 +1,32 @@
 import React, { Component } from 'react';
 
 class EditModal extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			title: this.props.currentTitle
-		};
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: this.props.currentTitle
+        };
 
-		this.handleChange = this.handleChange.bind(this);
-	}
+        this.handleChange = this.handleChange.bind(this);
+    }
 
-	updateTitle(e) {
-		e.preventDefault();
+    updateTitle(e) {
+        e.preventDefault();
 
-		const newTitle = this.title.value;
+        const newTitle = this.title.value;
 
-		if (newTitle !== '') {
-			this.props.updateTitle(newTitle);
-		}
-		else {
-			this.props.toggleEdit(e);
-		}
-	}
+        if (newTitle !== '') {
+            this.props.updateTitle(newTitle);
+        } else {
+            this.props.toggleEdit(e);
+        }
+    }
 
-	handleChange(e) {
-		this.setState( {
-			title: e.target.value
-		})
-	}
+    handleChange(e) {
+        this.setState({
+            title: e.target.value
+        })
+    }
 
 	render() {
 		let displayNone = {

@@ -2,33 +2,33 @@ import React, { Component } from 'react';
 
 class AddModal extends Component {
 
-	createItem(e) {
-		e.preventDefault();
+    createItem(e) {
+        e.preventDefault();
 
-		if (this.title.value === '') {
-			return;
-		}
-		const newTitle = this.title.value || "";
-		const newDetail = this.detail.value || "";
+        if (this.title.value === '') {
+            return;
+        }
+        const newTitle = this.title.value || "";
+        const newDetail = this.detail.value || "";
 
-		const item = {
-			title: newTitle,
-			detail: newDetail,
-			owner: this.props.owner,
-			completed: false
-		}
+        const item = {
+            title: newTitle,
+            detail: newDetail,
+            owner: this.props.owner,
+            completed: false
+        }
 
-		this.props.toggleAdd(e);
-		this.props.addItem(item);
-		this.addForm.reset();
-	}
+        this.props.toggleAdd(e);
+        this.props.addItem(item);
+        this.addForm.reset();
+    }
 
-	render() {
-		let displayNone = {
-	  		display: "none"
-	  	}
+    render() {
+        let displayNone = {
+            display: "none"
+        }
 
-	    return (
+        return (
 	    	<div className="add-modal" style={this.props.addable ? null : displayNone}>
 	    		<span className="add-label">Add an Item</span>
 	    		<form name="addForm" className="inputs" ref={(input) => this.addForm = input} onSubmit={(e) => this.createItem(e)} onKeyPress={(e) => e.key === 'Enter' ? this.createItem(e) : null}> 

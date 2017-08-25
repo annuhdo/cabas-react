@@ -1,26 +1,22 @@
 import React, { Component } from 'react';
 
 class Item extends Component {
-  constructor() {
-    super();
+    constructor() {
+        super();
 
-    this.updateItem = this.updateItem.bind(this);
-  }
-
-  updateItem(e) {
-    e.preventDefault();
-
-    const newTitle = this.title.value;
-    const newDetail = this.detail.value;
-
-    console.log({newTitle, newDetail});
-
-
-    if (newTitle !== '') {
-      this.props.editItem(this.props.index, newTitle, newDetail);
+        this.updateItem = this.updateItem.bind(this);
     }
 
-  }
+    updateItem(e) {
+        e.preventDefault();
+
+        const newTitle = this.title.value;
+        const newDetail = this.detail.value;
+
+        if (newTitle !== '') {
+            this.props.editItem(this.props.index, newTitle, newDetail);
+        }
+    }
 
 	render() {
       let displayNone = {
