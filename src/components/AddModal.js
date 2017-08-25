@@ -8,10 +8,12 @@ class AddModal extends Component {
 		if (this.title.value === '') {
 			return;
 		}
+		const newTitle = this.title.value || "";
+		const newDetail = this.detail.value || "";
 
 		const item = {
-			title: this.title.value,
-			detail: this.detail.value,
+			title: newTitle,
+			detail: newDetail,
 			owner: this.props.owner,
 			completed: false
 		}

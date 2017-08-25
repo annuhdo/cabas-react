@@ -29,6 +29,11 @@ class App extends Component {
 
     this.toggleRemovableList = this.toggleRemovableList.bind(this);
     this.leaveList = this.leaveList.bind(this);
+    this.renderEditItem = this.renderEditItem.bind(this);
+    this.closeEditItem = this.closeEditItem.bind(this);
+    this.editItem = this.editItem.bind(this);
+    this.closeLists = this.closeLists.bind(this);
+
 
 		// get initial states
 		this.state = {
@@ -45,6 +50,7 @@ class App extends Component {
       owners: {},
       members: {},
       lists: {},
+      showEditItem: "",
     }
   }
 
@@ -111,6 +117,10 @@ class App extends Component {
         lists,
         showLists: true});
       }
+
+    closeLists() {
+      this.setState({showLists: false});
+    }
 
     leaveList(listId) {
 
@@ -183,6 +193,22 @@ class App extends Component {
       removableList
     })
 
+  }
+
+  renderEditItem(key) {
+    this.setState({showEditItem: key});
+  }
+
+  closeEditItem() {
+    this.setState({showEditItem: ""});
+  }
+
+  editItem(key, title, detail) {
+    const items = {...this.state.items};
+    items[key].title = title || "";
+    items[key].detail = detail || "";
+
+    this.setState({items, showEditItem: ""});
   }
 
   deleteItem(key) {
@@ -344,7 +370,12 @@ class App extends Component {
                 key={key}
                 index={key}
                 deleteItem={this.deleteItem}
-                toggleItemComplete={this.toggleItemComplete} />
+                toggleItemComplete={this.toggleItemComplete}
+                showEditItem={this.state.showEditItem}
+                renderEditItem={this.renderEditItem}
+                closeEditItem={this.closeEditItem}
+                editItem={this.editItem}
+                />
             )}
 
           </div>
@@ -360,7 +391,8 @@ class App extends Component {
         updateState={this.updateState}
         showLists={this.state.showLists}
         lists={this.state.lists}
-        leaveList={this.leaveList} />
+        leaveList={this.leaveList}
+        closeLists={this.closeLists} />
 
       </div>
     );
