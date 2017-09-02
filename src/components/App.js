@@ -6,6 +6,7 @@ import EditModal from './EditModal';
 import Item from './Item';
 import Owners from './Owners';
 import AddModal from './AddModal';
+import ShareModal from './ShareModal';
 
 import base from '../base';
 
@@ -20,6 +21,7 @@ class App extends Component {
         this.updateTitle = this.updateTitle.bind(this);
         this.toggleEdit = this.toggleEdit.bind(this);
         this.toggleAdd = this.toggleAdd.bind(this);
+        this.toggleShare = this.toggleShare.bind(this);
 
         this.renderLogin = this.renderLogin.bind(this);
         this.authenticate = this.authenticate.bind(this);
@@ -40,6 +42,7 @@ class App extends Component {
             editableTitle: false,
             removableList: false,
             addItem: false,
+            shareItem: false,
             showLists: false,
             removableList: false,
             title: {
@@ -169,7 +172,9 @@ class App extends Component {
 
         this.setState({
             editableTitle: editable,
-            addItem: false
+            addItem: false,
+            removableList: false,
+            shareItem: false
         })
     }
 
@@ -179,6 +184,19 @@ class App extends Component {
 
         this.setState({
             addItem: addable,
+            editableTitle: false,
+            removableList: false,
+            shareItem: false
+        })
+    }
+
+    toggleShare(e) {
+        let shareable = this.state.shareItem;
+        shareable = !shareable;
+
+        this.setState({
+            shareItem: shareable,
+            addItem: false,
             editableTitle: false,
             removableList: false
         })
@@ -191,7 +209,8 @@ class App extends Component {
         this.setState({
             addItem: false,
             editableTitle: false,
-            removableList
+            removableList,
+            shareItem: false
         })
 
     }
@@ -346,7 +365,12 @@ class App extends Component {
             </div>
 
             <div className="share-section">
-              <button className="share">Share</button>
+              <button className="share" name="share" onClick={this.toggleShare}>Share</button>
+
+              <ShareModal
+                shareable={this.state.shareItem}
+                toggleShare={this.toggleShare}
+              />
             </div>
           </div>
 

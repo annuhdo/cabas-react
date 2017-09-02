@@ -35,6 +35,22 @@ action-btn(fontSize, background, clr)
   border 0
   cursor pointer
   outline none
+  
+input
+  background light
+  border-radius 3px
+  outline 0
+  border 0
+  margin-right 10px
+  font-size 16px
+  padding 5px 10px
+  color dark-text
+  
+.cancel-btn
+  action-btn(14px, warningRed, white)
+  
+.done-btn
+  action-btn(14px, ahover, white)
 
 body
   font-size 62.5%
@@ -156,16 +172,6 @@ body
             
           .done-btn
             action-btn(14px, ahover, white)
-          
-          input
-            background light
-            border-radius 3px
-            outline 0
-            border 0
-            margin-right 10px
-            font-size 16px
-            padding 5px 10px
-            color dark-text
 
       .members
         display flex
@@ -199,6 +205,7 @@ body
             border-radius 3px
             position absolute
             bottom -100%
+            z-index 10
             
           .member-name:before
             content ' '
@@ -229,6 +236,29 @@ body
         
       .share
         action-btn(14px, ahover, white)
+        
+      .share-section
+        position relative
+        
+      .share-modal
+        position absolute
+        height 50px
+        bottom -60px
+        right 0
+        background white
+        border 1px solid light
+        border-radius 3px
+        padding 10px
+        box-sizing border-box
+        flex-display()
+        justify-content center
+        align-items center
+        z-index 10
+
+        button
+          action-btn(14px, white, dark-text)
+          border 1px solid light
+
         
     .list-item
       transition all 0.2
@@ -267,14 +297,9 @@ body
           margin-bottom 5px
           
          input
-          background light
-          border-radius 3px
-          outline 0
-          border 0
           margin-bottom 10px
-          font-size 16px
+          margin-right 0
           padding 10px
-          color dark-text
 
         .action-btns
           width 100%
@@ -513,7 +538,7 @@ body
   
   .add-modal
     position absolute
-    bottom -200px
+    bottom -185px
     background white
     border 1px solid light
     border-radius 3px
@@ -552,11 +577,4 @@ body
         action-btn(14px, ahover, white)
                
     input
-      background light
-      border-radius 3px
-      outline 0
-      border 0
       margin-bottom 10px
-      font-size 16px
-      padding 10px
-      color dark-text
