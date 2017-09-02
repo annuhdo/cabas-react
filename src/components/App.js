@@ -140,6 +140,18 @@ class App extends Component {
         // remove member from list's owner
         base.database().ref(`${listId}/owners/${uid}`).set(null);
 
+        // remove list from database altogether if no other owner
+        base.fetch(`${listId}/owners`, {
+            context: this,
+            asArray: true
+        }).then(data => {
+            if (data.length === 0) {
+                base.database().ref(`${listId}`).set(null);
+            }
+        }).catch(error => {
+            console.log("Couldn't find owners.");
+        })
+        
         // remove the list from all lists
         base.database().ref(`/members/lists/${listId}`).set(null);
 
