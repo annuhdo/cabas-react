@@ -128,14 +128,24 @@ class App extends Component {
 
     leaveList(listId) {
 
-        if (listId === this.props.params.listId) {
-            this.context.router.transitionTo(`/`);
-        }
-
         // delete the list from the members
         const members = { ...this.state.members };
         const uid = this.state.uid;
         members[uid].lists[listId] = null;
+
+        // sometimes user tries to leave the list they are currently on
+        // so we can route them to another list (first of their lists)
+        // or route them to homepage if they were never on any list
+        if (listId === this.props.params.listId) {
+            // get the first list from members' lists
+            if (members[uid] && members[uid].lists) {
+              const firstList = Object.keys(members[uid].lists)[0];
+              this.context.router.transitionTo(`/lists/${firstList}`);
+            }
+            else {
+              this.context.router.transitionTo('/');
+            }
+        }
 
         // remove member from list's owner
         base.database().ref(`${listId}/owners/${uid}`).set(null);
@@ -151,7 +161,7 @@ class App extends Component {
         }).catch(error => {
             console.log("Couldn't find owners.");
         })
-        
+
         // remove the list from all lists
         base.database().ref(`/members/lists/${listId}`).set(null);
 
