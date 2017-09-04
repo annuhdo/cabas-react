@@ -81,16 +81,12 @@ class Login extends Component {
 
 
     render() {
-		let displayNone = {
-	  		display: "none"
-	  	}
-
 	    return (
       <div className="body">
 
             <nav className="navi">
                 <div className="logo">
-                    <img src={logo} />
+                    <img src={logo} alt="cabas logo" />
                 </div>
 
                 <div className="links">
@@ -113,7 +109,7 @@ class Login extends Component {
                 </div>
 
                                 <div className="screenshot">
-                    <img src={screenshot} />
+                    <img src={screenshot} alt="cabas screenshot" />
                 </div>
                 </div>
       </div>

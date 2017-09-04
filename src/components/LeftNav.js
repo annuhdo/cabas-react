@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import base from '../base';
 import logo from '../images/cabas_logo.png';
 
 class LeftNav extends Component {
@@ -8,7 +7,7 @@ class LeftNav extends Component {
     	let name = this.props.owner && this.props.owner.name;
       return (
         <div className="nav">
-          <a href="/"> <img src={logo} /> </a>
+          <a href="/"> <img src={logo} alt="cabas logo" /> </a>
         	<div className="user">
         		<div className="user-img">
         			<img src={photo} alt={name} />

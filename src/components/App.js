@@ -7,7 +7,6 @@ import Item from './Item';
 import Owners from './Owners';
 import AddModal from './AddModal';
 import ShareModal from './ShareModal';
-import Login from './Login';
 import '../css/style.css';
 
 import base from '../base';
@@ -46,7 +45,6 @@ class App extends Component {
             addItem: false,
             shareItem: false,
             showLists: false,
-            removableList: false,
             title: {
                 listName: "New List"
             },
@@ -115,7 +113,7 @@ class App extends Component {
             });
         }
 
-        lists[this.props.params.listId] = true;
+        lists[this.props.params.listId] = this.state.title;
         members.lists = lists;
         this.setState({
             members,
@@ -306,11 +304,11 @@ class App extends Component {
       // check if user exists in members
       if (members[uid]) {
           // add current listId to their lists
-          members[uid].lists[this.props.params.listId] = true;
+          members[uid].lists[this.props.params.listId] = this.state.title;
       } else {
           // member has never logged in before
           user.lists = {};
-          user.lists[this.props.params.listId] = true;
+          user.lists[this.props.params.listId] = this.state.title;
           members[uid] = user;
       }
 
@@ -349,7 +347,7 @@ class App extends Component {
 
       		<div className="list-top">
       			<div className="list-title">
-      				<span className="title">{this.state.title && this.state.title.listName || this.props.params.listId}</span>
+      				<span className="title">{this.state.title.listName || this.props.params.listId}</span>
 
       				<button onClick={this.toggleEdit}>Edit Title</button>
 

@@ -28,9 +28,10 @@ class RightNav extends Component {
 
     renderLists(key) {
       const leaveButton = <div className="leave">Leave this list</div>
+      let title = this.props.lists[key].listName || key;
       return (
             <li title={key} key={key} onClick={() => this.decideLeave(key)}>
-            <div className="list-route" title={key} >{key}</div>
+            <div className="list-route" title={key} >{title}</div>
               {this.props.removableList ? leaveButton : null}
             </li>
       )
