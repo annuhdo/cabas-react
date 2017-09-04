@@ -7,6 +7,8 @@ import Item from './Item';
 import Owners from './Owners';
 import AddModal from './AddModal';
 import ShareModal from './ShareModal';
+import Login from './Login';
+import '../css/style.css';
 
 import base from '../base';
 
@@ -267,10 +269,7 @@ class App extends Component {
 
   renderLogin() {
     return (
-      <div>
-        <span onClick={() => this.authenticate('github')}>Github</span>
-        <span onClick={() => this.authenticate('google')}>Google</span>
-      </div>
+      <button className="login-btn" onClick={() => this.authenticate('github')}>Github</button>
     )
   }
 
@@ -281,6 +280,9 @@ class App extends Component {
   logout() {
       base.unauth();
       this.setState({ uid: null });
+      // user leaves local storage
+      localStorage.setItem(`uid`, null);
+      this.context.router.transitionTo('/');
   }
 
   authHandler(err, authData) {
@@ -320,17 +322,18 @@ class App extends Component {
           owners,
           uid
       });
+
+      // set current user into local storage
+      localStorage.setItem(`uid`, JSON.stringify(uid));
   }
 
 
   render() {
 
-    if (!this.state.uid) {
-      // no one has logged in
-      return <div className="dashboard">{this.renderLogin()}</div>;
-    }
-
-
+    // if (!this.state.uid) {
+    //   // no one has logged in
+    //   return <div>Loading...</div>
+    // }
 
     return (
       <div className="dashboard">
@@ -339,6 +342,7 @@ class App extends Component {
           owner={this.state.members[this.state.uid]}
           logout={this.logout}
           refreshLists={this.refreshLists}
+          router={this.context.router}
         />
 
       	<div className="list">

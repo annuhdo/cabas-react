@@ -69,8 +69,4 @@ class RightNav extends Component {
     }
 }
 
-RightNav.contextTypes = {
-  router: React.PropTypes.object
-}
-
 export default RightNav;

@@ -8,7 +8,7 @@ class LeftNav extends Component {
     	let name = this.props.owner && this.props.owner.name;
       return (
         <div className="nav">
-          <img src={logo} />
+          <a href="/"> <img src={logo} /> </a>
         	<div className="user">
         		<div className="user-img">
         			<img src={photo} alt={name} />

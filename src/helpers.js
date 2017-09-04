@@ -28,8 +28,7 @@ const random = (high) => Math.floor(Math.random() * high);
 const adj = adjs[random(adjs.length)];
 const noun = nouns[random(nouns.length)];
 const num = random(1000) + 1;
-const time = Date.now();
 
-return `${adj}-${noun}-${num}-${time}`;
+return `${adj}-${noun}-${num}`;
 }
 

@@ -23,11 +23,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "watch": "concurrently --names \"webpack, stylus\" --prefix name \"npm run start\" \"npm run styles:watch\"",
+    "watch": "concurrently --names \"webpack, stylus\" --prefix name \"npm run start\" \"npm run styles:watch\" \"npm run frontstyles:watch\"",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "styles": "stylus -u autoprefixer-stylus ./src/css/style.styl -o ./src/css/style.css",
-    "styles:watch": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./src/css/style.css"
+    "frontstyles": "stylus -u autoprefixer-stylus ./src/css/frontpage.styl -o ./src/css/frontpage.css",
+    "styles:watch": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./src/css/style.css",
+    "frontstyles:watch": "stylus -u autoprefixer-stylus -w ./src/css/frontpage.styl -o ./src/css/frontpage.css"
   },
   "eslintConfig": {
     "extends": "./node_modules/react-scripts/.eslintrc"
