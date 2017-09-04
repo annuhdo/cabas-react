@@ -90,8 +90,8 @@ class Login extends Component {
                 </div>
 
                 <div className="links">
-                    <a href="#">@annuhdo</a>
-                    <a href="#">Github</a>
+                    <a href="https://twitter.com/annuhdo">@annuhdo</a>
+                    <a href="https://github.com/annuhdo/cabas">Github</a>
                 </div>
             </nav>
             <div className="front">

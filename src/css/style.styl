@@ -80,7 +80,7 @@ body
 .dashboard
   flex-display()
   flex 1
-  min-height 98vh
+  min-height 100vh
   max-width 1200px
   margin 0 auto
   
@@ -96,15 +96,15 @@ body
   .copyright
     font-size 0.9em
     font-weight 400
-    position relative
-    margin-top 100px
+    position fixed
+    bottom 20px
     
   .user
     font-weight 500
     font-size 1.1em
     color dark
     margin-top 40px
-    margin-bottom 20px
+    margin-bottom 40px
     display inline-block
     
     .user-img
@@ -122,7 +122,7 @@ body
     background main-grey
     flex 1
     order 2
-    padding 30px 25px
+    padding 30px 25px 10px 25px
     
     .list-top
       justify-content space-between
@@ -379,7 +379,6 @@ body
         button:hover
           background warningRed !important
           color white !important
-          border 0
           
       .edit
         width 70px
@@ -391,6 +390,9 @@ body
       .list-row.completed
         color detailGrey
         position relative
+        background btnHover
+        margin 0 -25px
+        padding 18px 25px
         
         
         .list-bullet
@@ -459,7 +461,7 @@ body
       flex-display()
       align-items center
       justify-content space-between
-      margin-top 10px
+      margin-top 15px
       
       h1
         flex 1
@@ -487,7 +489,7 @@ body
     .owned-lists
       font-size 1.6em
       box-sizing border-box
-      margin-top 10px
+      margin-top 15px
       
       li
         max-width 100%

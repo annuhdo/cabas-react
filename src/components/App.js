@@ -353,7 +353,7 @@ class App extends Component {
 
       				<EditModal
       					editable={this.state.editableTitle}
-      					currentTitle={this.state.title.listName}
+      					currentTitle={this.state.title}
                 updateTitle={this.updateTitle}
                 toggleEdit={this.toggleEdit}
                 listId={this.props.params.listId}
