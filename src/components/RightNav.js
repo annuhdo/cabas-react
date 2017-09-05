@@ -22,17 +22,19 @@ class RightNav extends Component {
         if (this.props.removableList) {
             this.leaveList(key);
         } else {
+            if (key === this.props.listId) {
+              return;
+            }
             this.transitionToList(key);
         }
     }
 
     renderLists(key) {
       const leaveButton = <div className="leave">Leave this list</div>
-      let title = this.props.lists[key].listName || key;
       return (
-            <li title={key} key={key} onClick={() => this.decideLeave(key)}>
-            <div className="list-route" title={key} >{title}</div>
-              {this.props.removableList ? leaveButton : null}
+            <li className={key === this.props.listId ? "current" : null} title={key} key={key} onClick={() => this.decideLeave(key)}>
+              <div className="list-route" title={key}>{key}</div>
+                {this.props.removableList ? leaveButton : null}
             </li>
       )
     }

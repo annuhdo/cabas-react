@@ -43,7 +43,7 @@ class App extends Component {
             shareItem: false,
             showLists: false,
             title: {
-                listName: "New List"
+                listName: ""
             },
             items: {},
             uid: null,
@@ -427,7 +427,8 @@ class App extends Component {
         showLists={this.state.showLists}
         lists={this.state.lists}
         leaveList={this.leaveList}
-        closeLists={this.closeLists} />
+        closeLists={this.closeLists}
+        listId={this.props.params.listId} />
 
       </div>
     );

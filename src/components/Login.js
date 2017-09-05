@@ -69,13 +69,15 @@ class Login extends Component {
 
   }
 
-  startApp() {
+  startApp(e) {
+    e.preventDefault();
 
     if (this.state.uid !== null) {
       this.transitionToList(this.state.uid);
     }
     else {
-      this.authenticate('google');
+      let provider = e.target.name;
+      this.authenticate(provider);
     }
   }
 
@@ -105,7 +107,7 @@ class Login extends Component {
                     </div>
 
 
-        <button className="login-btn" onClick={() => this.startApp()}>Start App with Google</button>
+        <button name="google" className="login-btn" onClick={this.startApp}>Start App with Google</button>
                 </div>
 
                                 <div className="screenshot">

@@ -210,7 +210,7 @@ body
             padding 8px 10px
             border-radius 3px
             position absolute
-            bottom -100%
+            bottom -130%
             z-index 10
             
           .member-name:before
@@ -523,7 +523,6 @@ body
         
         
       li:hover
-        color dark
         background ahover
         color white
         
@@ -532,6 +531,13 @@ body
         word-wrap normal
         // white-space nowrap
         // text-overflow ellipsis
+          
+      li.current
+        background bodyBg
+        
+      li.current:hover
+        color dark-text
+        background bodyBg
         
     .editable
       li:hover
