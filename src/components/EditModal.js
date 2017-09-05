@@ -4,7 +4,7 @@ class EditModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: null
+            title: ""
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -18,7 +18,7 @@ class EditModal extends Component {
         if (newTitle !== '') {
             this.props.updateTitle(newTitle);
         } else {
-            this.props.toggleEdit(e);
+            this.props.toggleDisplay(e);
         }
     }
 
@@ -38,8 +38,8 @@ class EditModal extends Component {
 
 		      	<input type="text" value={this.state.title} onChange={this.handleChange} placeholder={this.props.currentTitle.listName} ref={(input) => this.title = input} onKeyPress={(e) => e.key === 'Enter' ? this.updateTitle(e) : null} />
 
-		      	<button name="done" className="done-btn" onClick={(e) => this.updateTitle(e)}>Done</button>
-		      	<button name="cancel" className="cancel-btn" onClick={(e) => this.props.toggleEdit(e)}>Cancel</button>
+		      	<button name="editTitle" className="done-btn" onClick={(e) => this.updateTitle(e)}>Done</button>
+		      	<button name="editTitle" className="cancel-btn" onClick={(e) => this.props.toggleDisplay(e)}>Cancel</button>
 	      	</div>
 
 	    );

@@ -53,7 +53,7 @@ class RightNav extends Component {
 
               <h1>My Lists</h1>
               <div className="my-lists-top">
-                <button className="edit-lists" onClick={this.props.toggleRemovableList}>{this.props.removableList ? "Done" : "Edit"}</button>
+                <button className="edit-lists" name="removeList" onClick={this.props.toggleDisplay}>{this.props.removableList ? "Done" : "Edit"}</button>
                 <button className="add-list" onClick={this.redirectNewList}>New</button>
               </div>
 

@@ -20,9 +20,6 @@ class App extends Component {
         this.deleteItem = this.deleteItem.bind(this);
         this.toggleItemComplete = this.toggleItemComplete.bind(this);
         this.updateTitle = this.updateTitle.bind(this);
-        this.toggleEdit = this.toggleEdit.bind(this);
-        this.toggleAdd = this.toggleAdd.bind(this);
-        this.toggleShare = this.toggleShare.bind(this);
 
         this.renderLogin = this.renderLogin.bind(this);
         this.authenticate = this.authenticate.bind(this);
@@ -30,7 +27,7 @@ class App extends Component {
         this.logout = this.logout.bind(this);
         this.refreshLists = this.refreshLists.bind(this);
 
-        this.toggleRemovableList = this.toggleRemovableList.bind(this);
+        this.toggleDisplay = this.toggleDisplay.bind(this);
         this.leaveList = this.leaveList.bind(this);
         this.renderEditItem = this.renderEditItem.bind(this);
         this.closeEditItem = this.closeEditItem.bind(this);
@@ -188,53 +185,45 @@ class App extends Component {
         this.setState({ items })
     }
 
-    toggleEdit(e) {
-        let editable = this.state.editableTitle;
-        editable = !editable;
+    toggleDisplay(e) {
+      let editableTitle = this.state.editableTitle;
+      let addItem = this.state.addItem;
+      let removableList = this.state.removableList;
+      let shareItem = this.state.shareItem;
 
-        this.setState({
-            editableTitle: editable,
-            addItem: false,
-            removableList: false,
-            shareItem: false
-        })
-    }
+      let modal = e.target.name;
 
-    toggleAdd(e) {
-        let addable = this.state.addItem;
-        addable = !addable;
-
-        this.setState({
-            addItem: addable,
-            editableTitle: false,
-            removableList: false,
-            shareItem: false
-        })
-    }
-
-    toggleShare(e) {
-        let shareable = this.state.shareItem;
-        shareable = !shareable;
-
-        this.setState({
-            shareItem: shareable,
-            addItem: false,
-            editableTitle: false,
-            removableList: false
-        })
-    }
-
-    toggleRemovableList(e) {
-        let removableList = this.state.removableList;
+      if (modal === "editTitle") {
+        editableTitle = !editableTitle;
+        addItem = false;
+        removableList = false;
+        shareItem = false;
+      }
+      else if (modal === "add") {
+        editableTitle = false;
+        addItem = !addItem;
+        removableList = false;
+        shareItem = false;
+      }
+      else if (modal === "share") {
+        editableTitle = false;
+        addItem = false;
+        removableList = false;
+        shareItem = !shareItem;
+      }
+      else if (modal === "removeList") {
+        editableTitle = false;
+        addItem = false;
         removableList = !removableList;
+        shareItem = false;
+      }
 
-        this.setState({
-            addItem: false,
-            editableTitle: false,
-            removableList,
-            shareItem: false
-        })
-
+      this.setState({
+        editableTitle,
+        addItem,
+        removableList,
+        shareItem,
+      })
     }
 
     renderEditItem(key) {
@@ -349,13 +338,13 @@ class App extends Component {
       			<div className="list-title">
       				<span className="title">{this.state.title.listName || this.props.params.listId}</span>
 
-      				<button onClick={this.toggleEdit}>Edit Title</button>
+      				<button name="editTitle" onClick={this.toggleDisplay}>Edit Title</button>
 
       				<EditModal
       					editable={this.state.editableTitle}
       					currentTitle={this.state.title}
                 updateTitle={this.updateTitle}
-                toggleEdit={this.toggleEdit}
+                toggleDisplay={this.toggleDisplay}
                 listId={this.props.params.listId}
       					/>
 
@@ -375,7 +364,7 @@ class App extends Component {
 
           <div className="add-share">
             <div className="add-section">
-              <button className="add" name="add" onClick={this.toggleAdd}>
+              <button className="add" name="add" onClick={this.toggleDisplay}>
                 Add Item
               </button>
 
@@ -383,17 +372,17 @@ class App extends Component {
                 addable={this.state.addItem}
                 addItem={this.addItem}
                 owner={this.state.uid}
-                toggleAdd={this.toggleAdd}
+                toggleDisplay={this.toggleDisplay}
               />
 
             </div>
 
             <div className="share-section">
-              <button className="share" name="share" onClick={this.toggleShare}>Share</button>
+              <button className="share" name="share" onClick={this.toggleDisplay}>Share</button>
 
               <ShareModal
                 shareable={this.state.shareItem}
-                toggleShare={this.toggleShare}
+                toggleDisplay={this.toggleDisplay}
               />
             </div>
           </div>
@@ -433,7 +422,7 @@ class App extends Component {
 
         <RightNav
         removableList={this.state.removableList}
-        toggleRemovableList={this.toggleRemovableList}
+        toggleDisplay={this.toggleDisplay}
         updateState={this.updateState}
         showLists={this.state.showLists}
         lists={this.state.lists}
