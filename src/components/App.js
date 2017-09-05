@@ -316,12 +316,6 @@ class App extends Component {
 
 
   render() {
-
-    // if (!this.state.uid) {
-    //   // no one has logged in
-    //   return <div>Loading...</div>
-    // }
-
     return (
       <div className="dashboard">
       	<LeftNav
@@ -333,33 +327,27 @@ class App extends Component {
         />
 
       	<div className="list">
+          <div className="list-top">
+            <div className="list-title">
+              <span className="title">{this.state.title.listName || this.props.params.listId}</span>
+              <button name="editTitle" onClick={this.toggleDisplay}>Edit Title</button>
 
-      		<div className="list-top">
-      			<div className="list-title">
-      				<span className="title">{this.state.title.listName || this.props.params.listId}</span>
-
-      				<button name="editTitle" onClick={this.toggleDisplay}>Edit Title</button>
-
-      				<EditModal
-      					editable={this.state.editableTitle}
-      					currentTitle={this.state.title}
+              <EditModal
+                editable={this.state.editableTitle}
+                currentTitle={this.state.title}
                 updateTitle={this.updateTitle}
                 toggleDisplay={this.toggleDisplay}
                 listId={this.props.params.listId}
       					/>
-
       			</div>
 
             <div className="members">
-
-            {this.state.owners &&
-              Object.keys(this.state.owners).map((uid) =>
-                <Owners owner={this.state.members[uid]} key={uid} />
-              )
-            }
+              {this.state.owners &&
+                Object.keys(this.state.owners).map((uid) =>
+                  <Owners owner={this.state.members[uid]} key={uid} />
+                )
+              }
             </div>
-
-
           </div>
 
           <div className="add-share">
@@ -374,7 +362,6 @@ class App extends Component {
                 owner={this.state.uid}
                 toggleDisplay={this.toggleDisplay}
               />
-
             </div>
 
             <div className="share-section">
@@ -394,30 +381,25 @@ class App extends Component {
               <div className="remove-col">Actions</div>
             </div>
 
-          <div className="list-item">
-
-            {Object
-              .keys(this.state.items)
-              .map((key) =>
-                <Item
-                item={this.state.items[key]}
-                owner={this.state.items[key] && this.state.members[this.state.items[key].owner]}
-                key={key}
-                index={key}
-                deleteItem={this.deleteItem}
-                toggleItemComplete={this.toggleItemComplete}
-                showEditItem={this.state.showEditItem}
-                renderEditItem={this.renderEditItem}
-                closeEditItem={this.closeEditItem}
-                editItem={this.editItem}
-                />
-            )}
-
+            <div className="list-item">
+              {Object
+                .keys(this.state.items)
+                .map((key) =>
+                  <Item
+                  item={this.state.items[key]}
+                  owner={this.state.items[key] && this.state.members[this.state.items[key].owner]}
+                  key={key}
+                  index={key}
+                  deleteItem={this.deleteItem}
+                  toggleItemComplete={this.toggleItemComplete}
+                  showEditItem={this.state.showEditItem}
+                  renderEditItem={this.renderEditItem}
+                  closeEditItem={this.closeEditItem}
+                  editItem={this.editItem}
+                  />
+              )}
+            </div>
           </div>
-
-          </div>
-
-
       	</div>
 
         <RightNav
