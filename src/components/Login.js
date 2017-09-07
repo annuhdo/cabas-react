@@ -65,6 +65,9 @@ class Login extends Component {
 
       const uid = authData.user.uid;
 
+      // set current user into local storage
+      localStorage.setItem(`uid`, JSON.stringify(uid));
+
       this.transitionToList(uid);
 
   }
