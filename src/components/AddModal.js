@@ -46,4 +46,11 @@ class AddModal extends Component {
 	}
 }
 
+AddModal.contextTypes = {
+    owner: React.PropTypes.object.isRequired,
+    toggleDisplay: React.PropTypes.func.isRequired,
+    addItem: React.PropTypes.func.isRequired,
+    addable: React.PropTypes.bool.isRequired
+}
+
 export default AddModal;

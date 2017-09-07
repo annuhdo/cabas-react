@@ -66,4 +66,16 @@ class Item extends Component {
 	}
 }
 
+Item.contextTypes = {
+  editItem: React.PropTypes.func.isRequired,
+  owner: React.PropTypes.object.isRequired,
+  index: React.PropTypes.number.isRequired,
+  item: React.PropTypes.object.isRequired,
+  deleteItem: React.PropTypes.func.isRequired,
+  closeEditItem: React.PropTypes.func.isRequired,
+  toggleItemComplete: React.PropTypes.func.isRequired,
+  showEditItem: React.PropTypes.bool.isRequired,
+  renderEditItem: React.PropTypes.func.isRequired
+}
+
 export default Item;

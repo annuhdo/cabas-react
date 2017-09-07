@@ -278,9 +278,6 @@ class App extends Component {
           return;
       }
 
-      // //grab the list info
-      // const listRef = base.database().ref(this.props.listId);
-
       const uid = authData.user.uid;
       const owners = { ...this.state.owners };
 
@@ -338,7 +335,7 @@ class App extends Component {
                 updateTitle={this.updateTitle}
                 toggleDisplay={this.toggleDisplay}
                 listId={this.props.params.listId}
-      					/>
+              />
       			</div>
 
             <div className="members">
@@ -418,7 +415,8 @@ class App extends Component {
 }
 
 App.contextTypes = {
-    router: React.PropTypes.object
+    router: React.PropTypes.object,
+    params: React.PropTypes.string.isRequired
 }
 
 export default App;

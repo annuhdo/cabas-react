@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 class EditModal extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             title: ""
         };
@@ -44,6 +44,13 @@ class EditModal extends Component {
 
 	    );
 	}
+}
+
+EditModal.contextTypes = {
+    updateTitle: React.PropTypes.func.isRequired,
+    toggleDisplay: React.PropTypes.func.isRequired,
+    editable: React.PropTypes.bool.isRequired,
+    currentTitle: React.PropTypes.object.isRequired
 }
 
 export default EditModal;
