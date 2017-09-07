@@ -47,10 +47,10 @@ class EditModal extends Component {
 }
 
 EditModal.contextTypes = {
-    updateTitle: React.PropTypes.func.isRequired,
-    toggleDisplay: React.PropTypes.func.isRequired,
-    editable: React.PropTypes.bool.isRequired,
-    currentTitle: React.PropTypes.object.isRequired
+    updateTitle: React.PropTypes.func,
+    toggleDisplay: React.PropTypes.func,
+    editable: React.PropTypes.bool,
+    currentTitle: React.PropTypes.object
 }
 
 export default EditModal;

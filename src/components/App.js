@@ -21,8 +21,6 @@ class App extends Component {
         this.toggleItemComplete = this.toggleItemComplete.bind(this);
         this.updateTitle = this.updateTitle.bind(this);
 
-        this.renderLogin = this.renderLogin.bind(this);
-        this.authenticate = this.authenticate.bind(this);
         this.authHandler = this.authHandler.bind(this);
         this.logout = this.logout.bind(this);
         this.refreshLists = this.refreshLists.bind(this);
@@ -92,6 +90,15 @@ class App extends Component {
         base.removeBinding(this.ownersRef);
         base.removeBinding(this.membersRef);
         base.removeBinding(this.listsRef);
+    }
+
+    componentDidMount() {
+      // check if there is any user in localStorage
+      const localStorageRef = localStorage.getItem(`uid`);
+
+      if (JSON.parse(localStorageRef) === null) {
+        location.href="/";
+      }
     }
 
     refreshLists(e) {
@@ -254,16 +261,6 @@ class App extends Component {
         this.setState({ items });
     }
 
-  renderLogin() {
-    return (
-      <button className="login-btn" onClick={() => this.authenticate('github')}>Github</button>
-    )
-  }
-
-  authenticate(provider) {
-      base.authWithOAuthPopup(provider, this.authHandler);
-  }
-
   logout() {
       base.unauth();
       this.setState({ uid: null });
@@ -416,7 +413,7 @@ class App extends Component {
 
 App.contextTypes = {
     router: React.PropTypes.object,
-    params: React.PropTypes.string.isRequired
+    params: React.PropTypes.object
 }
 
 export default App;

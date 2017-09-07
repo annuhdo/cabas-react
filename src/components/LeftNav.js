@@ -35,11 +35,11 @@ class LeftNav extends Component {
 }
 
 LeftNav.contextTypes = {
-  listId: React.PropTypes.string.isRequired,
-  owner: React.PropTypes.object.isRequired,
-  logout: React.PropTypes.func.isRequired,
-  refreshList: React.PropTypes.func.isRequired,
-  router: React.PropTypes.func.isRequired
+  listId: React.PropTypes.string,
+  owner: React.PropTypes.object,
+  logout: React.PropTypes.func,
+  refreshList: React.PropTypes.func,
+  router: React.PropTypes.object
 }
 
 
