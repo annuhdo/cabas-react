@@ -10,7 +10,7 @@ It's built using:
 - [Firebase](http://firebase.com) - Database and authentication.
 - [re-base](https://github.com/tylermcginnis/re-base) - Synchronize data between React and Firebase.
 
-![cabas screenshot](./src/images/screenshot.png "cabas screenshot")
+![cabas demo](./src/images/cabas_gif.gif "cabas demo")
 
 ## Install and run
 - Configure the base_config.js file with your Firebase configuration.
