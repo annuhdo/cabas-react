@@ -12,11 +12,6 @@ It's built using:
 
 ![cabas screenshot](./src/images/screenshot.png "cabas screenshot")
 
-## Roadmap
-- Mobile responsive
-- Sharing list by email
-- Redux state management
-
 ## Install and run
 - Configure the base_config.js file with your Firebase configuration.
 - Rename base_config.js to base.js
@@ -33,6 +28,11 @@ $ npm start
 # Build minified React app
 $ npm run build
 ```
+
+## Roadmap
+- Mobile responsiveness
+- Sharing list by email
+- Redux state management
 
 ## Contributions, issues, requests
 If you would like to contribute, have an issue, or got a request for a feature, please [open a new issue here](https://github.com/annuhdo/cabas/issues/new)
