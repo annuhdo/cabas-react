@@ -12,6 +12,12 @@ It's built using:
 
 ![cabas demo](./src/images/cabas_gif.gif "cabas demo")
 
+## Features
+- Real-time changes reflecting on all devices and for all users.
+- Allows multiple users on one list.
+- Allows creating multiple lists.
+- Allows joining lists based on visiting a URL.
+
 ## Install and run
 - Configure the base_config.js file with your Firebase configuration.
 - Rename base_config.js to base.js
