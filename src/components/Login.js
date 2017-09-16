@@ -19,18 +19,28 @@ class Login extends Component {
     }
 
     componentWillMount() {
-    // check if there is any user in localStorage
-    const localStorageRef = localStorage.getItem(`uid`);
+      // check if there is any user in localStorage
+      const localStorageRef = localStorage.getItem(`uid`);
 
       // update our App component's order state
       this.setState({
         uid: JSON.parse(localStorageRef)
       });
+
+      window.onbeforeunload = function (e) {
+        // reset sharedId
+        localStorage.setItem(`sharedId`, null);
+      }
     }
 
     componentWillUnmount() {
       // reset sharedId
       localStorage.setItem(`sharedId`, null);
+
+      window.onbeforeunload = function (e) {
+        // reset sharedId
+        localStorage.setItem(`sharedId`, null);
+      }
     }
 
     transitionToList(uid) {
@@ -38,6 +48,8 @@ class Login extends Component {
         const localStorageRef = localStorage.getItem(`sharedId`);
         if (JSON.parse(localStorageRef) !== null) {
           const listId = JSON.parse(localStorageRef);
+          // reset sharedId
+          localStorage.setItem(`sharedId`, null);
           location.href = `/lists/${listId}`;
         }
         else {
