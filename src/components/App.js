@@ -97,6 +97,8 @@ class App extends Component {
       const localStorageRef = localStorage.getItem(`uid`);
 
       if (JSON.parse(localStorageRef) === null) {
+        // let's pass a shared ID so we can redirect user when they login
+        localStorage.setItem(`sharedId`, JSON.stringify(this.props.params.listId));
         location.href="/";
       }
     }

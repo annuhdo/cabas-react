@@ -26,27 +26,40 @@ class Login extends Component {
       this.setState({
         uid: JSON.parse(localStorageRef)
       });
+    }
 
-  }
+    componentWillUnmount() {
+      // reset sharedId
+      localStorage.setItem(`sharedId`, null);
+    }
 
     transitionToList(uid) {
-              // fetch list
-        base.fetch(`members/${uid}/lists`, {
-            context: this,
-        }).then(data => {
-            let dataArr = Object.keys(data);
-            let listId = null;
-            if (dataArr.length === 0) {
-                listId = randomId();
-            }
-            else {
-                listId = dataArr[0];
-            }
+        // check if the user was redirected from a shared id
+        const localStorageRef = localStorage.getItem(`sharedId`);
+        if (JSON.parse(localStorageRef) !== null) {
+          const listId = JSON.parse(localStorageRef);
+          location.href = `/lists/${listId}`;
+        }
+        else {
+          // fetch list
+          base.fetch(`members/${uid}/lists`, {
+              context: this,
+          }).then(data => {
+              let dataArr = Object.keys(data);
+              let listId = null;
+              if (dataArr.length === 0) {
+                  listId = randomId();
+              }
+              else {
+                  listId = dataArr[0];
+              }
 
-            location.href = `/lists/${listId}`;
-        }).catch(error => {
-            console.log("Couldn't find uid.");
-        });
+              location.href = `/lists/${listId}`;
+          }).catch(error => {
+              console.log("Couldn't find uid.");
+          });
+        }
+
 
     }
 

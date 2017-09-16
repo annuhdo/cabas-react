@@ -51,7 +51,7 @@ class RightNav extends Component {
         return (
             <div className="my-lists" style={this.props.showLists ? null : displayNone}>
 
-              <div className="close-my-lists" onClick={this.props.closeLists}>Close</div>
+              <div className="close-my-lists" onClick={this.props.closeLists}></div>
 
               <h1>My Lists</h1>
               <div className="my-lists-top">
