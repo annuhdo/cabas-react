@@ -124,14 +124,15 @@ a:hover
 	.front
 		margin-top 100px
 		flex-direction column
-		padding-top 110px
+		padding-top 0
 		justify-content normal
 		
 		.front-content
 			width 100%
 			max-width none
 			padding 0px 20px
-			margin-bottom: 80px
+			position relative
+			display block
 			
 			.hero-txt
 				font-size 3em
@@ -143,11 +144,17 @@ a:hover
 			
 			.login-btn
 				font-size 1.6em
-				padding 20px 30px 40px
+				padding 20px 40px
+				position inline-block
 		
 		.screenshot
 			width auto
 			float none
-			margin-top 40px
+			position relative
+			margin-top 30px
 			padding 0
-			height 95%
+			width 100%
+			
+			img
+				height auto
+				width 150%
