@@ -29,27 +29,27 @@ class Login extends Component {
 
       window.onbeforeunload = function (e) {
         // reset sharedId
-        localStorage.setItem(`sharedId`, null);
+        sessionStorage.setItem(`sharedId`, null);
       }
     }
 
     componentWillUnmount() {
       // reset sharedId
-      localStorage.setItem(`sharedId`, null);
+      sessionStorage.setItem(`sharedId`, null);
 
       window.onbeforeunload = function (e) {
         // reset sharedId
-        localStorage.setItem(`sharedId`, null);
+        sessionStorage.setItem(`sharedId`, null);
       }
     }
 
     transitionToList(uid) {
         // check if the user was redirected from a shared id
-        const localStorageRef = localStorage.getItem(`sharedId`);
-        if (JSON.parse(localStorageRef) !== null) {
-          const listId = JSON.parse(localStorageRef);
+        const sessionStorageRef = sessionStorage.getItem(`sharedId`);
+        if (JSON.parse(sessionStorageRef) !== null) {
+          const listId = JSON.parse(sessionStorageRef);
           // reset sharedId
-          localStorage.setItem(`sharedId`, null);
+          sessionStorage.setItem(`sharedId`, null);
           location.href = `/lists/${listId}`;
         }
         else {

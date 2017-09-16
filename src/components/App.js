@@ -98,7 +98,7 @@ class App extends Component {
 
       if (JSON.parse(localStorageRef) === null) {
         // let's pass a shared ID so we can redirect user when they login
-        localStorage.setItem(`sharedId`, JSON.stringify(this.props.params.listId));
+        sessionStorage.setItem(`sharedId`, JSON.stringify(this.props.params.listId));
         location.href="/";
       }
     }
