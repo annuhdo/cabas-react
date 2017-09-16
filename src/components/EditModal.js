@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
 class EditModal extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            title: ""
+            title: props.currentTitle
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -23,8 +23,10 @@ class EditModal extends Component {
     }
 
     handleChange(e) {
+        let title = {...this.state.title}
+        title.listName = e.target.value;
         this.setState({
-            title: e.target.value
+            title
         })
     }
 
@@ -36,7 +38,7 @@ class EditModal extends Component {
 	    return (
 	    	<div className="edit-modal" style={this.props.editable ? null : displayNone}>
 
-		      	<input type="text" value={this.state.title} onChange={this.handleChange} placeholder={this.props.currentTitle.listName} ref={(input) => this.title = input} onKeyPress={(e) => e.key === 'Enter' ? this.updateTitle(e) : null} />
+		      	<input type="text" value={this.state.title.listName} onChange={this.handleChange} placeholder={this.props.currentTitle.listName} ref={(input) => this.title = input} onKeyPress={(e) => e.key === 'Enter' ? this.updateTitle(e) : null} />
 
 		      	<button name="editTitle" className="done-btn" onClick={(e) => this.updateTitle(e)}>Done</button>
 		      	<button name="editTitle" className="cancel-btn" onClick={(e) => this.props.toggleDisplay(e)}>Cancel</button>
