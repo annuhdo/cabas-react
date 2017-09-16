@@ -40,11 +40,13 @@ class Item extends Component {
               </div>
             </div>
 
-            <div className="edit">
-              <button name="edit-item" onClick={(e) => this.props.renderEditItem(this.props.index)}>Edit</button>
-            </div>
-            <div className="remove">
-              <button name="delete" onClick={(e) => this.props.deleteItem(this.props.index)}>Delete</button>
+            <div className="list-action-btns">
+              <div className="edit">
+                <button name="edit-item" onClick={(e) => this.props.renderEditItem(this.props.index)}>Edit</button>
+              </div>
+              <div className="remove">
+                <button name="delete" onClick={(e) => this.props.deleteItem(this.props.index)}>Delete</button>
+              </div>
             </div>
           </div>
 

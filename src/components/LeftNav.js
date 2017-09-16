@@ -6,7 +6,7 @@ class LeftNav extends Component {
     	let photo = this.props.owner && this.props.owner.photo;
     	let name = this.props.owner && this.props.owner.name;
       return (
-        <div className="nav">
+        <div className={this.props.openLeftNav ? "nav mobile" : "nav"}>
           <a href="/"> <img src={logo} alt="cabas logo" /> </a>
         	<div className="user">
         		<div className="user-img">

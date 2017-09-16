@@ -1,11 +1,9 @@
-sidebar-purple = #EEEFF9
 main-grey = #FCFCFD
-sidebar-white = #ffffff
+nav-bg = #ffffff
 dark = #6E7292
 ahover = #808CEE
 dark-text = #4A5080
 light = #E2E5FB
-focusBg = #ffffff
 bodyBg = rgb(238, 242, 245)
 btnHover = #EEEFF9
 warningRed = rgba(244, 104, 104, 0.8)
@@ -35,6 +33,13 @@ action-btn(fontSize, background, clr)
   border 0
   cursor pointer
   outline none
+  
+.inputs
+  flex 1
+  width 100%
+  flex-display()
+  flex-direction column
+  margin-bottom 5px
   
 input
   background light
@@ -79,10 +84,10 @@ body
   min-height 100vh
   max-width 1200px
   margin 0 auto
-  
+  position relative
   
   .nav
-    background sidebar-white
+    background nav-bg
     width 200px
     order 1
     font-size 1.6em
@@ -279,7 +284,7 @@ body
 
         
     .list-item
-      transition all 0.2
+      transition all 0.2s
       
       .list-item > div
         position relative
@@ -306,13 +311,6 @@ body
           font-size 1.6em
           font-weight 600
           margin-bottom 15px
-
-        .inputs
-          flex 1
-          width 100%
-          flex-display()
-          flex-direction column
-          margin-bottom 5px
           
          input
           margin-bottom 10px
@@ -345,7 +343,7 @@ body
         justify-content center
         align-items center
         cursor pointer
-        transition all 0.2
+        transition all 0.2s
         
         .list-bullet
           width 20px
@@ -389,6 +387,9 @@ body
           img
             width 100%
             height 100%
+            
+      .list-action-btns
+        flex-display()
         
       .remove, .edit
         width 90px
@@ -457,7 +458,7 @@ body
         
     
   .my-lists
-    background sidebar-white
+    background nav-bg
     width 200px
     order 3
     padding 20px 15px
@@ -598,13 +599,6 @@ body
       font-weight 600
       margin-bottom 15px
     
-    .inputs
-      flex 1
-      width 100%
-      flex-display()
-      flex-direction column
-      margin-bottom 5px
-    
     .action-btns
       width 100%
       flex-display()
@@ -626,3 +620,87 @@ body
                
     input
       margin-bottom 10px
+      
+.mobile-nav
+  z-index 9999
+  position fixed
+  width 100%
+  background white
+  overflow hidden
+  border-bottom 1px solid light
+  align-items center
+  justify-content space-between
+  padding 10px 20px
+  height 60px
+  box-sizing border-box
+  top 0
+  display none
+  
+  img
+    width 100%
+    height auto
+  
+  .user-img
+    width 40px
+    height 40px
+    overflow hidden
+    border-radius 100%
+    cursor pointer
+  
+  .logo
+    width 80px
+    margin-right 20px
+    
+  .lists-menu
+    width 28px
+    cursor pointer
+    
+    &:hover
+      color dark
+      
+@media (max-width: 790px)
+  body
+    background main-grey
+    
+  .dashboard
+    width 100%
+    overflow-x hidden
+    margin-top 60px
+    
+  .dashboard .nav, .dashboard .my-lists
+    display none
+    
+  .dashboard .nav.mobile
+    display block
+    position fixed
+    top 60px
+    left 0
+    bottom 0
+    z-index 99
+    
+  .dashboard .my-lists.mobile
+    display block
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    z-index 99
+    
+  .list-action-btns
+    flex-direction column
+    align-items center
+    
+  .dashboard .list .list-item .remove, .dashboard .list .list-item .edit
+    width 80px
+    
+    button
+      width 100%
+      
+  .dashboard .list .list-item .edit
+    margin-bottom 5px
+      
+  .dashboard .list .list-item .owner
+    width 80px
+    
+  .mobile-nav
+    flex-display()

@@ -7,6 +7,7 @@ import Item from './Item';
 import Owners from './Owners';
 import AddModal from './AddModal';
 import ShareModal from './ShareModal';
+import MobileNav from './MobileNav';
 import '../css/style.css';
 
 import base from '../base';
@@ -31,6 +32,7 @@ class App extends Component {
         this.closeEditItem = this.closeEditItem.bind(this);
         this.editItem = this.editItem.bind(this);
         this.closeLists = this.closeLists.bind(this);
+        this.openNav = this.openNav.bind(this);
 
 
         // get initial states
@@ -49,6 +51,8 @@ class App extends Component {
             members: {},
             lists: {},
             showEditItem: "",
+            openLeftNav: false,
+            openRightNav: false,
         }
     }
 
@@ -129,7 +133,10 @@ class App extends Component {
     }
 
     closeLists() {
-        this.setState({ showLists: false });
+        this.setState({
+          showLists: false,
+          openRightNav: false
+        });
     }
 
     leaveList(listId) {
@@ -263,151 +270,180 @@ class App extends Component {
         this.setState({ items });
     }
 
-  logout() {
-      base.unauth();
-      this.setState({ uid: null });
-      // user leaves local storage
-      localStorage.setItem(`uid`, null);
-      this.context.router.transitionTo('/');
-  }
+    logout() {
+        base.unauth();
+        this.setState({ uid: null });
+        // user leaves local storage
+        localStorage.setItem(`uid`, null);
+        this.context.router.transitionTo('/');
+    }
 
-  authHandler(err, authData) {
-      if (err) {
-          console.error(err);
-          return;
+    authHandler(err, authData) {
+        if (err) {
+            console.error(err);
+            return;
+        }
+
+        const uid = authData.user.uid;
+        const owners = { ...this.state.owners };
+
+        let user = {
+            name: authData.user.displayName,
+            photo: authData.user.photoURL,
+        };
+
+        let members = { ...this.state.members };
+        // check if user exists in members
+        if (members[uid]) {
+            // add current listId to their lists
+            members[uid].lists[this.props.params.listId] = this.state.title;
+        } else {
+            // member has never logged in before
+            user.lists = {};
+            user.lists[this.props.params.listId] = this.state.title;
+            members[uid] = user;
+        }
+
+        owners[uid] = true;
+
+        // regardless update members state
+        this.setState({
+            members,
+            owners,
+            uid
+        });
+
+        // set current user into local storage
+        localStorage.setItem(`uid`, JSON.stringify(uid));
+    }
+
+    openNav(nav) {
+      if (nav === "left") {
+        let openLeftNav = this.state.openLeftNav;
+        openLeftNav = !openLeftNav;
+        this.setState({
+          openLeftNav,
+          openRightNav: false
+        });
       }
-
-      const uid = authData.user.uid;
-      const owners = { ...this.state.owners };
-
-      let user = {
-          name: authData.user.displayName,
-          photo: authData.user.photoURL,
-      };
-
-      let members = { ...this.state.members };
-      // check if user exists in members
-      if (members[uid]) {
-          // add current listId to their lists
-          members[uid].lists[this.props.params.listId] = this.state.title;
-      } else {
-          // member has never logged in before
-          user.lists = {};
-          user.lists[this.props.params.listId] = this.state.title;
-          members[uid] = user;
+      else if (nav === "right") {
+        let openRightNav = this.state.openRightNav;
+        openRightNav = !openRightNav;
+        this.setState({
+          openRightNav,
+          openLeftNav: false
+        });
       }
-
-      owners[uid] = true;
-
-      // regardless update members state
-      this.setState({
-          members,
-          owners,
-          uid
-      });
-
-      // set current user into local storage
-      localStorage.setItem(`uid`, JSON.stringify(uid));
-  }
+    }
 
 
   render() {
     return (
-      <div className="dashboard">
-      	<LeftNav
-          listId={this.props.params.listId}
+      <div>
+        <MobileNav
           owner={this.state.members[this.state.uid]}
-          logout={this.logout}
           refreshLists={this.refreshLists}
-          router={this.context.router}
+          openNav={this.openNav}
         />
+        <div className="dashboard">
+        	<LeftNav
+            listId={this.props.params.listId}
+            owner={this.state.members[this.state.uid]}
+            logout={this.logout}
+            refreshLists={this.refreshLists}
+            router={this.context.router}
+            openLeftNav={this.state.openLeftNav}
+          />
 
-      	<div className="list">
-          <div className="list-top">
-            <div className="list-title">
-              <span className="title">{this.state.title.listName || this.props.params.listId}</span>
-              <button name="editTitle" onClick={this.toggleDisplay}>Edit Title</button>
+        	<div className="list">
+            <div className="list-top">
+              <div className="list-title">
+                <span className="title">{this.state.title.listName || this.props.params.listId}</span>
+                <button name="editTitle" onClick={this.toggleDisplay}>Edit Title</button>
 
-              <EditModal
-                editable={this.state.editableTitle}
-                currentTitle={this.state.title}
-                updateTitle={this.updateTitle}
-                toggleDisplay={this.toggleDisplay}
-                listId={this.props.params.listId}
-              />
-      			</div>
+                <EditModal
+                  editable={this.state.editableTitle}
+                  currentTitle={this.state.title}
+                  updateTitle={this.updateTitle}
+                  toggleDisplay={this.toggleDisplay}
+                  listId={this.props.params.listId}
+                />
+        			</div>
 
-            <div className="members">
-              {this.state.owners &&
-                Object.keys(this.state.owners).map((uid) =>
-                  <Owners owner={this.state.members[uid]} key={uid} />
-                )
-              }
-            </div>
-          </div>
-
-          <div className="add-share">
-            <div className="add-section">
-              <button className="add" name="add" onClick={this.toggleDisplay}>
-                Add Item
-              </button>
-
-              <AddModal
-                addable={this.state.addItem}
-                addItem={this.addItem}
-                owner={this.state.uid}
-                toggleDisplay={this.toggleDisplay}
-              />
+              <div className="members">
+                {this.state.owners &&
+                  Object.keys(this.state.owners).map((uid) =>
+                    <Owners owner={this.state.members[uid]} key={uid} />
+                  )
+                }
+              </div>
             </div>
 
-            <div className="share-section">
-              <button className="share" name="share" onClick={this.toggleDisplay}>Share</button>
+            <div className="add-share">
+              <div className="add-section">
+                <button className="add" name="add" onClick={this.toggleDisplay}>
+                  Add Item
+                </button>
 
-              <ShareModal
-                shareable={this.state.shareItem}
-                toggleDisplay={this.toggleDisplay}
-              />
+                <AddModal
+                  addable={this.state.addItem}
+                  addItem={this.addItem}
+                  owner={this.state.uid}
+                  toggleDisplay={this.toggleDisplay}
+                />
+              </div>
+
+              <div className="share-section">
+                <button className="share" name="share" onClick={this.toggleDisplay}>Share</button>
+
+                <ShareModal
+                  shareable={this.state.shareItem}
+                  toggleDisplay={this.toggleDisplay}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="list-table">
-            <div className="list-labels">
-              <div className="item-col">Item</div>
-              <div className="owner-col">Owner</div>
-              <div className="remove-col">Actions</div>
+            <div className="list-table">
+              <div className="list-labels">
+                <div className="item-col">Item</div>
+                <div className="owner-col">Owner</div>
+                <div className="remove-col">Actions</div>
+              </div>
+
+              <div className="list-item">
+                {Object
+                  .keys(this.state.items)
+                  .map((key) =>
+                    <Item
+                    item={this.state.items[key]}
+                    owner={this.state.items[key] && this.state.members[this.state.items[key].owner]}
+                    key={key}
+                    index={key}
+                    deleteItem={this.deleteItem}
+                    toggleItemComplete={this.toggleItemComplete}
+                    showEditItem={this.state.showEditItem}
+                    renderEditItem={this.renderEditItem}
+                    closeEditItem={this.closeEditItem}
+                    editItem={this.editItem}
+                    />
+                )}
+              </div>
             </div>
+        	</div>
 
-            <div className="list-item">
-              {Object
-                .keys(this.state.items)
-                .map((key) =>
-                  <Item
-                  item={this.state.items[key]}
-                  owner={this.state.items[key] && this.state.members[this.state.items[key].owner]}
-                  key={key}
-                  index={key}
-                  deleteItem={this.deleteItem}
-                  toggleItemComplete={this.toggleItemComplete}
-                  showEditItem={this.state.showEditItem}
-                  renderEditItem={this.renderEditItem}
-                  closeEditItem={this.closeEditItem}
-                  editItem={this.editItem}
-                  />
-              )}
-            </div>
-          </div>
-      	</div>
+          <RightNav
+          removableList={this.state.removableList}
+          toggleDisplay={this.toggleDisplay}
+          updateState={this.updateState}
+          showLists={this.state.showLists}
+          lists={this.state.lists}
+          leaveList={this.leaveList}
+          closeLists={this.closeLists}
+          listId={this.props.params.listId}
+          openRightNav={this.state.openRightNav}
+          />
 
-        <RightNav
-        removableList={this.state.removableList}
-        toggleDisplay={this.toggleDisplay}
-        updateState={this.updateState}
-        showLists={this.state.showLists}
-        lists={this.state.lists}
-        leaveList={this.leaveList}
-        closeLists={this.closeLists}
-        listId={this.props.params.listId} />
-
+        </div>
       </div>
     );
   }
