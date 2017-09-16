@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from '../images/cabas_logo.png';
+import logo from '../images/cabas_logo.svg';
 
 class LeftNav extends Component {
     render() {

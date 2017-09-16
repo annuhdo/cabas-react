@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import base from '../base';
 import { randomId } from '../helpers.js';
-import logo from '../images/cabas_logo.png';
+import logo from '../images/cabas_logo.svg';
 import screenshot from '../images/screenshot.png';
 
 import '../css/frontpage.css';
