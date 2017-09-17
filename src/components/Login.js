@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import base from '../base';
+import PropTypes from 'prop-types';
+
+import {app, base} from '../base';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
 import { randomId } from '../helpers.js';
 import logo from '../images/cabas_logo.svg';
 import screenshot from '../images/screenshot.png';
@@ -9,7 +14,6 @@ class Login extends Component {
     constructor() {
         super();
         this.authenticate = this.authenticate.bind(this);
-        this.authHandler = this.authHandler.bind(this);
         this.transitionToList = this.transitionToList.bind(this);
         this.startApp = this.startApp.bind(this);
 
@@ -26,31 +30,15 @@ class Login extends Component {
       this.setState({
         uid: JSON.parse(localStorageRef)
       });
-
-      window.onbeforeunload = function (e) {
-        // reset sharedId
-        sessionStorage.setItem(`sharedId`, null);
-      }
-    }
-
-    componentWillUnmount() {
-      // reset sharedId
-      sessionStorage.setItem(`sharedId`, null);
-
-      window.onbeforeunload = function (e) {
-        // reset sharedId
-        sessionStorage.setItem(`sharedId`, null);
-      }
     }
 
     transitionToList(uid) {
         // check if the user was redirected from a shared id
-        const sessionStorageRef = sessionStorage.getItem(`sharedId`);
-        if (JSON.parse(sessionStorageRef) !== null) {
-          const listId = JSON.parse(sessionStorageRef);
-          // reset sharedId
-          sessionStorage.setItem(`sharedId`, null);
-          location.href = `/lists/${listId}`;
+        if (this.props.location.state) {
+          const sharedId = this.props.location.state.sharedId;
+          if (sharedId) {
+            this.context.router.history.replace(`/lists/${sharedId}`);
+          }
         }
         else {
           // fetch list
@@ -66,7 +54,7 @@ class Login extends Component {
                   listId = dataArr[0];
               }
 
-              location.href = `/lists/${listId}`;
+              this.context.router.history.replace(`/lists/${listId}`);
           }).catch(error => {
               console.log("Couldn't find uid.");
           });
@@ -75,26 +63,21 @@ class Login extends Component {
 
     }
 
-      authenticate(provider) {
-      base.authWithOAuthPopup(provider, this.authHandler);
-  }
-
-    authHandler(err, authData) {
-      if (err) {
-          console.error(err);
-          return;
+      authenticate(providerText) {
+      // base.authWithOAuthPopup(provider, this.authHandler);
+      let provider;
+      if (providerText === "google") {
+        provider = new firebase.auth.GoogleAuthProvider();
       }
-
-      // //grab the list info
-      // const listRef = base.database().ref(this.props.listId);
-
-      const uid = authData.user.uid;
-
-      // set current user into local storage
-      localStorage.setItem(`uid`, JSON.stringify(uid));
-
-      this.transitionToList(uid);
-
+      app.auth().signInWithPopup(provider).then((result) => {
+        let user = result.user;
+        const uid = user.uid;
+        // set current user into local storage
+        localStorage.setItem(`uid`, JSON.stringify(uid));
+        this.transitionToList(uid);
+      }, (err) => {
+        console.error(err);
+      });
   }
 
   startApp(e) {
@@ -148,8 +131,8 @@ class Login extends Component {
 	}
 }
 
-Login.contextTypes = {
-    router: React.PropTypes.object
+Login.propTypes = {
+    router: PropTypes.object
 }
 
 export default Login;

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import logo from '../images/cabas_logo.svg';
 
 class LeftNav extends Component {
@@ -34,12 +36,12 @@ class LeftNav extends Component {
     }
 }
 
-LeftNav.contextTypes = {
-  listId: React.PropTypes.string,
-  owner: React.PropTypes.object,
-  logout: React.PropTypes.func,
-  refreshList: React.PropTypes.func,
-  router: React.PropTypes.object
+LeftNav.propTypes = {
+  listId: PropTypes.string,
+  owner: PropTypes.object,
+  logout: PropTypes.func,
+  refreshList: PropTypes.func,
+  router: PropTypes.object
 }
 
 

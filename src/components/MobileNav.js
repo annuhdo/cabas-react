@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import logo from '../images/cabas_logo.svg';
 import hamburger from '../images/cabas_hamburger.svg';
 
@@ -32,6 +34,12 @@ class MobileNav extends Component {
         </nav>
       );
     }
+}
+
+MobileNav.propTypes = {
+  refreshLists: PropTypes.func,
+  openNav: PropTypes.func,
+  owner: PropTypes.object
 }
 
 export default MobileNav;

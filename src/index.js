@@ -1,6 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter, Match, Miss } from 'react-router';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom'
 import NotFound from './components/NotFound';
 import Login from './components/Login';
 
@@ -8,13 +12,13 @@ import App from './components/App';
 
 const Root = () => {
 	return (
-		<BrowserRouter>
-		<div>
-			<Match exactly pattern="/lists/:listId" component={App} />
-			<Miss component={NotFound} />
-			<Match exactly pattern="/" component={Login} />
-		</div>
-		</BrowserRouter>
+		<Router>
+			<Switch>
+				<Route exact path="/" component={Login}/>
+		        <Route path="/lists/:listId" component={App}/>
+		        <Route component={NotFound}/>
+		    </Switch>
+        </Router>
 	)
 }
 

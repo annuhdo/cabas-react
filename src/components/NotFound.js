@@ -33,7 +33,7 @@ class NotFound extends Component {
 	    return (
 	      <div className="front" style={front}>
 	      	<h1 style={h1}>404</h1>
-	      	<p style={p}>This page does not exist :( <a href="#" style={a} onClick={this.goBack}>Go back?</a></p>
+	      	<p style={p}>This page does not exist :( <a href="" style={a} onClick={this.goBack}>Go back?</a></p>
 	      </div>
 	    );
 	  }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { randomId } from '../helpers.js';
 
 class RightNav extends Component {
@@ -14,8 +16,7 @@ class RightNav extends Component {
     }
 
     transitionToList(key) {
-        console.log("let's go", key);
-        location.href = `/lists/${key}`;
+        this.props.router.history.push(`/lists/${key}`);
     }
 
     decideLeave(key) {
@@ -41,7 +42,7 @@ class RightNav extends Component {
 
     redirectNewList(e) {
       const newPath = randomId();
-      location.href = `/lists/${newPath}`;
+      this.transitionToList(newPath);
     }
 
     render() {
@@ -55,21 +56,28 @@ class RightNav extends Component {
 
               <h1>My Lists</h1>
               <div className="my-lists-top">
-                <button className="edit-lists" name="removeList" onClick={this.props.toggleDisplay}>{this.props.removableList ? "Done" : "Edit"}</button>
                 <button className="add-list" onClick={this.redirectNewList}>New</button>
+                <button className="edit-lists" name="removeList" onClick={this.props.toggleDisplay}>{this.props.removableList ? "Done" : "Edit"}</button>
               </div>
 
               <ul className={this.props.removableList ? "owned-lists editable" : "owned-lists"}>
                 {Object.keys(this.props.lists).map(this.renderLists)}
               </ul>
 
-
             {this.props.removableList ? <div className="footnote">You will be able to join the list again by accessing the URL of the list.</div> : null}
-            
-
           </div>
         );
     }
+}
+
+RightNav.propTypes = {
+  leaveList: PropTypes.func,
+  router: PropTypes.object,
+  removableList: PropTypes.bool,
+  listId: PropTypes.string,
+  openRightNav: PropTypes.bool,
+  showLists: PropTypes.bool,
+  closeLists: PropTypes.func,
 }
 
 export default RightNav;

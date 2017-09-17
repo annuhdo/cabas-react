@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class AddModal extends Component {
 
@@ -46,11 +47,11 @@ class AddModal extends Component {
 	}
 }
 
-AddModal.contextTypes = {
-    owner: React.PropTypes.object,
-    toggleDisplay: React.PropTypes.func,
-    addItem: React.PropTypes.func,
-    addable: React.PropTypes.bool
+AddModal.propTypes = {
+    owner: PropTypes.string,
+    toggleDisplay: PropTypes.func,
+    addItem: PropTypes.func,
+    addable: PropTypes.bool
 }
 
 export default AddModal;

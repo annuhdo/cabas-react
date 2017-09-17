@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class EditModal extends Component {
     constructor(props) {
@@ -48,11 +49,11 @@ class EditModal extends Component {
 	}
 }
 
-EditModal.contextTypes = {
-    updateTitle: React.PropTypes.func,
-    toggleDisplay: React.PropTypes.func,
-    editable: React.PropTypes.bool,
-    currentTitle: React.PropTypes.object
+EditModal.propTypes = {
+    updateTitle: PropTypes.func,
+    toggleDisplay: PropTypes.func,
+    editable: PropTypes.bool,
+    currentTitle: PropTypes.object
 }
 
 export default EditModal;

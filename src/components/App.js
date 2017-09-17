@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import LeftNav from './LeftNav';
 import RightNav from './RightNav';
@@ -10,12 +11,13 @@ import ShareModal from './ShareModal';
 import MobileNav from './MobileNav';
 import '../css/style.css';
 
-import base from '../base';
+import {app, base} from '../base';
+import 'firebase/auth';
 
 
 class App extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.addItem = this.addItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
@@ -34,6 +36,9 @@ class App extends Component {
         this.closeLists = this.closeLists.bind(this);
         this.openNav = this.openNav.bind(this);
 
+        this.removeBinding = this.removeBinding.bind(this);
+        this.synchronizeStates = this.synchronizeStates.bind(this);
+
 
         // get initial states
         this.state = {
@@ -46,7 +51,7 @@ class App extends Component {
                 listName: ""
             },
             items: {},
-            uid: null,
+            uid: JSON.parse(localStorage.getItem(`uid`)) || null,
             owners: {},
             members: {},
             lists: {},
@@ -57,43 +62,39 @@ class App extends Component {
     }
 
     componentWillMount() {
-        // this runs right before <App> is rendered
-        this.ref = base.syncState(`${this.props.params.listId}/items`, {
-            context: this,
-            state: 'items'
-        });
+        let listId = this.props.match.params.listId;
+        this.synchronizeStates(listId);
+    }
 
-        this.titleRef = base.syncState(`${this.props.params.listId}/title`, {
-            context: this,
-            state: 'title',
-            default: 'New List',
-        });
+    componentWillReceiveProps(nextProps) {
+      if (nextProps.location !== this.props.location) {
+        let currentId = this.props.match.params.listId;
+        let newId = nextProps.match.params.listId;
 
-        this.ownersRef = base.syncState(`${this.props.params.listId}/owners`, {
-            context: this,
-            state: 'owners',
-        });
+        if (currentId !== newId) {
+          // directed to a new list
+          this.removeBinding();
+          this.synchronizeStates(newId);
 
-        this.membersRef = base.syncState(`/members`, {
-            context: this,
-            state: 'members',
-        });
+          let members = { ...this.state.members };
+          const uid = this.state.uid;
+          const lists = { ...this.state.members[this.state.uid].lists };
 
-        base.onAuth((user) => {
-            if (user) {
-                this.authHandler(null, { user });
-            }
-        });
+          if (!(newId in lists)) {
+            lists[newId] = {listName: ""};
+            members[uid].lists = lists;
+          }
+          this.setState({
+            openRightNav: false,
+            lists: lists
+          });
 
-
+        }
+      }
     }
 
     componentWillUnmount() {
-        base.removeBinding(this.ref);
-        base.removeBinding(this.titleRef);
-        base.removeBinding(this.ownersRef);
-        base.removeBinding(this.membersRef);
-        base.removeBinding(this.listsRef);
+        this.removeBinding();
     }
 
     componentDidMount() {
@@ -102,9 +103,52 @@ class App extends Component {
 
       if (JSON.parse(localStorageRef) === null) {
         // let's pass a shared ID so we can redirect user when they login
-        sessionStorage.setItem(`sharedId`, JSON.stringify(this.props.params.listId));
-        location.href="/";
+        this.context.router.history.replace('/', {sharedId: this.props.match.params.listId});
       }
+    }
+
+    synchronizeStates(listId) {
+      // reset owners list everytime we synchronize
+      this.setState({owners: {}});
+      this.ref = base.syncState(`${listId}/items`, {
+          context: this,
+          state: 'items'
+      });
+
+      this.titleRef = base.syncState(`${listId}/title`, {
+          context: this,
+          state: 'title',
+          default: 'New List',
+      });
+
+      this.ownersRef = base.syncState(`${listId}/owners`, {
+          context: this,
+          state: 'owners',
+      });
+
+      this.membersRef = base.syncState(`/members`, {
+          context: this,
+          state: 'members',
+      });
+
+      this.listsRef = base.syncState(`/members/${this.state.uid}/lists`, {
+              context: this,
+              state: 'lists',
+      });
+
+      app.auth().onAuthStateChanged((user, error) => {
+          if (user) {
+              this.authHandler(null, { user });
+          }
+      });
+    }
+
+    removeBinding() {
+        base.removeBinding(this.ref);
+        base.removeBinding(this.titleRef);
+        base.removeBinding(this.ownersRef);
+        base.removeBinding(this.membersRef);
+        base.removeBinding(this.listsRef);
     }
 
     refreshLists(e) {
@@ -114,17 +158,8 @@ class App extends Component {
         const uid = this.state.uid;
         const lists = { ...this.state.members[this.state.uid].lists };
 
-        if (uid) {
-            const path = `/members/${uid}`;
-
-            this.listsRef = base.syncState(`${path}/lists`, {
-                context: this,
-                state: 'lists',
-            });
-        }
-
-        lists[this.props.params.listId] = this.state.title;
-        members.lists = lists;
+        lists[this.props.match.params.listId] = this.state.title;
+        members[uid].lists = lists;
         this.setState({
             members,
             lists,
@@ -149,19 +184,25 @@ class App extends Component {
         // sometimes user tries to leave the list they are currently on
         // so we can route them to another list (first of their lists)
         // or route them to homepage if they were never on any list
-        if (listId === this.props.params.listId) {
+        if (listId === this.props.match.params.listId) {
             // get the first list from members' lists
             if (members[uid] && members[uid].lists) {
               const firstList = Object.keys(members[uid].lists)[0];
-              this.context.router.transitionTo(`/lists/${firstList}`);
+              this.context.router.history.push(`/lists/${firstList}`);
             }
             else {
-              this.context.router.transitionTo('/');
+              this.context.router.history.push('/');
             }
         }
 
         // remove member from list's owner
-        base.database().ref(`${listId}/owners/${uid}`).set(null);
+        base.update(`${listId}/owners`, {
+          data: {[uid]: null}
+        }).then(() => {
+          // do nothing
+        }).catch(err => {
+          console.error(err);
+        });
 
         // remove list from database altogether if no other owner
         base.fetch(`${listId}/owners`, {
@@ -169,14 +210,15 @@ class App extends Component {
             asArray: true
         }).then(data => {
             if (data.length === 0) {
-                base.database().ref(`${listId}`).set(null);
+                base.remove(`${listId}`).then(() => {
+                  // do nothing
+                }).catch(err => {
+                  console.error(err);
+                })
             }
         }).catch(error => {
             console.log("Couldn't find owners.");
         })
-
-        // remove the list from all lists
-        base.database().ref(`/members/lists/${listId}`).set(null);
 
         this.setState({ members });
 
@@ -271,11 +313,13 @@ class App extends Component {
     }
 
     logout() {
-        base.unauth();
-        this.setState({ uid: null });
-        // user leaves local storage
-        localStorage.setItem(`uid`, null);
-        this.context.router.transitionTo('/');
+        app.auth().signOut().then(() => {
+          this.setState({ uid: null });
+          // user leaves local storage
+          localStorage.setItem(`uid`, null);
+          // pass current list ID so when they login it will redirect to this page
+          this.context.router.history.replace('/', {sharedId: this.props.match.params.listId});
+        });
     }
 
     authHandler(err, authData) {
@@ -296,11 +340,11 @@ class App extends Component {
         // check if user exists in members
         if (members[uid]) {
             // add current listId to their lists
-            members[uid].lists[this.props.params.listId] = this.state.title;
+            members[uid].lists[this.props.match.params.listId] = this.state.title;
         } else {
             // member has never logged in before
             user.lists = {};
-            user.lists[this.props.params.listId] = this.state.title;
+            user.lists[this.props.match.params.listId] = this.state.title;
             members[uid] = user;
         }
 
@@ -347,7 +391,7 @@ class App extends Component {
         />
         <div className="dashboard">
         	<LeftNav
-            listId={this.props.params.listId}
+            listId={this.props.match.params.listId}
             owner={this.state.members[this.state.uid]}
             logout={this.logout}
             refreshLists={this.refreshLists}
@@ -358,7 +402,7 @@ class App extends Component {
         	<div className="list">
             <div className="list-top">
               <div className="list-title">
-                <span className="title">{this.state.title.listName || this.props.params.listId}</span>
+                <span className="title">{this.state.title.listName || this.props.match.params.listId}</span>
                 <button name="editTitle" onClick={this.toggleDisplay}>Edit Title</button>
 
                 <EditModal
@@ -366,7 +410,7 @@ class App extends Component {
                   currentTitle={this.state.title}
                   updateTitle={this.updateTitle}
                   toggleDisplay={this.toggleDisplay}
-                  listId={this.props.params.listId}
+                  listId={this.props.match.params.listId}
                 />
         			</div>
 
@@ -439,8 +483,9 @@ class App extends Component {
           lists={this.state.lists}
           leaveList={this.leaveList}
           closeLists={this.closeLists}
-          listId={this.props.params.listId}
+          listId={this.props.match.params.listId}
           openRightNav={this.state.openRightNav}
+          router={this.context.router}
           />
 
         </div>
@@ -450,8 +495,8 @@ class App extends Component {
 }
 
 App.contextTypes = {
-    router: React.PropTypes.object,
-    params: React.PropTypes.object
+    router: PropTypes.object,
+    params: PropTypes.object
 }
 
 export default App;

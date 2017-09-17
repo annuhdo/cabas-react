@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Item extends Component {
     constructor() {
@@ -68,16 +69,16 @@ class Item extends Component {
 	}
 }
 
-Item.contextTypes = {
-  editItem: React.PropTypes.func,
-  owner: React.PropTypes.object,
-  index: React.PropTypes.number,
-  item: React.PropTypes.object,
-  deleteItem: React.PropTypes.func,
-  closeEditItem: React.PropTypes.func,
-  toggleItemComplete: React.PropTypes.func,
-  showEditItem: React.PropTypes.bool,
-  renderEditItem: React.PropTypes.func
+Item.propTypes = {
+  editItem: PropTypes.func,
+  owner: PropTypes.object,
+  index: PropTypes.number,
+  item: PropTypes.object,
+  deleteItem: PropTypes.func,
+  closeEditItem: PropTypes.func,
+  toggleItemComplete: PropTypes.func,
+  showEditItem: PropTypes.bool,
+  renderEditItem: PropTypes.func
 }
 
 export default Item;
