@@ -9,14 +9,15 @@ It's built using:
 - [React](https://github.com/facebook/react) - UI and view.
 - [Firebase](http://firebase.com) - Database and authentication.
 - [re-base](https://github.com/tylermcginnis/re-base) - Synchronize data between React and Firebase.
+- [React Router](https://github.com/ReactTraining/react-router) - Declarative routing for the app.
 
 ![cabas demo](./src/images/cabas_gif.gif "cabas demo")
 
 ## Features
-- Real-time changes reflecting on all devices and for all users.
-- Allows multiple users on one list.
-- Allows creating multiple lists.
-- Allows joining lists based on visiting a URL.
+- Real-time changes reflecting on all devices and for all users
+- Allows collaboration between multiple users on a list
+- Allows creating multiple lists
+- Allows joining lists based on visiting a URL
 
 ## Install and run
 - Configure the base_config.js file with your Firebase configuration.
@@ -35,10 +36,11 @@ $ npm start
 $ npm run build
 ```
 
-## Roadmap
-- Mobile responsiveness
+## Roadmap Features
+- Confirmation modal when leaving a list
+- Move all completed items to the end of the list
+- Ability to kick users out of a list
 - Sharing list by email
-- Redux state management
 
 ## Contributions, issues, requests
 If you would like to contribute, have an issue, or got a request for a feature, please [open a new issue here](https://github.com/annuhdo/cabas/issues/new)
