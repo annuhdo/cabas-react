@@ -372,7 +372,11 @@ class App extends Component {
         openLeftNav = !openLeftNav;
         this.setState({
           openLeftNav,
-          openRightNav: false
+          openRightNav: false,
+          editableTitle: false,
+          addItem: false,
+          removableList: false,
+          shareItem: false
         });
       }
       else if (nav === "right") {
@@ -380,7 +384,11 @@ class App extends Component {
         openRightNav = !openRightNav;
         this.setState({
           openRightNav,
-          openLeftNav: false
+          openLeftNav: false,
+          editableTitle: false,
+          addItem: false,
+          removableList: false,
+          shareItem: false
         });
       }
     }

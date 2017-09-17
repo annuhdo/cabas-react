@@ -244,6 +244,7 @@ body
       flex-display()
       justify-content space-between
       margin-top 30px
+      position relative
       
       .add
         action-btn(14px, dark-text, white)
@@ -482,9 +483,12 @@ body
       &:before
         content '✕'
         position absolute
-        top 50%
-        left 11px
         margin auto
+        flex-display()
+        align-items center
+        justify-content center
+        width 100%
+        height 100%
       
     .close-my-lists:hover
       background warningRed
@@ -577,7 +581,6 @@ body
         
         
 .list .add-share .add-section
-  position relative
   
   .add-modal
     position absolute
@@ -706,4 +709,15 @@ body
     flex-display()
     
   .list .add-share .add-section .add-modal
-    width 365px
+    width 100%
+    
+  .dashboard .list .list-top .list-title
+    flex-direction column
+    align-items left
+    
+    button
+      margin-left 0
+      margin-top 5px
+      
+  .dashboard .list .add-share
+    margin-top 20px
