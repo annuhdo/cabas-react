@@ -56,7 +56,7 @@ class Login extends Component {
 
               this.context.router.history.replace(`/lists/${listId}`);
           }).catch(error => {
-              console.log("Couldn't find uid.");
+              console.error(error);
           });
         }
 
@@ -64,20 +64,19 @@ class Login extends Component {
     }
 
       authenticate(providerText) {
-      // base.authWithOAuthPopup(provider, this.authHandler);
-      let provider;
-      if (providerText === "google") {
-        provider = new firebase.auth.GoogleAuthProvider();
-      }
-      app.auth().signInWithPopup(provider).then((result) => {
-        let user = result.user;
-        const uid = user.uid;
-        // set current user into local storage
-        localStorage.setItem(`uid`, JSON.stringify(uid));
-        this.transitionToList(uid);
-      }, (err) => {
-        console.error(err);
-      });
+        let provider;
+        if (providerText === "google") {
+          provider = new firebase.auth.GoogleAuthProvider();
+        }
+        app.auth().signInWithPopup(provider).then((result) => {
+          let user = result.user;
+          const uid = user.uid;
+          // set current user into local storage
+          localStorage.setItem(`uid`, JSON.stringify(uid));
+          this.transitionToList(uid);
+        }, (err) => {
+          console.error(err);
+        });
   }
 
   startApp(e) {
@@ -131,7 +130,7 @@ class Login extends Component {
 	}
 }
 
-Login.propTypes = {
+Login.contextTypes = {
     router: PropTypes.object
 }
 
