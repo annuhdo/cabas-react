@@ -185,10 +185,15 @@ class App extends Component {
         // so we can route them to another list (first of their lists)
         // or route them to homepage if they were never on any list
         if (listId === this.props.match.params.listId) {
-            // get the first list from members' lists
+            // if user is leaving list they are on, redirect to their first list
             if (members[uid] && members[uid].lists) {
-              const firstList = Object.keys(members[uid].lists)[0];
-              this.context.router.history.push(`/lists/${firstList}`);
+              let redirectList = Object.keys(members[uid].lists)[0];
+
+              // if it turns out user is leaving the first list, redirect to second
+              if (redirectList === this.props.match.params.listId) {
+                redirectList = Object.keys(members[uid].lists)[1];
+              }
+              this.context.router.history.push(`/lists/${redirectList}`);
             }
             else {
               this.context.router.history.push('/');
