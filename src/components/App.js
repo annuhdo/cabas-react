@@ -46,9 +46,7 @@ class App extends Component {
             removableList: false,
             addItem: false,
             shareItem: false,
-            title: {
-                listName: ""
-            },
+            info: {},
             items: {},
             uid: JSON.parse(localStorage.getItem(`uid`)) || null,
             owners: {},
@@ -86,7 +84,7 @@ class App extends Component {
 
         // re-initialize all states to prep for synchronizing with newId
         this.setState({
-          title: lists[newId],
+          info: lists[newId],
           items: {},
           owners: {},
           editableTitle: false,
@@ -123,9 +121,9 @@ class App extends Component {
           state: 'items'
       });
 
-      this.titleRef = base.syncState(`${listId}/title`, {
+      this.infoRef = base.syncState(`${listId}/info`, {
           context: this,
-          state: 'title',
+          state: 'info',
           default: 'New List',
       });
 
@@ -153,7 +151,7 @@ class App extends Component {
 
     removeBinding() {
         base.removeBinding(this.ref);
-        base.removeBinding(this.titleRef);
+        base.removeBinding(this.infoRef);
         base.removeBinding(this.ownersRef);
         base.removeBinding(this.membersRef);
         base.removeBinding(this.listsRef);
@@ -165,9 +163,9 @@ class App extends Component {
         let members = { ...this.state.members };
         const uid = this.state.uid;
         const lists = { ...this.state.members[this.state.uid].lists };
-        const title = this.state.title;
+        const info = this.state.info;
 
-        lists[this.props.match.params.listId] = title;
+        lists[this.props.match.params.listId] = info;
         members[uid].lists = lists;
         this.setState({
             members,
@@ -246,14 +244,14 @@ class App extends Component {
     }
 
     updateTitle(newTitle) {
-        const title = { ...this.state.title };
-        title.listName = newTitle;
+        const info = { ...this.state.info };
+        info.listName = newTitle;
 
         const lists = {...this.state.lists};
         lists[this.props.match.params.listId].listName = newTitle;
 
         this.setState({
-            title,
+            info,
             lists,
             editableTitle: !this.state.editableTitle
         })
@@ -317,9 +315,9 @@ class App extends Component {
         this.setState({ showEditItem: "" });
     }
 
-    editItem(key, title, detail) {
+    editItem(key, info, detail) {
         const items = { ...this.state.items };
-        items[key].title = title || "";
+        items[key].title = info || "";
         items[key].detail = detail || "";
 
         this.setState({ items, showEditItem: "" });
@@ -365,11 +363,11 @@ class App extends Component {
         // check if user exists in members
         if (members[uid]) {
             // add current listId to their lists
-            members[uid].lists[this.props.match.params.listId] = this.state.title;
+            members[uid].lists[this.props.match.params.listId] = this.state.info;
         } else {
             // member has never logged in before
             user.lists = {};
-            user.lists[this.props.match.params.listId] = this.state.title;
+            user.lists[this.props.match.params.listId] = this.state.info;
             members[uid] = user;
         }
 
@@ -435,12 +433,12 @@ class App extends Component {
         	<div className="list">
             <div className="list-top">
               <div className="list-title">
-                <span className="title">{this.state.title.listName || this.props.match.params.listId}</span>
-                <button name="editTitle" onClick={this.toggleDisplay}>Edit Title</button>
+                <span className="title">{this.state.info.listName || this.props.match.params.listId}</span>
+                <button name="editTitle" onClick={this.toggleDisplay}>Edit info</button>
 
                 <EditModal
                   editable={this.state.editableTitle}
-                  currentTitle={this.state.title}
+                  info={this.state.info}
                   updateTitle={this.updateTitle}
                   toggleDisplay={this.toggleDisplay}
                   listId={this.props.match.params.listId}
@@ -509,15 +507,15 @@ class App extends Component {
         	</div>
 
           <RightNav
-          removableList={this.state.removableList}
-          toggleDisplay={this.toggleDisplay}
-          updateState={this.updateState}
-          lists={this.state.lists}
-          leaveList={this.leaveList}
-          closeLists={this.closeLists}
-          listId={this.props.match.params.listId}
-          openRightNav={this.state.openRightNav}
-          router={this.context.router}
+            removableList={this.state.removableList}
+            toggleDisplay={this.toggleDisplay}
+            updateState={this.updateState}
+            lists={this.state.lists}
+            leaveList={this.leaveList}
+            closeLists={this.closeLists}
+            listId={this.props.match.params.listId}
+            openRightNav={this.state.openRightNav}
+            router={this.context.router}
           />
 
         </div>

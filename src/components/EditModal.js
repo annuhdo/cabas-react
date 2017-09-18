@@ -5,7 +5,7 @@ class EditModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: props.currentTitle
+            title: props.info
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -39,7 +39,7 @@ class EditModal extends Component {
 	    return (
 	    	<div className="edit-modal" style={this.props.editable ? null : displayNone}>
 
-		      	<input type="text" value={this.state.title.listName} onChange={this.handleChange} placeholder={this.props.currentTitle.listName} ref={(input) => this.title = input} onKeyPress={(e) => e.key === 'Enter' ? this.updateTitle(e) : null} />
+		      	<input type="text" value={this.state.title.listName} onChange={this.handleChange} placeholder={this.props.info.listName} ref={(input) => this.title = input} onKeyPress={(e) => e.key === 'Enter' ? this.updateTitle(e) : null} />
 
 		      	<button name="editTitle" className="done-btn" onClick={(e) => this.updateTitle(e)}>Done</button>
 		      	<button name="editTitle" className="cancel-btn" onClick={(e) => this.props.toggleDisplay(e)}>Cancel</button>
@@ -53,7 +53,7 @@ EditModal.propTypes = {
     updateTitle: PropTypes.func,
     toggleDisplay: PropTypes.func,
     editable: PropTypes.bool,
-    currentTitle: PropTypes.object
+    info: PropTypes.object
 }
 
 export default EditModal;
