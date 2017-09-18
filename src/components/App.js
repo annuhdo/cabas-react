@@ -434,7 +434,7 @@ class App extends Component {
             <div className="list-top">
               <div className="list-title">
                 <span className="title">{this.state.info.listName || this.props.match.params.listId}</span>
-                <button name="editTitle" onClick={this.toggleDisplay}>Edit info</button>
+                <button name="editTitle" onClick={this.toggleDisplay}>Edit title</button>
 
                 <EditModal
                   editable={this.state.editableTitle}
