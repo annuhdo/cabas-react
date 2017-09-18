@@ -67,30 +67,62 @@ class App extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      if (nextProps.location !== this.props.location) {
+       if (nextProps.location !== this.props.location) {
         let currentId = this.props.match.params.listId;
         let newId = nextProps.match.params.listId;
 
-        if (currentId !== newId) {
-          // directed to a new list
-          this.removeBinding();
-          this.synchronizeStates(newId);
-
-          let members = { ...this.state.members };
-          const uid = this.state.uid;
-          const lists = { ...this.state.members[this.state.uid].lists };
-
-          if (!(newId in lists)) {
+        // if this is a new list then append it to user's lists
+        const members = { ...this.state.members };
+        const uid = this.state.uid;
+        const lists = { ...this.state.members[this.state.uid].lists };
+        if (!(newId in lists)) {
             lists[newId] = {listName: ""};
             members[uid].lists = lists;
-          }
-          this.setState({
-            openRightNav: false,
-            lists: lists
-          });
-
         }
-      }
+        this.setState({
+          lists
+        })
+
+        // remove binding for the old list
+        this.removeBinding();
+
+        // re-initialize all states to prep for synchronizing with newId
+        this.setState({
+          title: lists[newId],
+          items: {},
+          owners: {},
+          editableTitle: false,
+          removableList: false,
+          addItem: false,
+          shareItem: false,
+          showEditItem: "",
+          openLeftNav: false,
+        })
+
+        this.synchronizeStates(newId);
+       }
+
+      //   if (currentId !== newId) {
+      //     // directed to a new list
+      //     this.removeBinding();
+      //     this.synchronizeStates(newId);
+
+      //     let members = { ...this.state.members };
+      //     const uid = this.state.uid;
+      //     const lists = { ...this.state.members[this.state.uid].lists };
+
+      //     if (!(newId in lists)) {
+      //       lists[newId] = {listName: ""};
+      //       members[uid].lists = lists;
+      //     }
+      //     console.log(lists);
+      //     this.setState({
+      //       openRightNav: false,
+      //       lists: lists,
+      //     });
+
+      //   }
+      // }
     }
 
     componentWillUnmount() {
@@ -157,8 +189,9 @@ class App extends Component {
         let members = { ...this.state.members };
         const uid = this.state.uid;
         const lists = { ...this.state.members[this.state.uid].lists };
+        const title = this.state.title;
 
-        lists[this.props.match.params.listId] = this.state.title;
+        lists[this.props.match.params.listId] = title;
         members[uid].lists = lists;
         this.setState({
             members,
@@ -230,11 +263,15 @@ class App extends Component {
     }
 
     updateTitle(newTitle) {
-        let title = { ...this.state.title };
+        const title = { ...this.state.title };
         title.listName = newTitle;
+
+        const lists = {...this.state.lists};
+        lists[this.props.match.params.listId].listName = newTitle;
 
         this.setState({
             title,
+            lists,
             editableTitle: !this.state.editableTitle
         })
     }

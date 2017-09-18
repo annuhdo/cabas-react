@@ -72,12 +72,12 @@ class Item extends Component {
 Item.propTypes = {
   editItem: PropTypes.func,
   owner: PropTypes.object,
-  index: PropTypes.number,
+  index: PropTypes.string,
   item: PropTypes.object,
   deleteItem: PropTypes.func,
   closeEditItem: PropTypes.func,
   toggleItemComplete: PropTypes.func,
-  showEditItem: PropTypes.bool,
+  showEditItem: PropTypes.string,
   renderEditItem: PropTypes.func
 }
 
