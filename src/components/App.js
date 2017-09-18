@@ -220,13 +220,20 @@ class App extends Component {
         if (listId === this.props.match.params.listId) {
             // if user is leaving list they are on, redirect to their first list
             if (members[uid] && members[uid].lists) {
-              let redirectList = Object.keys(members[uid].lists)[0];
+              const lists = Object.keys(members[uid].lists);
+              let redirectPath = `/lists/${lists[0]}`;
 
-              // if it turns out user is leaving the first list, redirect to second
-              if (redirectList === this.props.match.params.listId) {
-                redirectList = Object.keys(members[uid].lists)[1];
+              // if it turns out user is leaving the first list
+              // check if there is a second list to redirect to
+              if (lists[0] === this.props.match.params.listId) {
+                if (lists[1]) {
+                  redirectPath = `/lists/${lists[1]}`;
+                }
+                else {
+                  redirectPath = '/';
+                }
               }
-              this.context.router.history.push(`/lists/${redirectList}`);
+              this.context.router.history.push(`${redirectPath}`);
             }
             else {
               this.context.router.history.push('/');
