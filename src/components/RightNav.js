@@ -50,7 +50,7 @@ class RightNav extends Component {
             display: "none"
         }
         return (
-            <div className={this.props.openRightNav ? "my-lists mobile" : "my-lists"} style={this.props.showLists || this.props.openRightNav ? null : displayNone}>
+            <div className={this.props.openRightNav ? "my-lists mobile" : "my-lists"} style={this.props.openRightNav ? null : displayNone}>
 
               <div className="close-my-lists" onClick={this.props.closeLists}></div>
 
@@ -76,7 +76,6 @@ RightNav.propTypes = {
   removableList: PropTypes.bool,
   listId: PropTypes.string,
   openRightNav: PropTypes.bool,
-  showLists: PropTypes.bool,
   closeLists: PropTypes.func,
 }
 

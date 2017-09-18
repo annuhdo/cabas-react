@@ -46,7 +46,6 @@ class App extends Component {
             removableList: false,
             addItem: false,
             shareItem: false,
-            showLists: false,
             title: {
                 listName: ""
             },
@@ -173,13 +172,13 @@ class App extends Component {
         this.setState({
             members,
             lists,
-            showLists: true
+            openRightNav: true,
+            openLeftNav: false
         });
     }
 
     closeLists() {
         this.setState({
-          showLists: false,
           openRightNav: false
         });
     }
@@ -513,7 +512,6 @@ class App extends Component {
           removableList={this.state.removableList}
           toggleDisplay={this.toggleDisplay}
           updateState={this.updateState}
-          showLists={this.state.showLists}
           lists={this.state.lists}
           leaveList={this.leaveList}
           closeLists={this.closeLists}
