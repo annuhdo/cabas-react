@@ -68,7 +68,6 @@ class App extends Component {
 
     componentWillReceiveProps(nextProps) {
        if (nextProps.location !== this.props.location) {
-        let currentId = this.props.match.params.listId;
         let newId = nextProps.match.params.listId;
 
         // if this is a new list then append it to user's lists
@@ -101,28 +100,6 @@ class App extends Component {
 
         this.synchronizeStates(newId);
        }
-
-      //   if (currentId !== newId) {
-      //     // directed to a new list
-      //     this.removeBinding();
-      //     this.synchronizeStates(newId);
-
-      //     let members = { ...this.state.members };
-      //     const uid = this.state.uid;
-      //     const lists = { ...this.state.members[this.state.uid].lists };
-
-      //     if (!(newId in lists)) {
-      //       lists[newId] = {listName: ""};
-      //       members[uid].lists = lists;
-      //     }
-      //     console.log(lists);
-      //     this.setState({
-      //       openRightNav: false,
-      //       lists: lists,
-      //     });
-
-      //   }
-      // }
     }
 
     componentWillUnmount() {
