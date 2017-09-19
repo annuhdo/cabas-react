@@ -40,6 +40,7 @@ $ npm run build
 - Confirmation modal when leaving a list
 - Move all completed items to the end of the list
 - Ability to kick users out of a list
+- Ability to change ownership of an item
 - Sharing list by email
 
 ## Contributions, issues, requests
