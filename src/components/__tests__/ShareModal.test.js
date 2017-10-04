@@ -10,7 +10,5 @@ import ShareModal from '../ShareModal';
 it('Renders without crashing', () => {
   const sharable = true;
   
-  shallow( <ShareModal
-    sharable={sharable}
-   /> );
+  shallow( <ShareModal sharable={sharable} /> );
 });
