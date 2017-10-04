@@ -40,8 +40,7 @@ LeftNav.propTypes = {
   listId: PropTypes.string,
   owner: PropTypes.object,
   logout: PropTypes.func,
-  refreshList: PropTypes.func,
-  router: PropTypes.object
+  refreshList: PropTypes.func
 }
 
 

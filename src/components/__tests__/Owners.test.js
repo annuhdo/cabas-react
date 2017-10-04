@@ -5,15 +5,15 @@ import Adapter from 'enzyme-adapter-react-16';
 import { StaticRouter } from 'react-router'
 
 Enzyme.configure({ adapter: new Adapter() });
-import App from '../App';
+import Owners from '../Owners';
 
 it('Renders without crashing', () => {
-  const match = {
-    params: {
-      listId: 'listId-test'
-    }
-  }
-
-  const context = {}
-  shallow(<StaticRouter context={context}> <App match={match} /></StaticRouter>);
+  const owner = {
+    name: "test-name",
+    photo: "https://image-test.jpg"
+  };
+  
+  shallow( <Owners
+    owner={owner}
+   /> );
 });

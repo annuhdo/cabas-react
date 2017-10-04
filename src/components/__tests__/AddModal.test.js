@@ -5,15 +5,12 @@ import Adapter from 'enzyme-adapter-react-16';
 import { StaticRouter } from 'react-router'
 
 Enzyme.configure({ adapter: new Adapter() });
-import App from '../App';
+import AddModal from '../AddModal';
 
 it('Renders without crashing', () => {
-  const match = {
-    params: {
-      listId: 'listId-test'
-    }
-  }
-
-  const context = {}
-  shallow(<StaticRouter context={context}> <App match={match} /></StaticRouter>);
+  const owner = "test-uid";
+  const toggleDisplay = jest.fn();
+  const addItem = jest.fn();
+  const addable = true;
+  shallow( <AddModal owner={owner} toggleDisplay={toggleDisplay} addItem={addItem} addable={addable} /> );
 });

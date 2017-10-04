@@ -17,7 +17,7 @@
     "start": "react-scripts start",
     "watch": "concurrently --names \"webpack, stylus\" --prefix name \"npm run start\" \"npm run styles:watch\" \"npm run frontstyles:watch\"",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --env=jsdom --setupTestFrameworkScriptFile=raf/polyfill",
     "eject": "react-scripts eject",
     "styles": "stylus -u autoprefixer-stylus ./src/css/style.styl -o ./src/css/style.css",
     "frontstyles": "stylus -u autoprefixer-stylus ./src/css/frontpage.styl -o ./src/css/frontpage.css",

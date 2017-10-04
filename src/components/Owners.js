@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Owners extends Component {
 	render() {
@@ -16,6 +17,10 @@ class Owners extends Component {
 
 	    );
 	}
+}
+
+Owners.contextTypes = {
+  owner: PropTypes.object
 }
 
 export default Owners;

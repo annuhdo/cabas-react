@@ -77,6 +77,7 @@ RightNav.propTypes = {
   listId: PropTypes.string,
   openRightNav: PropTypes.bool,
   closeLists: PropTypes.func,
+  lists: PropTypes.object,
 }
 
 export default RightNav;

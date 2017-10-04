@@ -5,15 +5,9 @@ import Adapter from 'enzyme-adapter-react-16';
 import { StaticRouter } from 'react-router'
 
 Enzyme.configure({ adapter: new Adapter() });
-import App from '../App';
+import Login from '../Login';
 
 it('Renders without crashing', () => {
-  const match = {
-    params: {
-      listId: 'listId-test'
-    }
-  }
-
   const context = {}
-  shallow(<StaticRouter context={context}> <App match={match} /></StaticRouter>);
+  shallow(<StaticRouter context={context}> <Login /></StaticRouter>);
 });
