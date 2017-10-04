@@ -65,7 +65,7 @@ class App extends Component {
       openRightNav: false,
       currentListInfo: {},
       items: {},
-      uid: JSON.parse(localStorage.getItem(`uid`)) || null,
+      uid: localStorage.getItem(`uid`) ? JSON.parse(localStorage.getItem(`uid`)) : null,
       currentListOwners: {},
       allUsers: {},
       lists: {},
@@ -121,7 +121,7 @@ class App extends Component {
     // Check if the user has logged in before
     const localStorageRef = localStorage.getItem(`uid`);
 
-    if (JSON.parse(localStorageRef) === null) {
+    if (!localStorageRef || JSON.parse(localStorageRef) === null) {
       // User has never logged in before so let's redirect to the login page
       // Along the way, we should pass the current listId so user can redirect
       // back to the current list when they login
@@ -397,7 +397,7 @@ class App extends Component {
     const listId = this.props.match.params.listId;
 
     if (allUsers[uid]) {
-      // User has logged into the app before.
+      // User is logged in!
       // If the user is an owner of this list, let's update the list 
       // currentListInfo. Otherwise, this would just add the list to the 
       // allUsers' lists

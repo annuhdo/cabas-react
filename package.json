@@ -10,7 +10,8 @@
     "react-clipboard.js": "^1.1.2",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.14"
+    "react-scripts": "1.0.14",
+    "react-test-renderer": "^16.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -26,6 +27,8 @@
   "devDependencies": {
     "autoprefixer-stylus": "^0.14.0",
     "concurrently": "^3.5.0",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.1",
     "stylus": "^0.54.5"
   }
 }

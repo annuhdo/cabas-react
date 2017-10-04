@@ -26,10 +26,12 @@ class Login extends Component {
       // check if there is any user in localStorage
       const localStorageRef = localStorage.getItem(`uid`);
 
-      // update our App component's order state
-      this.setState({
-        uid: JSON.parse(localStorageRef)
-      });
+      if (localStorageRef) {
+        // update our App component's order state
+        this.setState({
+            uid: JSON.parse(localStorageRef)
+        });
+      }
     }
 
     transitionToList(uid) {
