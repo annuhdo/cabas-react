@@ -44,7 +44,7 @@ class Login extends Component {
         }
         else {
           // fetch list
-          base.fetch(`members/${uid}/lists`, {
+          base.fetch(`allUsers/${uid}/lists`, {
               context: this,
           }).then(data => {
               let dataArr = Object.keys(data);
