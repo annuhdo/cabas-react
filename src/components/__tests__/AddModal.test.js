@@ -70,6 +70,6 @@ it('should call toggleDisplay fn when clicked Cancel', () => {
     addItem={addItem}
     addable={addable}
   /> );
-  const cancelItemBtn = wrapper.find('form[name="add"] .cancel-btn').simulate('click');
+  const cancelItemBtn = wrapper.find('form[name="addForm"] .cancel-btn').simulate('click');
   expect(toggleDisplay).toHaveBeenCalled();
 });

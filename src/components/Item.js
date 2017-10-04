@@ -54,8 +54,8 @@ class Item extends Component {
           <div className="edit-item-modal" style={this.props.showEditItem === this.props.index ? null : displayNone}>
             <span className="edit-label">Edit Item</span>
             <form className="inputs">
-              <input type="text" defaultValue={this.props.item && this.props.item.title} placeholder="Item title" ref={(input) => this.title = input} onKeyPress={(e) => e.key === 'Enter' ? this.props.editItem(this.props.index, this.title.value, this.detail.value) : null} />
-              <input type="text" defaultValue={this.props.item && this.props.item.detail} placeholder="Item detail" ref={(input) => this.detail = input} onKeyPress={(e) => e.key === 'Enter' ? this.props.editItem(this.props.index, this.title.value, this.detail.value) : null} />
+              <input className="item-title-input" type="text" defaultValue={this.props.item && this.props.item.title} placeholder="Item title" ref={(input) => this.title = input} onKeyPress={(e) => e.key === 'Enter' ? this.props.editItem(this.props.index, this.title.value, this.detail.value) : null} />
+              <input className="item-title-detail" type="text" defaultValue={this.props.item && this.props.item.detail} placeholder="Item detail" ref={(input) => this.detail = input} onKeyPress={(e) => e.key === 'Enter' ? this.props.editItem(this.props.index, this.title.value, this.detail.value) : null} />
             </form>
 
             <div className="action-btns">

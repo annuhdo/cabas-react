@@ -19,11 +19,11 @@ class LeftNav extends Component {
 
         	<div className="navigation">
   	      	<ul>
-  	      		<li>
-  	      			<a href="" onClick={this.props.refreshLists}>My Lists</a>
+  	      		<li onClick={this.props.refreshLists}>
+								My Lists
   	      		</li>
-  	      		<li>
-  	      			<a href="" onClick={this.props.logout}>Sign Out</a>
+  	      		<li onClick={this.props.logout}>
+								Sign Out
   	      		</li>
   	      	</ul>
         	</div>

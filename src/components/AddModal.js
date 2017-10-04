@@ -32,7 +32,7 @@ class AddModal extends Component {
         return (
 	    	<div className="add-modal" style={this.props.addable ? null : displayNone}>
 	    		<span className="add-label">Add an Item</span>
-	    		<form name="add" className="inputs" ref={(input) => this.addForm = input} onSubmit={(e) => this.createItem(e)} onKeyPress={(e) => e.key === 'Enter' ? this.createItem(e) : null}> 
+	    		<form name="addForm" className="inputs" ref={(input) => this.addForm = input} onSubmit={(e) => this.createItem(e)} onKeyPress={(e) => e.key === 'Enter' ? this.createItem(e) : null}> 
 	    			<input type="text" ref={(input) => this.title = input} placeholder="Item name" required={this.props.addable} />
 	    			<input type="text" ref={(input) => this.detail = input} placeholder="Description (optional)" />
 

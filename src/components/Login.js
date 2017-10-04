@@ -23,7 +23,8 @@ class Login extends Component {
     }
 
     componentWillMount() {
-      // check if there is any user in localStorage
+      // If the user has logged in before and has never logged out, 
+      // find the user in the localStorage
       const localStorageRef = localStorage.getItem(`uid`);
 
       if (localStorageRef) {
@@ -35,7 +36,10 @@ class Login extends Component {
     }
 
     transitionToList(uid) {
-        // check if the user was redirected from a shared id
+        // Sometimes the user was sent a link to a list but redirected to 
+        // home page because they were not authenticated. So when we redirect
+        // them to home page we pass along the listId so when they do
+        // authenticate they can go back to that list.
         if (this.props.location.state) {
           const sharedId = this.props.location.state.sharedId;
           if (sharedId) {
@@ -43,7 +47,8 @@ class Login extends Component {
           }
         }
         else {
-          // fetch list
+          // If they weren't redirected from a list just grab their
+          // first list and redirect them to there.
           base.fetch(`allUsers/${uid}/lists`, {
               context: this,
           }).then(data => {
@@ -66,6 +71,7 @@ class Login extends Component {
     }
 
       authenticate(providerText) {
+        // Let's authenticate through google because it's reliable :)
         let provider;
         if (providerText === "google") {
           provider = new firebase.auth.GoogleAuthProvider();

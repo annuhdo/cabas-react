@@ -7,7 +7,7 @@ import { StaticRouter } from 'react-router'
 Enzyme.configure({ adapter: new Adapter() });
 import Login from '../Login';
 
-it('Renders without crashing', () => {
+it('renders without crashing', () => {
   const context = {}
   shallow(<StaticRouter context={context}> <Login /></StaticRouter>);
 });

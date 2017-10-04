@@ -5,7 +5,7 @@ class EditModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentListInfo: props.currentListInfo
+            title: props.currentListInfo.listName || ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -24,10 +24,8 @@ class EditModal extends Component {
     }
 
     handleChange(e) {
-        const currentListInfo = {...this.state.currentListInfo}
-        currentListInfo.listName = e.target.value;
         this.setState({
-            currentListInfo
+            title: e.target.value
         })
     }
 
@@ -37,14 +35,12 @@ class EditModal extends Component {
 	  	}
 
 	    return (
-	    	<div className="edit-modal" style={this.props.editable ? null : displayNone}>
+            <form name="editForm" className="edit-modal" style={this.props.editable ? null : displayNone} onSubmit={(e) => this.updateTitle(e)} onKeyPress={(e) => e.key === 'Enter' ? this.updateTitle(e) : null}> 
+		      	<input type="text" value={this.state.title} onChange={this.handleChange} placeholder={this.props.currentListInfo.listName || ""} ref={(input) => this.title = input} />
 
-		      	<input type="text" value={this.state.currentListInfo.listName} onChange={this.handleChange} placeholder={this.props.currentListInfo.listName} ref={(input) => this.title = input} onKeyPress={(e) => e.key === 'Enter' ? this.updateTitle(e) : null} />
-
-		      	<button name="editTitle" className="done-btn" onClick={(e) => this.updateTitle(e)}>Done</button>
+		      	<button name="editTitle" className="done-btn" type="submit">Done</button>
 		      	<button name="editTitle" className="cancel-btn" onClick={(e) => this.props.toggleDisplay(e)}>Cancel</button>
-	      	</div>
-
+            </form>
 	    );
 	}
 }

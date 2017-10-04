@@ -61,7 +61,7 @@ class RightNav extends Component {
             display: "none"
         }
         return (
-            <div className={this.props.openRightNav ? "my-lists mobile" : "my-lists"} style={this.props.openRightNav ? null : displayNone}>
+            <div className="my-lists" style={this.props.openRightNav ? null : displayNone}>
 
               <div className="close-my-lists" onClick={this.props.closeLists}></div>
 

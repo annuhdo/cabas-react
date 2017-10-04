@@ -7,6 +7,6 @@ import { StaticRouter } from 'react-router'
 Enzyme.configure({ adapter: new Adapter() });
 import NotFound from '../NotFound';
 
-it('Renders without crashing', () => {
+it('renders without crashing', () => {
   shallow( <NotFound /> );
 });

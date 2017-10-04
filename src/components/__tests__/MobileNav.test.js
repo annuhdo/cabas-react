@@ -7,7 +7,7 @@ import { StaticRouter } from 'react-router'
 Enzyme.configure({ adapter: new Adapter() });
 import MobileNav from '../MobileNav';
 
-it('Renders without crashing', () => {
+it('renders without crashing', () => {
   const owner = {
     name: "test-name",
     photo: "https://image-test.jpg"
