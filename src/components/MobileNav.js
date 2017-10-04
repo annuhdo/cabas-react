@@ -14,7 +14,7 @@ class MobileNav extends Component {
     if (nav === "right") {
       this.props.refreshLists(e);
     }
-    this.props.openNav(`${e.target.name}`);
+    this.props.openMobileNav(`${e.target.name}`);
   }
     render() {
     	let photo = this.props.owner && this.props.owner.photo;
@@ -38,7 +38,7 @@ class MobileNav extends Component {
 
 MobileNav.propTypes = {
   refreshLists: PropTypes.func,
-  openNav: PropTypes.func,
+  openMobileNav: PropTypes.func,
   owner: PropTypes.object
 }
 
