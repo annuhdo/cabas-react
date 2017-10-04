@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import logo from '../images/cabas_logo.svg';
 import hamburger from '../images/cabas_hamburger.svg';
@@ -25,7 +26,7 @@ class MobileNav extends Component {
           </div>
 
           <div className="logo">
-            <img src={logo} alt=""/>
+            <Link to="/"><img src={logo} alt=""/></Link>
           </div>
 
           <div className="lists-menu" onClick={this.open}>
