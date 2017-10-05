@@ -35,11 +35,32 @@ class EditModal extends Component {
 	  	}
 
 	    return (
-            <form name="editForm" className="edit-modal" style={this.props.editable ? null : displayNone} onSubmit={(e) => this.updateTitle(e)} onKeyPress={(e) => e.key === 'Enter' ? this.updateTitle(e) : null}> 
-		      	<input type="text" value={this.state.title} onChange={this.handleChange} placeholder={this.props.currentListInfo.listName || ""} ref={(input) => this.title = input} />
+            <form
+                name="editForm"
+                className="edit-modal"
+                style={this.props.editable ? null : displayNone}
+                onSubmit={(e) => this.updateTitle(e)}
+                onKeyPress={(e) => e.key === 'Enter' ? this.updateTitle(e) : null}> 
 
-		      	<button name="editTitle" className="done-btn" type="submit">Done</button>
-		      	<button name="editTitle" className="cancel-btn" onClick={(e) => this.props.toggleDisplay(e)}>Cancel</button>
+		      	<input
+                  type="text"
+                  value={this.state.title}
+                  onChange={this.handleChange}
+                  placeholder={this.props.currentListInfo.listName || ""}
+                  ref={(input) => this.title = input} />
+
+		      	<button
+                  name="editTitle"
+                  className="done-btn"
+                  type="submit">
+                    Done
+                </button>
+		      	<button
+                  name="editTitle"
+                  className="cancel-btn"
+                  onClick={(e) => this.props.toggleDisplay(e)}>
+                    Cancel
+                </button>
             </form>
 	    );
 	}

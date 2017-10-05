@@ -37,8 +37,17 @@ class ShareModal extends Component {
 	    return (
 	    	<div className="share-modal" style={this.props.shareable ? null : displayNone}>
 
-		      	<input type="text" id="uri" value={window.location.href} readOnly ref={(input) => this.uri = input} style={{cursor: 'text'}} />
-		      	<ClipboardButton data-clipboard-target="#uri" onSuccess={this.onSuccess}>
+		      	<input
+				  type="text"
+				  id="uri"
+				  value={window.location.href}
+				  readOnly
+				  ref={(input) => this.uri = input}
+				  style={{cursor: 'text'}} />
+				  
+		      	<ClipboardButton
+				  data-clipboard-target="#uri"
+				  onSuccess={this.onSuccess}>
 		      		{this.state.copied ? "Copied!" : "Copy"}
 		      	</ClipboardButton>
 	      	</div>

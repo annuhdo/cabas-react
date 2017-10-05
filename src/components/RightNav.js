@@ -67,15 +67,25 @@ class RightNav extends Component {
 
               <h1>My Lists</h1>
               <div className="my-lists-top">
-                <button className="add-list" onClick={this.redirectNewList}>New</button>
-                <button className="edit-lists" name="removeList" onClick={this.props.toggleDisplay}>{this.props.removableList ? "Done" : "Edit"}</button>
+                <button
+                className="add-list"
+                onClick={this.redirectNewList}>
+                  New
+                </button>
+                <button
+                className="edit-lists"
+                name="removeList"
+                onClick={this.props.toggleDisplay}>
+                  {this.props.removableList ? "Done" : "Edit"}
+                </button>
               </div>
 
               <ul className={this.props.removableList ? "owned-lists editable" : "owned-lists"}>
                 {Object.keys(this.props.lists).map(this.renderLists)}
               </ul>
 
-            {this.props.removableList ? <div className="footnote">You will be able to join the list again by accessing the URL of the list.</div> : null}
+            {this.props.removableList ?
+            <div className="footnote">You will be able to join the list again by accessing the URL of the list.</div> : null}
           </div>
         );
     }

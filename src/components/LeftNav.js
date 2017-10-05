@@ -19,12 +19,8 @@ class LeftNav extends Component {
 
         	<div className="navigation">
   	      	<ul>
-  	      		<li onClick={this.props.refreshLists}>
-								My Lists
-  	      		</li>
-  	      		<li onClick={this.props.logout}>
-								Sign Out
-  	      		</li>
+  	      		<li onClick={this.props.refreshLists}> My Lists </li>
+  	      		<li onClick={this.props.logout}> Sign Out </li>
   	      	</ul>
         	</div>
 
