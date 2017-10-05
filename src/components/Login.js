@@ -117,10 +117,10 @@ class Login extends Component {
                 <div className="front-content">
                 <h1 className="hero-txt">
                         Collaborative, <br />
-                        real-time to-do list
+                        real-time todo list
                     </h1>
                     <div className="secondary-txt">
-                        It's another to-do list, overdosed.
+                        Let your friends and family help with your todo list.
                     </div>
 
 
