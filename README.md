@@ -36,12 +36,7 @@ $ npm start
 $ npm run build
 ```
 
-## Roadmap Features
-- Confirmation modal when leaving a list
-- Move all completed items to the end of the list
-- Ability to kick users out of a list
-- Ability to change ownership of an item
-- Sharing list by email
-
 ## Contributions, issues, requests
+Features that I plan to add live in the [issues page](https://github.com/annuhdo/cabas/issues).
+
 If you would like to contribute, have an issue, or got a request for a feature, please [open a new issue here](https://github.com/annuhdo/cabas/issues/new)
