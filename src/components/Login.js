@@ -40,11 +40,10 @@ class Login extends Component {
         // home page because they were not authenticated. So when we redirect
         // them to home page we pass along the listId so when they do
         // authenticate they can go back to that list.
-        if (this.props.location.state) {
-          const sharedId = this.props.location.state.sharedId;
-          if (sharedId) {
-            this.context.router.history.replace(`/lists/${sharedId}`);
-          }
+        const location = this.props.location;
+        if (location && location.state && location.state.sharedId) {
+          const sharedId = location.state.sharedId;
+          this.context.router.history.replace(`/lists/${sharedId}`);
         }
         else {
           // If they weren't redirected from a list just grab their
@@ -54,7 +53,7 @@ class Login extends Component {
           }).then(data => {
               let dataArr = Object.keys(data);
               let listId = null;
-              if (dataArr.length === 0) {
+              if (!dataArr || dataArr.length === 0) {
                   listId = randomId();
               }
               else {
