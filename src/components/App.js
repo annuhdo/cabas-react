@@ -106,7 +106,8 @@ class App extends Component {
         addItem: false,
         shareItem: false,
         showEditItem: "",
-        openLeftNav: false
+        openLeftNav: false,
+        openRightNav: false
       });
 
       this.synchronizeStatesWithFirebase(newId);

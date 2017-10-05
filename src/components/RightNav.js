@@ -76,7 +76,7 @@ class RightNav extends Component {
                 className="edit-lists"
                 name="removeList"
                 onClick={this.props.toggleDisplay}>
-                  {this.props.removableList ? "Done" : "Edit"}
+                  {this.props.removableList ? "Done" : "Leave"}
                 </button>
               </div>
 
