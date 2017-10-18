@@ -288,6 +288,7 @@ class App extends Component {
   }
 
   addItem(item) {
+    console.log("adding item");
     const items = { ...this.state.items };
     const timestamp = Date.now();
 

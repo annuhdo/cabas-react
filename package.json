@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "firebase": "^4.5.0",
+    "firebase": "^4.5.2",
     "prop-types": "^15.6.0",
-    "re-base": "^3.0.4",
+    "re-base": "^3.0.5",
     "react": "^16.0.0",
     "react-clipboard.js": "^1.1.2",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
-    "react-test-renderer": "^16.0.0"
+    "react-test-renderer": "^16.0.0",
+    "styled-components": "^2.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,7 +29,7 @@
     "autoprefixer-stylus": "^0.14.0",
     "concurrently": "^3.5.0",
     "enzyme": "^3.1.0",
-    "enzyme-adapter-react-16": "^1.0.1",
+    "enzyme-adapter-react-16": "^1.0.2",
     "stylus": "^0.54.5"
   }
 }
