@@ -28,6 +28,15 @@ const Form = styled('form')`
     width: 100%
 `
 
+const ModalStyle = styled(Modal)`
+    ${VerticalFlex}
+    display: ${ props => props.display};
+`
+
+const ActionButtons = styled('div')`
+    ${HorizontalFlex}
+`
+
 class AddModal extends Component {
     createItem(e) {
         e.preventDefault()
@@ -51,7 +60,7 @@ class AddModal extends Component {
 
     render() {
         return (
-            <Modal display={this.props.addable ? 'flex' : 'none'} width='450px'>
+            <ModalStyle display={this.props.addable ? 'flex' : 'none'} width='450px'>
                 <ModalLabel>Add an Item</ModalLabel>
                 <Form
                     name="addForm"
@@ -72,7 +81,7 @@ class AddModal extends Component {
                         margin='0 0 10px 0'
                     />
 
-                    <HorizontalFlex>
+                    <ActionButtons>
                         <PrimaryButton
                             name="addItem"
                             type="submit"
@@ -85,9 +94,9 @@ class AddModal extends Component {
                             onClick={(e) => this.props.toggleDisplay(e)}>
                             Cancel
                         </SecondaryButton>
-                    </HorizontalFlex>
+                    </ActionButtons>
                 </Form>
-            </Modal>
+            </ModalStyle>
 
         );
     }

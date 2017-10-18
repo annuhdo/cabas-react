@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 import { HorizontalFlex, VerticalFlex } from './Flex'
 
-export const Modal = VerticalFlex.extend`
+export const Modal = styled.div`
   position: absolute;
   bottom: -185px;
   background: white;
@@ -11,7 +11,6 @@ export const Modal = VerticalFlex.extend`
   box-sizing: border-box;
   width: ${ props => (props.width) };
   z-index: 100;
-  display: ${ props => props.display};
 `
 
 export const ModalLabel = styled.span`

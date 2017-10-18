@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styled, { css } from 'styled-components'
+import { Modal, ModalLabel } from '../styles/Modal'
+import { VerticalFlex, HorizontalFlex } from '../styles/Flex'
+
+const ModalStyle = styled(Modal)`
+    height: 50px;
+    bottom: -60px;
+    ${HorizontalFlex}
+`
 
 class EditModal extends Component {
     constructor(props) {
@@ -35,9 +44,8 @@ class EditModal extends Component {
 	  	}
 
 	    return (
-            <form
+            <ModalStyle
                 name="editForm"
-                className="edit-modal"
                 style={this.props.editable ? null : displayNone}
                 onSubmit={(e) => this.updateTitle(e)}
                 onKeyPress={(e) => e.key === 'Enter' ? this.updateTitle(e) : null}> 
@@ -61,7 +69,7 @@ class EditModal extends Component {
                   onClick={(e) => this.props.toggleDisplay(e)}>
                     Cancel
                 </button>
-            </form>
+            </ModalStyle>
 	    );
 	}
 }
