@@ -20,6 +20,14 @@ const SecondaryButton = styled('button')`
     color: white;
 `
 
+const Form = styled('form')`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%
+`
+
 class AddModal extends Component {
     createItem(e) {
         e.preventDefault()
@@ -45,10 +53,9 @@ class AddModal extends Component {
         return (
             <Modal display={this.props.addable ? 'flex' : 'none'} width='450px'>
                 <ModalLabel>Add an Item</ModalLabel>
-                <form
+                <Form
                     name="addForm"
-                    className="inputs"
-                    ref={(input) => this.addForm = input}
+                    innerRef={(input) => this.addForm = input}
                     onSubmit={(e) => this.createItem(e)}
                     onKeyPress={(e) => e.key === 'Enter' ? this.createItem(e) : null}>
                     <Input
@@ -60,7 +67,7 @@ class AddModal extends Component {
                     />
                     <Input
                         type="text"
-                        ref={(input) => this.detail = input}
+                        innerRef={(input) => this.detail = input}
                         placeholder="Description (optional)"
                         margin='0 0 10px 0'
                     />
@@ -79,7 +86,7 @@ class AddModal extends Component {
                             Cancel
                         </SecondaryButton>
                     </HorizontalFlex>
-                </form>
+                </Form>
             </Modal>
 
         );
