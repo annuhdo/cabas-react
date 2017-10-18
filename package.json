@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "clipboard": "^1.7.1",
     "firebase": "^4.5.2",
     "prop-types": "^15.6.0",
     "re-base": "^3.0.5",

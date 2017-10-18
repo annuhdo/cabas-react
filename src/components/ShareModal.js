@@ -1,12 +1,29 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Clipboard from 'clipboard'
+import styled, { css } from 'styled-components'
+import { VerticalFlex, HorizontalFlex } from '../styles/Flex'
+import { Modal, ModalLabel } from '../styles/Modal'
+import { Button } from '../styles/Button'
+import { Input } from '../styles/Input'
 
-import ClipboardButton from 'react-clipboard.js';
+const ModalStyle = styled(Modal)`
+	${HorizontalFlex}
+	height: 50px;
+	bottom: -60px;
+	right: 0;
+	display: ${ props => props.display};
+	
+	#copy-btn {
+		${Button}
+		margin-left: 10px
+	}
+`
 
 class ShareModal extends Component {
     constructor() {
-        super();
-        this.onSuccess = this.onSuccess.bind(this);
+        super()
+        this.onSuccess = this.onSuccess.bind(this)
 
         this.state = {
         	copied: false
@@ -15,7 +32,7 @@ class ShareModal extends Component {
     onSuccess() {
     	this.setState({
     		copied: true
-    	});
+    	})
 
     	setTimeout(() => {
     		this.setState({
@@ -24,35 +41,30 @@ class ShareModal extends Component {
     	}, 1500)
     }
     copyUrl(e) {
-        e.preventDefault();
-        this.uri.select();
-        document.execCommand('copy');
+        e.preventDefault()
+        this.uri.select()
+        document.execCommand('copy')
     }
 	render() {
-		let displayNone = {
-	  		display: "none"
-	  	}
-
-
+		const clipboard = new Clipboard('#copy-btn')
+		clipboard.on('success', this.onSuccess)
 	    return (
-	    	<div className="share-modal" style={this.props.shareable ? null : displayNone}>
-
-		      	<input
+			<ModalStyle display={this.props.shareable ? 'flex' : 'none'}>
+		      	<Input
 				  type="text"
 				  id="uri"
 				  value={window.location.href}
 				  readOnly
-				  ref={(input) => this.uri = input}
+				  innerRef={(input) => this.uri = input}
 				  style={{cursor: 'text'}} />
 				  
-		      	<ClipboardButton
-				  data-clipboard-target="#uri"
-				  onSuccess={this.onSuccess}>
+		      	<button
+				  id='copy-btn'
+				  data-clipboard-text={ this.uri && this.uri.value }>
 		      		{this.state.copied ? "Copied!" : "Copy"}
-		      	</ClipboardButton>
-	      	</div>
-
-	    );
+		      	</button>
+	      	</ModalStyle>
+	    )
 	}
 }
 

@@ -31,6 +31,8 @@ const Form = styled('form')`
 const ModalStyle = styled(Modal)`
     ${VerticalFlex}
     display: ${ props => props.display};
+    width: 450px;
+    bottom: -185px;
 `
 
 const ActionButtons = styled('div')`
@@ -60,7 +62,7 @@ class AddModal extends Component {
 
     render() {
         return (
-            <ModalStyle display={this.props.addable ? 'flex' : 'none'} width='450px'>
+            <ModalStyle display={this.props.addable ? 'flex' : 'none'}>
                 <ModalLabel>Add an Item</ModalLabel>
                 <Form
                     name="addForm"

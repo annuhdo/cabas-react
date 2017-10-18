@@ -9,6 +9,7 @@ import { Input } from '../styles/Input'
 const ModalStyle = styled(Modal)`
     ${HorizontalFlex}
     height: 50px;
+    left: 0;
     bottom: -60px;
     display: ${ props => props.display};
 `
