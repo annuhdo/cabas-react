@@ -3,32 +3,53 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components'
 import { Modal, ModalLabel } from '../styles/Modal'
 import { VerticalFlex, HorizontalFlex } from '../styles/Flex'
+import { Button } from '../styles/Button'
+import { Input } from '../styles/Input'
 
 const ModalStyle = styled(Modal)`
+    ${HorizontalFlex}
     height: 50px;
     bottom: -60px;
+    display: ${ props => props.display};
+`
+const PrimaryButton = styled('button')`
+    ${Button}
+    background: #808cee;
+    border: 0;
+    color: white;
+`
+
+const SecondaryButton = styled('button')`
+    ${Button}
+    background: hsla(0,86%,68%,.8);
+    border: 0;
+    color: white;
+`
+
+const ActionButtons = styled('div')`
     ${HorizontalFlex}
+    margin-left: 10px;
 `
 
 class EditModal extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             title: props.currentListInfo.listName || ''
-        };
+        }
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this)
     }
 
     updateTitle(e) {
-        e.preventDefault();
+        e.preventDefault()
 
-        const newTitle = this.title.value;
+        const newTitle = this.title.value
 
         if (newTitle !== '') {
-            this.props.updateTitle(newTitle);
+            this.props.updateTitle(newTitle)
         } else {
-            this.props.toggleDisplay(e);
+            this.props.toggleDisplay(e)
         }
     }
 
@@ -39,36 +60,34 @@ class EditModal extends Component {
     }
 
 	render() {
-		let displayNone = {
-	  		display: "none"
-	  	}
-
 	    return (
             <ModalStyle
                 name="editForm"
-                style={this.props.editable ? null : displayNone}
+                display={this.props.editable ? 'flex' : 'none'}
                 onSubmit={(e) => this.updateTitle(e)}
                 onKeyPress={(e) => e.key === 'Enter' ? this.updateTitle(e) : null}> 
 
-		      	<input
+		      	<Input
                   type="text"
                   value={this.state.title}
                   onChange={this.handleChange}
                   placeholder={this.props.currentListInfo.listName || ""}
-                  ref={(input) => this.title = input} />
+                  innerRef={(input) => this.title = input} />
 
-		      	<button
-                  name="editTitle"
-                  className="done-btn"
-                  type="submit">
-                    Done
-                </button>
-		      	<button
-                  name="editTitle"
-                  className="cancel-btn"
-                  onClick={(e) => this.props.toggleDisplay(e)}>
-                    Cancel
-                </button>
+                    <ActionButtons>
+                        <PrimaryButton
+                            name="editTitle"
+                            type="submit"
+                            margin='0 10px 0 0'
+                        >
+                            Done
+                    </PrimaryButton>
+                        <SecondaryButton
+                            name="editTitle"
+                            onClick={(e) => this.props.toggleDisplay(e)}>
+                            Cancel
+                    </SecondaryButton>
+                    </ActionButtons>
             </ModalStyle>
 	    );
 	}

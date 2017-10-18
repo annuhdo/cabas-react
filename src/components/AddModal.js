@@ -73,12 +73,14 @@ class AddModal extends Component {
                         placeholder="Item name"
                         required={this.props.addable}
                         margin='0 0 10px 0'
+                        width='100%'
                     />
                     <Input
                         type="text"
                         innerRef={(input) => this.detail = input}
                         placeholder="Description (optional)"
                         margin='0 0 10px 0'
+                        width='100%'
                     />
 
                     <ActionButtons>

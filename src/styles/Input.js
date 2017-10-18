@@ -9,5 +9,5 @@ export const Input = styled.input`
   background: #E2E5FB;
   color: #4A5080;
   margin: ${ props => props.margin ? props.margin : 0 };
-  width: 100%;
+  width: ${ props => props.width ? props.width : 'auto' }
 `
