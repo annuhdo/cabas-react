@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Clipboard from 'clipboard'
-import styled, { css } from 'styled-components'
-import { VerticalFlex, HorizontalFlex } from '../styles/Flex'
-import { Modal, ModalLabel } from '../styles/Modal'
-import { Button } from '../styles/Button'
-import { Input } from '../styles/Input'
+import styled from 'styled-components'
+import {
+    Button,
+    Input,
+    Modal,
+	HorizontalFlex
+} from '../styles/'
 
 const ModalStyle = styled(Modal)`
 	${HorizontalFlex}

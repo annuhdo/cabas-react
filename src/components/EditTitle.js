@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components'
-import { Modal, ModalLabel } from '../styles/Modal'
-import { VerticalFlex, HorizontalFlex } from '../styles/Flex'
-import { Button } from '../styles/Button'
-import { Input } from '../styles/Input'
+import styled from 'styled-components'
+import {
+    Button,
+    Input,
+    Modal,
+    HorizontalFlex
+} from '../styles/'
 
 const ModalStyle = styled(Modal)`
     ${HorizontalFlex}
@@ -32,7 +34,7 @@ const ActionButtons = styled('div')`
     margin-left: 10px;
 `
 
-class EditModal extends Component {
+class EditTitle extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -94,11 +96,11 @@ class EditModal extends Component {
 	}
 }
 
-EditModal.propTypes = {
+EditTitle.propTypes = {
     updateTitle: PropTypes.func,
     toggleDisplay: PropTypes.func,
     editable: PropTypes.bool,
     currentListInfo: PropTypes.object
 }
 
-export default EditModal;
+export default EditTitle;

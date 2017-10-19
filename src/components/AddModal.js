@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
-import { Button } from '../styles/Button'
-import { Input } from '../styles/Input'
-import { Modal, ModalLabel } from '../styles/Modal'
-import { VerticalFlex, HorizontalFlex } from '../styles/Flex'
+import styled from 'styled-components'
+import {
+    Button,
+    Input,
+    Modal,
+    ModalLabel,
+    HorizontalFlex,
+    VerticalFlex } from '../styles/'
 
 const PrimaryButton = styled('button')`
     ${Button}

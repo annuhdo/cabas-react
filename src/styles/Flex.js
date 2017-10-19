@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import { css } from 'styled-components'
 
 export const HorizontalFlex = css`
   display: flex;

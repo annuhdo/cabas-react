@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import LeftNav from "./LeftNav";
 import RightNav from "./RightNav";
-import EditModal from "./EditModal";
+import EditTitle from "./EditTitle";
 import Item from "./Item";
 import Owners from "./Owners";
 import AddModal from "./AddModal";
@@ -479,7 +479,7 @@ class App extends Component {
                   Edit title
                 </button>
 
-                <EditModal
+                <EditTitle
                   editable={this.state.editTitle}
                   currentListInfo={this.state.currentListInfo}
                   updateTitle={this.updateTitle}

@@ -1,112 +1,164 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import EditItem from './EditItem'
+import styled from 'styled-components'
+import {
+  Button,
+  HorizontalFlex,
+  Avatar
+} from '../styles/'
+
+const ListRow = styled('div') `
+  ${ props => props.display ? HorizontalFlex : 'display: none'};
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+  color: ${ props => props.completed ? '#A3A6C1' : 'inherit'};
+  background: ${ props => props.completed ? '#EEEFF9' : 'none'};
+  margin: ${ props => props.completed ? '0 -25px' : '0'};
+  padding: ${ props => props.completed ? '18px 25px' : '18px 0'};
+
+  &:hover {
+    background: ${ props => props.completed ? '#EEEFF9' : '#FFF9FC'};
+    margin: 0 -25px;
+    padding: 18px 25px;
+  }
+`
+
+const Bullet = styled('div') `
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: ${ props => props.completed ? '#4A5080' : 'white'};
+  border: 1px solid ${ props => props.completed ? '#4A5080' : '#A3A6C1'};
+  margin-right: 20px;
+`
+
+const ItemInfo = styled('div') `
+  flex: 1;
+  position: relative;
+`
+
+const ItemTitle = styled('div') `
+  font-size: 16px;
+  overflow: hidden;
+  white-space: initial;
+  word-wrap: break-word;
+  box-sizing: border-box;
+  outline: none;
+`
+
+const ItemDetail = styled('div') `
+  color: #A3A6C1;
+  margin-top: 8px;
+  display: ${ props => props.display};
+`
+
+const Owner = styled('div') `
+  ${Avatar}
+  display: block;
+  margin: ${ props => props.margin ? props.margin : '0 auto'};
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`
+
+const ActionButtons = styled('div') `
+  ${HorizontalFlex}
+`
+
+const PrimaryButton = styled('button') `
+  ${Button}
+`
+
+const SecondaryButton = styled('button') `
+  ${Button}
+  background: hsla(0,86%,68%,.8);
+  border: 0;
+  color: white;
+`
 
 class Item extends Component {
-    constructor() {
-        super();
+  constructor() {
+    super()
 
-        this.updateItem = this.updateItem.bind(this);
+    this.updateItem = this.updateItem.bind(this)
+  }
+
+  updateItem(e) {
+    e.preventDefault()
+
+    const newTitle = this.title.value
+    const newDetail = this.detail.value
+
+    if (newTitle !== '') {
+      this.props.editItem(this.props.index, newTitle, newDetail)
     }
+  }
 
-    updateItem(e) {
-        e.preventDefault();
+  render() {
+    let photo = this.props.owner && this.props.owner.photo
+    let name = this.props.owner && this.props.owner.name
 
-        const newTitle = this.title.value;
-        const newDetail = this.detail.value;
+    return (
+      <div>
+        <ListRow
+          completed={this.props.item && this.props.item.completed}
+          display={this.props.item ? 'flex' : this.props.item}
+        >
+          <Bullet
+            completed={this.props.item && this.props.item.completed}
+            onClick={(e) => this.props.toggleItemComplete(this.props.index)}>
+          </Bullet>
 
-        if (newTitle !== '') {
-            this.props.editItem(this.props.index, newTitle, newDetail);
-        }
-    }
+          <ItemInfo>
+            <ItemTitle>
+              {this.props.item && this.props.item.title}
+            </ItemTitle>
+            <ItemDetail
+              display={
+                this.props.item && this.props.item.detail ? 'block'
+                  : 'none'}
+            >
+              {this.props.item && this.props.item.detail}
+            </ItemDetail>
+          </ItemInfo>
 
-	render() {
-      let displayNone = {
-        display: "none"
-      }
+          <Owner size='45' circular margin='0 32px'>
+            <img src={photo} alt={name} />
+          </Owner>
 
-      let photo = this.props.owner && this.props.owner.photo;
-      let name = this.props.owner && this.props.owner.name;
+          <ActionButtons>
+            <PrimaryButton
+              name="edit-item"
+              onClick={(e) => this.props.renderEditItem(this.props.index)}
+              margin='0 10px 0 0'
+            >
+              Edit
+                </PrimaryButton>
+            <SecondaryButton
+              name="delete"
+              onClick={(e) => this.props.deleteItem(this.props.index)}>
+              Delete
+                </SecondaryButton>
+          </ActionButtons>
+        </ListRow>
 
-	    return (
-        <div>
-          <div
-          className={this.props.item &&
-          this.props.item.completed ? 'list-row completed' : 'list-row'}
-          style={this.props.item ? null : displayNone}>
-            <div
-            className="list-bullet"
-            onClick={(e) => this.props.toggleItemComplete(this.props.index)}></div>
-            <div className="item-info">
-              <div className="item-title">{this.props.item && this.props.item.title}</div>
-              <div
-              className="item-detail"
-              style={this.props.item && this.props.item.detail ? null : displayNone}>
-                {this.props.item && this.props.item.detail}
-              </div>
-            </div>
-            <div className="owner">
-              <div className="owner-img">
-                <img src={photo} alt={name} />
-              </div>
-            </div>
+        {this.props.showEditItem === this.props.index ? <EditItem
+          title={this.props.item && this.props.item.title}
+          detail={this.props.item && this.props.item.detail}
+          close={this.props.closeEditItem}
+          index={this.props.index}
+          editItem={this.props.editItem}
+        /> : null}
 
-            <div className="list-action-btns">
-              <div className="edit">
-                <button
-                name="edit-item"
-                onClick={(e) => this.props.renderEditItem(this.props.index)}>
-                Edit
-                </button>
-              </div>
-              <div className="remove">
-                <button
-                name="delete"
-                onClick={(e) => this.props.deleteItem(this.props.index)}>
-                Delete
-                </button>
-              </div>
-            </div>
-          </div>
+      </div>
 
-          <div
-          className="edit-item-modal"
-          style={this.props.showEditItem === this.props.index ? null : displayNone}>
-            <span className="edit-label">Edit Item</span>
-            <form className="inputs">
-              <input
-              className="item-title-input"
-              type="text"
-              defaultValue={this.props.item && this.props.item.title} 
-              placeholder="Item title"
-              ref={(input) => this.title = input}
-              onKeyPress={(e) => e.key === 'Enter' ? this.props.editItem(this.props.index, this.title.value, this.detail.value) : null} />
-              
-              <input
-              className="item-title-detail"
-              type="text"
-              defaultValue={this.props.item && this.props.item.detail} 
-              placeholder="Item detail"
-              ref={(input) => this.detail = input}
-              onKeyPress={(e) => e.key === 'Enter' ? this.props.editItem(this.props.index, this.title.value, this.detail.value) : null} />
-            </form>
-
-            <div className="action-btns">
-              <button
-              className="edit-btn"
-              onClick={(e) => this.props.editItem(this.props.index, this.title.value, this.detail.value)}>
-              Edit Item
-              </button>
-              <button
-              className="cancel-btn"
-              onClick={(e) => this.props.closeEditItem(this.props.index)}>
-              Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-
-	    );
-	}
+    );
+  }
 }
 
 Item.propTypes = {
@@ -121,4 +173,4 @@ Item.propTypes = {
   renderEditItem: PropTypes.func
 }
 
-export default Item;
+export default Item
