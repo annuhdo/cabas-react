@@ -34,6 +34,7 @@ const Form = styled('form') `
 
 const ModalStyle = styled(Modal) `
     ${VerticalFlex}
+    display: ${ props => props.display};
     max-width: 100%;
     height: 200px;
     position: relative;
@@ -57,7 +58,7 @@ class EditItem extends Component {
 
   render() {
     return (
-      <ModalStyle>
+      <ModalStyle display={this.props.display ? 'flex' : 'none'}>
         <ModalLabel>Edit Item</ModalLabel>
         <Form
           name="addForm"

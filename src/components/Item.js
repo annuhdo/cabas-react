@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import {
   Button,
   HorizontalFlex,
-  Avatar
+  Owner
 } from '../styles/'
 
 const ListRow = styled('div') `
@@ -53,17 +53,6 @@ const ItemDetail = styled('div') `
   color: #A3A6C1;
   margin-top: 8px;
   display: ${ props => props.display};
-`
-
-const Owner = styled('div') `
-  ${Avatar}
-  display: block;
-  margin: ${ props => props.margin ? props.margin : '0 auto'};
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
 `
 
 const ActionButtons = styled('div') `
@@ -147,13 +136,14 @@ class Item extends Component {
           </ActionButtons>
         </ListRow>
 
-        {this.props.showEditItem === this.props.index ? <EditItem
+        <EditItem
+          display={this.props.showEditItem === this.props.index}
           title={this.props.item && this.props.item.title}
           detail={this.props.item && this.props.item.detail}
           close={this.props.closeEditItem}
           index={this.props.index}
           editItem={this.props.editItem}
-        /> : null}
+        />
 
       </div>
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom'
 import logo from '../images/cabas_logo.svg';
 import styled from 'styled-components'
 import {
-	Avatar
+	Owner
 } from '../styles/'
 
 const Nav = styled('nav')`
@@ -25,17 +26,6 @@ const Nav = styled('nav')`
     left: 0;
     bottom: 0;
     z-index: 99;
-	}
-`
-
-const Owner = styled('div') `
-	${Avatar}
-	display: block;
-	margin: ${ props => props.margin ? props.margin : '0 auto'};
-
-	img {
-		width: 100%;
-		height: 100%;
 	}
 `
 
@@ -71,14 +61,14 @@ class LeftNav extends Component {
 		let name = this.props.owner && this.props.owner.name;
 		return (
 			<Nav mobile={this.props.openLeftNav}>
-				<a href="/"> <img src={logo} alt="cabas logo" /> </a>
+				<Link to="/"><img src={logo} alt="cabas"/></Link>
 				<Owner size='80' circular margin='40px 0 10px 0'>
 					<img src={photo} alt={name} />
 				</Owner>
 				<Name>{name}</Name>
 
 				<NavLinks>
-					<li onClick={this.props.refreshLists}> My Lists </li>
+					<li onClick={() => this.props.refreshLists()}> My Lists </li>
 					<li onClick={this.props.logout}> Sign Out </li>
 				</NavLinks>
 

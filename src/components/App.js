@@ -178,9 +178,7 @@ class App extends Component {
     base.removeBinding(this.listsRef);
   }
 
-  refreshLists(e) {
-    e.preventDefault();
-
+  refreshLists() {
     // Let's grab all the updated info of the user's lists
     // Ex: If a roommate changed the title of a list the user was not on
     // we should update the title so user sees it
