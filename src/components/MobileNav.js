@@ -50,18 +50,18 @@ const Hamburger = styled('div') `
 
 class MobileNav extends Component {
   constructor() {
-    super();
-    this.open = this.open.bind(this);
+    super()
+    this.open = this.open.bind(this)
   }
   open(nav) {
     if (nav === "right") {
-      this.props.refreshLists();
+      this.props.refreshLists()
     }
-    this.props.openMobileNav(nav);
+    this.props.openMobileNav(nav)
   }
   render() {
-    let photo = this.props.owner && this.props.owner.photo;
-    let name = this.props.owner && this.props.owner.name;
+    let photo = this.props.owner && this.props.owner.photo
+    let name = this.props.owner && this.props.owner.name
     return (
       <Nav>
         <Owner size='40' circular margin='0 20px 0 0' onClick={() => this.open("left")}>
@@ -78,7 +78,7 @@ class MobileNav extends Component {
             <img src={hamburger} alt="hamburger" />
         </Hamburger>
       </Nav>
-    );
+    )
   }
 }
 
@@ -88,4 +88,4 @@ MobileNav.propTypes = {
   owner: PropTypes.object
 }
 
-export default MobileNav;
+export default MobileNav

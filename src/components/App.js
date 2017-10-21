@@ -486,12 +486,18 @@ class App extends Component {
                 />
               </div>
 
-              <div className="members">
+              {/* <div className="members">
                 {this.state.currentListOwners &&
                   Object.keys(this.state.currentListOwners).map(uid => (
                     <Owners owner={this.state.allUsers[uid]} key={uid} />
                   ))}
-              </div>
+              </div> */}
+
+              <Owners
+                owners={this.state.currentListOwners}
+                allUsers={this.state.allUsers}
+              />
+
             </div>
 
             <div className="add-share">

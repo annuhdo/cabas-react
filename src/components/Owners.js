@@ -1,22 +1,38 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Member from "./Member";
+import styled from 'styled-components'
+import {
+  HorizontalFlex
+} from '../styles/'
+
+const Container = styled('div') `
+  ${HorizontalFlex}
+  transition: all 0.2s;
+  cursor: pointer;
+  align-items: unset;
+  justify-content: unset;
+
+  &:hover > div {
+    margin-left: 5px;
+  }
+`
 
 class Owners extends Component {
-	render() {
-      let displayNone = {
-        display: "none"
-      }
+  render() {
+    let photo = this.props.owner && this.props.owner.photo
+    let name = this.props.owner && this.props.owner.name
 
-	    return (
-        <div className="member" style={this.props.owner ? null : displayNone}>
-          <div className="member-image">
-            <img src={this.props.owner && this.props.owner.photo} alt={this.props.owner && this.props.owner.name} />
-          </div>
-            <div className="member-name">{this.props.owner && this.props.owner.name}</div>
-        </div>
+    return (
+      <Container>
+        {this.props.owners &&
+          Object.keys(this.props.owners).map(uid => (
+            <Member owner={this.props.allUsers[uid]} key={uid} />
+          ))}
+      </Container>
 
-	    );
-	}
+    );
+  }
 }
 
 Owners.contextTypes = {
