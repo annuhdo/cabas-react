@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import EditItem from './EditItem'
 import styled from 'styled-components'
 import {
+  Owner,
   Button,
   HorizontalFlex,
-  Owner
+  VerticalFlex,
 } from '../styles/'
 
 const ListRow = styled('div') `
@@ -57,10 +58,20 @@ const ItemDetail = styled('div') `
 
 const ActionButtons = styled('div') `
   ${HorizontalFlex}
+
+  @media (max-width: 790px) {
+    ${VerticalFlex}
+  }
 `
 
 const PrimaryButton = styled('button') `
   ${Button}
+
+  @media (max-width: 790px) {
+    margin: 0;
+    margin-bottom: 10px;
+    width: 100%;
+  }
 `
 
 const SecondaryButton = styled('button') `
@@ -68,6 +79,10 @@ const SecondaryButton = styled('button') `
   background: hsla(0,86%,68%,.8);
   border: 0;
   color: white;
+
+  @media (max-width: 790px) {
+    width: 100%;
+  }
 `
 
 class Item extends Component {

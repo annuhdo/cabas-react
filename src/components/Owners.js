@@ -20,9 +20,6 @@ const Container = styled('div') `
 
 class Owners extends Component {
   render() {
-    let photo = this.props.owner && this.props.owner.photo
-    let name = this.props.owner && this.props.owner.name
-
     return (
       <Container>
         {this.props.owners &&

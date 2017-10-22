@@ -9,20 +9,6 @@ import {
     HorizontalFlex,
     VerticalFlex } from '../styles/'
 
-const PrimaryButton = styled('button')`
-    ${Button}
-    background: #808cee;
-    border: 0;
-    color: white;
-`
-
-const SecondaryButton = styled('button')`
-    ${Button}
-    background: hsla(0,86%,68%,.8);
-    border: 0;
-    color: white;
-`
-
 const Form = styled('form')`
     display: flex;
     align-items: center;
@@ -36,6 +22,26 @@ const ModalStyle = styled(Modal)`
     display: ${ props => props.display};
     width: 450px;
     bottom: -185px;
+
+    @media (max-width: 790px) {
+        width: 100%;
+        top: 40px;
+        bottom: auto;
+    }
+`
+
+const PrimaryButton = styled('button')`
+    ${Button}
+    background: #808cee;
+    border: 0;
+    color: white;
+`
+
+const SecondaryButton = styled('button')`
+    ${Button}
+    background: hsla(0,86%,68%,.8);
+    border: 0;
+    color: white;
 `
 
 const ActionButtons = styled('div')`

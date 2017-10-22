@@ -20,6 +20,11 @@ const PrimaryButton = styled('button')`
     background: #808cee;
     border: 0;
     color: white;
+
+    @media (max-width: 790px) {
+        margin: 0;
+        margin-right: 10px;
+    }
 `
 
 const SecondaryButton = styled('button')`
@@ -27,6 +32,10 @@ const SecondaryButton = styled('button')`
     background: hsla(0,86%,68%,.8);
     border: 0;
     color: white;
+
+    @media (max-width: 790px) {
+        margin: 0;
+    }
 `
 
 const ActionButtons = styled('div')`

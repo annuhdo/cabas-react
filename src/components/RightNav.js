@@ -15,6 +15,15 @@ const Nav = styled('nav') `
     box-sizing: border-box;
     position: relative;
     display: ${ props => props.display};
+    min-height: 100vh;
+
+    @media (max-width: 790px) {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 99;
+    }
 `
 
 const CloseButton = styled('div') `
@@ -119,6 +128,11 @@ const LeaveBlock = styled('div') `
     left: 0;
     color: white;
     border-radius: 5px;
+
+    &:hover {
+        background: transparent;
+        color: transparent;
+    }
 `
 
 const FootNote = styled('div') `
@@ -141,7 +155,11 @@ class RightNav extends Component {
     }
 
     leaveList(key) {
-        this.props.leaveList(key);
+        let res = window.confirm(`You are about to leave list: ${key}. Are you sure?`)
+        
+        if (res) {
+            this.props.leaveList(key);
+        }
     }
 
     transitionToList(key) {

@@ -1,18 +1,118 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import styled from 'styled-components'
+import {
+  HorizontalFlex
+} from '../styles/'
 
-import LeftNav from "./LeftNav";
-import RightNav from "./RightNav";
-import EditTitle from "./EditTitle";
-import Item from "./Item";
-import Owners from "./Owners";
-import AddModal from "./AddModal";
-import ShareModal from "./ShareModal";
-import MobileNav from "./MobileNav";
-import "../css/style.css";
+import LeftNav from "./LeftNav"
+import RightNav from "./RightNav"
+import Item from "./Item"
+import MobileNav from "./MobileNav"
+import MainTop from "./MainTop"
 
-import { app, base } from "../base";
-import "firebase/auth";
+import '../css/_normalize.css'
+import { app, base } from "../base"
+import "firebase/auth"
+
+const Body = styled('div') `
+  font-size: 62.5%;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight: 400;
+  color: #4A5080;
+  background: rgb(238, 242, 245);
+  min-height: 100vh;
+
+  ul {
+    padding: 0;
+  }
+
+  li {
+    list-style-type: none;
+    margin-bottom: 15px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #6E7292;
+  }
+  a:hover {
+    color: #808CEE;
+  }
+
+  @media (max-width: 790px) {
+    background: #FCFCFD;
+  }
+`
+
+const Dashboard = styled('div') `
+  ${HorizontalFlex}
+  flex: 1;
+  min-height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  align-items: flex-start;
+  font-size: 1.6em;
+
+  @media (max-width: 790px) {
+    width: 100%;
+    overflow-x: hidden;
+    margin-top: 60px;
+  }
+`
+
+const Main = styled('section') `
+  min-height: 100vh;
+  background: #FCFCFD;
+  flex: 1;
+  order: 2;
+  padding: 30px 25px 10px 25px;
+`
+
+const ListItems = styled('section') `
+  margin-top: 20px;
+`
+
+const Labels = styled('div') `
+  ${HorizontalFlex}
+  font-size: 1.5em;
+  border-bottom: 2px solid #E2E5FB;
+  padding: 0 3px 5px 3px;
+
+  > div:nth-child(1) {
+    flex: 1;
+  }
+
+  > div:nth-child(2) {
+    width: 100px;
+    text-align: center;
+  }
+
+  > div:nth-child(3) {
+    width: 160px;
+    text-align: center;
+    margin-right: 0;
+  }
+
+  @media (max-width: 790px) {
+    > div:nth-child(2) {
+      width: 95px;
+    }
+
+    > div:nth-child(3) {
+      width: 75px;
+    }
+  }
+`
+
+const Items = styled('div') `
+  transition: all 0.2s;
+
+  > div {
+    position: relative;
+  }
+`
 
 class App extends Component {
   constructor(props) {
@@ -107,7 +207,6 @@ class App extends Component {
         shareItem: false,
         showEditItem: "",
         openLeftNav: false,
-        openRightNav: false
       });
 
       this.synchronizeStatesWithFirebase(newId);
@@ -349,9 +448,15 @@ class App extends Component {
   }
 
   deleteItem(key) {
-    const items = { ...this.state.items };
-    items[key] = null;
-    this.setState({ items });
+    const items = {...this.state.items}
+    const title = items[key].title
+    let res = window.confirm(`Delete '${title}'?`)
+
+    if (res) {
+      const items = { ...this.state.items };
+      items[key] = null;
+      this.setState({ items });
+    }
   }
 
   toggleItemComplete(key) {
@@ -451,13 +556,13 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <Body>
         <MobileNav
           owner={this.state.allUsers[this.state.uid]}
           refreshLists={this.refreshLists}
           openMobileNav={this.openMobileNav}
         />
-        <div className="dashboard">
+        <Dashboard>
           <LeftNav
             listId={this.props.match.params.listId}
             owner={this.state.allUsers[this.state.uid]}
@@ -467,77 +572,31 @@ class App extends Component {
             openLeftNav={this.state.openLeftNav}
           />
 
-          <div className="list">
-            <div className="list-top">
-              <div className="list-title">
-                <span className="title">
-                  {this.state.currentListInfo.listName || this.props.match.params.listId}
-                </span>
-                <button name="editTitle" onClick={this.toggleDisplay}>
-                  Edit title
-                </button>
+          <Main>
+            <MainTop
+              {...this.props}
+              title={this.state.currentListInfo.listName || this.props.match.params.listId}
+              editable={this.state.editTitle}
+              currentListInfo={this.state.currentListInfo}
+              updateTitle={this.updateTitle}
+              toggleDisplay={this.toggleDisplay}
+              listId={this.props.match.params.listId}
+              owners={this.state.currentListOwners}
+              allUsers={this.state.allUsers}
+              addable={this.state.addItem}
+              addItem={this.addItem}
+              owner={this.state.uid}
+              shareable={this.state.shareItem}
+            />
 
-                <EditTitle
-                  editable={this.state.editTitle}
-                  currentListInfo={this.state.currentListInfo}
-                  updateTitle={this.updateTitle}
-                  toggleDisplay={this.toggleDisplay}
-                  listId={this.props.match.params.listId}
-                />
-              </div>
+            <ListItems>
+              <Labels>
+                <div>Item</div>
+                <div>Owner</div>
+                <div>Actions</div>
+              </Labels>
 
-              {/* <div className="members">
-                {this.state.currentListOwners &&
-                  Object.keys(this.state.currentListOwners).map(uid => (
-                    <Owners owner={this.state.allUsers[uid]} key={uid} />
-                  ))}
-              </div> */}
-
-              <Owners
-                owners={this.state.currentListOwners}
-                allUsers={this.state.allUsers}
-              />
-
-            </div>
-
-            <div className="add-share">
-              <div className="add-section">
-                <button className="add" name="add" onClick={this.toggleDisplay}>
-                  Add Item
-                </button>
-
-                <AddModal
-                  addable={this.state.addItem}
-                  addItem={this.addItem}
-                  owner={this.state.uid}
-                  toggleDisplay={this.toggleDisplay}
-                />
-              </div>
-
-              <div className="share-section">
-                <button
-                  className="share"
-                  name="share"
-                  onClick={this.toggleDisplay}
-                >
-                  Share
-                </button>
-
-                <ShareModal
-                  shareable={this.state.shareItem}
-                  toggleDisplay={this.toggleDisplay}
-                />
-              </div>
-            </div>
-
-            <div className="list-table">
-              <div className="list-labels">
-                <div className="item-col">Item</div>
-                <div className="owner-col">Owner</div>
-                <div className="remove-col">Actions</div>
-              </div>
-
-              <div className="list-item">
+              <Items>
                 {Object.keys(this.state.items).map(key => (
                   <Item
                     item={this.state.items[key]}
@@ -555,9 +614,9 @@ class App extends Component {
                     editItem={this.editItem}
                   />
                 ))}
-              </div>
-            </div>
-          </div>
+              </Items>
+            </ListItems>
+          </Main>
 
           <RightNav
             removableList={this.state.removableList}
@@ -570,8 +629,8 @@ class App extends Component {
             openRightNav={this.state.openRightNav}
             router={this.context.router}
           />
-        </div>
-      </div>
+        </Dashboard>
+      </Body>
     );
   }
 }

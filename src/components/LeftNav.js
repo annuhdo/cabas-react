@@ -14,6 +14,7 @@ const Nav = styled('nav')`
 	font-size: 1.6em;
 	padding: 30px 30px 20px 30px;
 	box-sizing: border-box;
+	min-height: 100vh;
 
 	img {
 		width: 100%;
