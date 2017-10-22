@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Member from "./Member";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Member from "./Member"
 import styled from 'styled-components'
 import {
   HorizontalFlex
@@ -28,7 +28,7 @@ class Owners extends Component {
           ))}
       </Container>
 
-    );
+    )
   }
 }
 
@@ -36,4 +36,4 @@ Owners.contextTypes = {
   owner: PropTypes.object
 }
 
-export default Owners;
+export default Owners

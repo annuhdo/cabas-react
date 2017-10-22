@@ -17,7 +17,7 @@ const Top = styled('div') `
 
 const Title = styled('div') `
   ${HorizontalFlex}
-  font-size: 1.8em;
+  font-size: 1.3em;
   font-weight: 400;
   text-align: left;
   max-width: 390px;
@@ -33,7 +33,7 @@ const Title = styled('div') `
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.6;
   }
 
@@ -128,4 +128,18 @@ class MainTop extends Component {
   }
 }
 
-export default MainTop;
+MainTop.propTypes = {
+  addable: PropTypes.bool,
+  allUsers: PropTypes.object, 
+  currentListInfo: PropTypes.object,
+  editable: PropTypes.bool,
+  listId: PropTypes.string,
+  owner: PropTypes.string,
+  owners: PropTypes.object,
+  shareable: PropTypes.bool,
+  title: PropTypes.string,
+  toggleDisplay: PropTypes.func,
+  updateTitle: PropTypes.func
+}
+
+export default MainTop

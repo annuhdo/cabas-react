@@ -162,7 +162,7 @@ class Item extends Component {
 
       </div>
 
-    );
+    )
   }
 }
 

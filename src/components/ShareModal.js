@@ -74,4 +74,4 @@ ShareModal.propTypes = {
 	sharable: PropTypes.bool
 }
 
-export default ShareModal;
+export default ShareModal

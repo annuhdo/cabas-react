@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import logo from '../images/cabas_logo.svg';
+import Logo from './Logo.js'
 import styled from 'styled-components'
 import {
 	Owner
@@ -11,7 +11,6 @@ const Nav = styled('nav')`
 	background: white;
 	width: 200px;
 	order: 1;
-	font-size: 1.6em;
 	padding: 30px 30px 20px 30px;
 	box-sizing: border-box;
 	min-height: 100vh;
@@ -58,11 +57,11 @@ const Copyright = styled('div')`
 
 class LeftNav extends Component {
 	render() {
-		let photo = this.props.owner && this.props.owner.photo;
-		let name = this.props.owner && this.props.owner.name;
+		let photo = this.props.owner && this.props.owner.photo
+		let name = this.props.owner && this.props.owner.name
 		return (
 			<Nav mobile={this.props.openLeftNav}>
-				<Link to="/"><img src={logo} alt="cabas"/></Link>
+				<Logo />
 				<Owner size='80' circular margin='40px 0 10px 0'>
 					<img src={photo} alt={name} />
 				</Owner>
@@ -77,7 +76,7 @@ class LeftNav extends Component {
 					Made by <a href="https://twitter.com/annuhdo">@annuhdo</a>
 				</Copyright>
 			</Nav>
-		);
+		)
 	}
 }
 
@@ -89,4 +88,4 @@ LeftNav.propTypes = {
 }
 
 
-export default LeftNav;
+export default LeftNav

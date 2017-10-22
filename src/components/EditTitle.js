@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import {
     Button,
@@ -101,7 +101,7 @@ class EditTitle extends Component {
                     </SecondaryButton>
                     </ActionButtons>
             </ModalStyle>
-	    );
+	    )
 	}
 }
 
@@ -112,4 +112,4 @@ EditTitle.propTypes = {
     currentListInfo: PropTypes.object
 }
 
-export default EditTitle;
+export default EditTitle

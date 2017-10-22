@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { randomId } from '../helpers.js';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { randomId } from '../helpers.js'
 import styled from 'styled-components'
 import {
     Button,
@@ -56,8 +56,8 @@ const CloseButton = styled('div') `
 
 const Header = styled('div') `
     flex: 1;
-    font-weight: 500;
-    font-size: 1.8em;
+    font-weight: 600;
+    font-size: 1.2em;
 `
 
 const ActionButtons = styled('div') `
@@ -85,7 +85,6 @@ const SecondaryButton = styled('button') `
 `
 
 const ListDirectory = styled('ul') `
-    font-size: 1.6em;
     box-sizing: border-box;
     margin-top: 15px;
 
@@ -136,7 +135,7 @@ const LeaveBlock = styled('div') `
 `
 
 const FootNote = styled('div') `
-    font-size: 1.2em;
+    font-size: 0.9em;
     line-height: 1.4;
     background: #4A5080;
     color: white;
@@ -148,32 +147,32 @@ const FootNote = styled('div') `
 
 class RightNav extends Component {
     constructor() {
-        super();
-        this.renderLists = this.renderLists.bind(this);
-        this.leaveList = this.leaveList.bind(this);
-        this.redirectNewList = this.redirectNewList.bind(this);
+        super()
+        this.renderLists = this.renderLists.bind(this)
+        this.leaveList = this.leaveList.bind(this)
+        this.redirectNewList = this.redirectNewList.bind(this)
     }
 
     leaveList(key) {
         let res = window.confirm(`You are about to leave list: ${key}. Are you sure?`)
         
         if (res) {
-            this.props.leaveList(key);
+            this.props.leaveList(key)
         }
     }
 
     transitionToList(key) {
-        this.props.router.history.push(`/lists/${key}`);
+        this.props.router.history.push(`/lists/${key}`)
     }
 
     decideLeave(key) {
         if (this.props.removableList) {
-            this.leaveList(key);
+            this.leaveList(key)
         } else {
             if (key === this.props.listId) {
-                return;
+                return
             }
-            this.transitionToList(key);
+            this.transitionToList(key)
         }
     }
 
@@ -196,8 +195,8 @@ class RightNav extends Component {
     }
 
     redirectNewList(e) {
-        const newPath = randomId();
-        this.transitionToList(newPath);
+        const newPath = randomId()
+        this.transitionToList(newPath)
     }
 
     render() {
@@ -230,7 +229,7 @@ class RightNav extends Component {
                     You will be able to join the list again by accessing the URL of the list.
                 </FootNote>
             </Nav>
-        );
+        )
     }
 }
 
@@ -244,4 +243,4 @@ RightNav.propTypes = {
     lists: PropTypes.object,
 }
 
-export default RightNav;
+export default RightNav

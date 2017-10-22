@@ -46,13 +46,13 @@ const ActionButtons = styled('div') `
 
 class EditItem extends Component {
   editItem(e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    const title = this.title;
-    const detail = this.detail;
+    const title = this.title
+    const detail = this.detail
 
     if (title.value !== '' || detail.value !== '') {
-      this.props.editItem(this.props.index, title.value, detail.value);
+      this.props.editItem(this.props.index, title.value, detail.value)
     }
   }
 
@@ -100,7 +100,7 @@ class EditItem extends Component {
         </Form>
       </ModalStyle>
 
-    );
+    )
   }
 }
 
@@ -112,4 +112,4 @@ EditItem.propTypes = {
   index: PropTypes.string,
 }
 
-export default EditItem;
+export default EditItem

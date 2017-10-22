@@ -26,8 +26,8 @@ const Header = styled('div') `
 
 class NotFound extends Component {
 	goBack(e) {
-		e.preventDefault();
-		window.history.go(-1);
+		e.preventDefault()
+		window.history.go(-1)
 	}
 	render() {
 		return (
@@ -35,8 +35,8 @@ class NotFound extends Component {
 				<Header>404</Header>
 				This page does not exist :( <span onClick={this.goBack}>Go back?</span>
 			</Container>
-		);
+		)
 	}
 }
 
-export default NotFound;
+export default NotFound

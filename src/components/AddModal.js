@@ -111,7 +111,7 @@ class AddModal extends Component {
                 </Form>
             </ModalStyle>
 
-        );
+        )
     }
 }
 
@@ -122,4 +122,4 @@ AddModal.propTypes = {
     addable: PropTypes.bool
 }
 
-export default AddModal;
+export default AddModal

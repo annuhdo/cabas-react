@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import {
   Owner,
@@ -23,7 +23,7 @@ const Name = styled('div')`
   display: none;
   background: #4a5080;
   color: white;
-  font-size: 1.2em;
+  font-size: 0.8em;
   padding: 8px 10px;
   border-radius: 3px;
   position: absolute;
@@ -59,7 +59,7 @@ class Member extends Component {
            <Name>{name}</Name>
         </Container>
 
-	    );
+	    )
 	}
 }
 
@@ -67,4 +67,4 @@ Member.contextTypes = {
   owner: PropTypes.object
 }
 
-export default Member;
+export default Member
