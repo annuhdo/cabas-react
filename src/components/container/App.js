@@ -1,59 +1,161 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import styled, { injectGlobal } from 'styled-components'
+import {
+  HorizontalFlex
+} from '../../styles/'
 
-import LeftNav from "./LeftNav";
-import RightNav from "./RightNav";
-import EditModal from "./EditModal";
-import Item from "./Item";
-import Owners from "./Owners";
-import AddModal from "./AddModal";
-import ShareModal from "./ShareModal";
-import MobileNav from "./MobileNav";
-import "../css/style.css";
+import { LeftNav, RightNav, Item } from './index'
+import { MobileNav, MainTop } from '../presentational'
 
-import { app, base } from "../base";
-import "firebase/auth";
+import '../../styles/_normalize.css'
+import { app, base } from "../../base"
+import "firebase/auth"
+
+injectGlobal`
+body {
+  font-size: 62.5%;
+  font-family: Sans-Serif;
+  font-weight: 400;
+}
+`;
+
+const Body = styled('div') `
+  color: #4A5080;
+  background: rgb(238, 242, 245);
+  min-height: 100vh;
+
+  ul {
+    padding: 0;
+  }
+
+  li {
+    list-style-type: none;
+    margin-bottom: 15px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #6E7292;
+  }
+  a:hover {
+    color: #808CEE;
+  }
+
+  @media (max-width: 790px) {
+    background: #FCFCFD;
+  }
+`
+
+const Dashboard = styled('div') `
+  ${HorizontalFlex}
+  flex: 1;
+  min-height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  align-items: flex-start;
+  font-size: 1.6em;
+
+  @media (max-width: 790px) {
+    width: 100%;
+    overflow-x: hidden;
+    margin-top: 60px;
+  }
+`
+
+const Main = styled('section') `
+  min-height: 100vh;
+  background: #FCFCFD;
+  flex: 1;
+  order: 2;
+  padding: 30px 25px 10px 25px;
+`
+
+const ListItems = styled('section') `
+  margin-top: 20px;
+`
+
+const Labels = styled('div') `
+  ${HorizontalFlex}
+  font-size: 0.95em;
+  border-bottom: 2px solid #E2E5FB;
+  padding: 0 3px 5px 3px;
+
+  > div:nth-child(1) {
+    flex: 1;
+  }
+
+  > div:nth-child(2) {
+    width: 110px;
+    text-align: center;
+  }
+
+  > div:nth-child(3) {
+    width: 140px;
+    text-align: center;
+    margin-right: 0;
+  }
+
+  @media (max-width: 790px) {
+    > div:nth-child(2) {
+      width: 95px;
+    }
+
+    > div:nth-child(3) {
+      width: 75px;
+    }
+  }
+`
+
+const Items = styled('div') `
+  transition: all 0.2s;
+
+  > div {
+    position: relative;
+  }
+`
 
 class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     // Toggle the display of edit modals
-    this.toggleDisplay = this.toggleDisplay.bind(this);
+    this.toggleDisplay = this.toggleDisplay.bind(this)
 
     // Toggle item completion
-    this.toggleItemComplete = this.toggleItemComplete.bind(this);
+    this.toggleItemComplete = this.toggleItemComplete.bind(this)
 
     // Updates the title after user edits title
-    this.updateTitle = this.updateTitle.bind(this);
+    this.updateTitle = this.updateTitle.bind(this)
 
     // User has the ability to leave a list if they would like!
-    this.leaveList = this.leaveList.bind(this);
+    this.leaveList = this.leaveList.bind(this)
 
     // Close the right navigation which contains all the user's lists
-    this.closeLists = this.closeLists.bind(this);
+    this.closeLists = this.closeLists.bind(this)
 
     // All the navs are closed on mobile so user may open them with this function!
-    this.openMobileNav = this.openMobileNav.bind(this);
+    this.openMobileNav = this.openMobileNav.bind(this)
 
     // List items
-    this.addItem = this.addItem.bind(this);
-    this.editItem = this.editItem.bind(this);
-    this.deleteItem = this.deleteItem.bind(this);
+    this.addItem = this.addItem.bind(this)
+    this.editItem = this.editItem.bind(this)
+    this.deleteItem = this.deleteItem.bind(this)
     // If a user wants to edit the title/detail of an item in the list
-    this.renderEditItem = this.renderEditItem.bind(this);
+    this.renderEditItem = this.renderEditItem.bind(this)
 
     // Close the edit modal for the list item
-    this.closeEditItem = this.closeEditItem.bind(this);
+    this.closeEditItem = this.closeEditItem.bind(this)
 
     // Authentication
-    this.authHandler = this.authHandler.bind(this);
-    this.logout = this.logout.bind(this);
+    this.authHandler = this.authHandler.bind(this)
+    this.logout = this.logout.bind(this)
 
     // Synchronize states to firebase
-    this.refreshLists = this.refreshLists.bind(this);
-    this.removeBindingFromFirebase = this.removeBindingFromFirebase.bind(this);
-    this.synchronizeStatesWithFirebase = this.synchronizeStatesWithFirebase.bind(this);
+    this.refreshLists = this.refreshLists.bind(this)
+    this.removeBindingFromFirebase = this.removeBindingFromFirebase.bind(this)
+    this.synchronizeStatesWithFirebase = this.synchronizeStatesWithFirebase.bind(this)
 
     // Get initial states
     this.state = {
@@ -70,32 +172,32 @@ class App extends Component {
       allUsers: {},
       lists: {},
       showEditItem: ""
-    };
+    }
   }
 
   componentWillMount() {
-    const listId = this.props.match.params.listId;
-    this.synchronizeStatesWithFirebase(listId);
+    const listId = this.props.match.params.listId
+    this.synchronizeStatesWithFirebase(listId)
   }
 
   componentWillReceiveProps(nextProps) {
     // User has navigated away from the current list
     if (nextProps.location !== this.props.location) {
-      const newId = nextProps.match.params.listId;
-      const allUsers = { ...this.state.allUsers };
-      const uid = this.state.uid;
-      const lists = { ...this.state.allUsers[this.state.uid].lists };
+      const newId = nextProps.match.params.listId
+      const allUsers = { ...this.state.allUsers }
+      const uid = this.state.uid
+      const lists = { ...this.state.allUsers[this.state.uid].lists }
 
       // If this is a new list then append it to user's lists
       if (!(newId in lists)) {
-        lists[newId] = { listName: "" };
-        allUsers[uid].lists = lists;
+        lists[newId] = { listName: "" }
+        allUsers[uid].lists = lists
       }
       this.setState({
         lists
-      });
+      })
 
-      this.removeBindingFromFirebase();
+      this.removeBindingFromFirebase()
 
       // Re-initialize all states to prep for synchronizing with newId
       this.setState({
@@ -107,20 +209,19 @@ class App extends Component {
         shareItem: false,
         showEditItem: "",
         openLeftNav: false,
-        openRightNav: false
-      });
+      })
 
-      this.synchronizeStatesWithFirebase(newId);
+      this.synchronizeStatesWithFirebase(newId)
     }
   }
 
   componentWillUnmount() {
-    this.removeBindingFromFirebase();
+    this.removeBindingFromFirebase()
   }
 
   componentDidMount() {
     // Check if the user has logged in before
-    const localStorageRef = localStorage.getItem(`uid`);
+    const localStorageRef = localStorage.getItem(`uid`)
 
     if (!localStorageRef || JSON.parse(localStorageRef) === null) {
       // User has never logged in before so let's redirect to the login page
@@ -128,88 +229,86 @@ class App extends Component {
       // back to the current list when they login
       this.context.router.history.replace("/", {
         sharedId: this.props.match.params.listId
-      });
+      })
     }
   }
 
   synchronizeStatesWithFirebase(listId) {
     // reset currentListOwners list everytime we synchronize
-    this.setState({ currentListOwners: {} });
+    this.setState({ currentListOwners: {} })
 
     this.ref = base.syncState(`${listId}/items`, {
       context: this,
       state: "items"
-    });
+    })
 
     this.currentListInfoRef = base.syncState(`${listId}/currentListInfo`, {
       context: this,
       state: "currentListInfo",
       default: "New List"
-    });
+    })
 
     this.ownersRef = base.syncState(`${listId}/owners`, {
       context: this,
       state: "currentListOwners"
-    });
+    })
 
     this.allUsersRef = base.syncState(`/allUsers`, {
       context: this,
       state: "allUsers"
-    });
+    })
 
     this.listsRef = base.syncState(`/allUsers/${this.state.uid}/lists`, {
       context: this,
       state: "lists"
-    });
+    })
 
     // Authenticate the user with info from database
     app.auth().onAuthStateChanged((user, error) => {
       if (user) {
-        this.authHandler(null, { user });
+        this.authHandler(null, { user })
       }
-    });
+    })
   }
 
   removeBindingFromFirebase() {
-    base.removeBinding(this.ref);
-    base.removeBinding(this.currentListInfoRef);
-    base.removeBinding(this.ownersRef);
-    base.removeBinding(this.allUsersRef);
-    base.removeBinding(this.listsRef);
+    base.removeBinding(this.ref)
+    base.removeBinding(this.currentListInfoRef)
+    base.removeBinding(this.ownersRef)
+    base.removeBinding(this.allUsersRef)
+    base.removeBinding(this.listsRef)
   }
 
-  refreshLists(e) {
-    e.preventDefault();
-
+  refreshLists() {
     // Let's grab all the updated info of the user's lists
     // Ex: If a roommate changed the title of a list the user was not on
     // we should update the title so user sees it
-    let allUsers = { ...this.state.allUsers };
-    const uid = this.state.uid;
-    const lists = { ...this.state.allUsers[this.state.uid].lists };
-    const currentListInfo = this.state.currentListInfo;
+    let allUsers = { ...this.state.allUsers }
+    const uid = this.state.uid
+    const lists = { ...this.state.allUsers[this.state.uid].lists }
+    const currentListInfo = this.state.currentListInfo
 
-    lists[this.props.match.params.listId] = currentListInfo;
-    allUsers[uid].lists = lists;
+    lists[this.props.match.params.listId] = currentListInfo
+    allUsers[uid].lists = lists
     this.setState({
       allUsers,
       lists,
       openRightNav: true,
       openLeftNav: false
-    });
+    })
   }
 
   closeLists() {
     this.setState({
       openRightNav: false
-    });
+    })
   }
 
   leaveList(listId) {
     // Delete the list from the user's lists
-    const allUsers = { ...this.state.allUsers };
-    const uid = this.state.uid;
-    allUsers[uid].lists[listId] = null;
+    const allUsers = { ...this.state.allUsers }
+    const uid = this.state.uid
+    allUsers[uid].lists[listId] = null
 
     // Sometimes user tries to leave the list they are currently on
     // so we can route them to another list (first of their lists)
@@ -217,21 +316,21 @@ class App extends Component {
     if (listId === this.props.match.params.listId) {
       // If user is leaving list they are on, redirect to their first list
       if (allUsers[uid] && allUsers[uid].lists) {
-        const lists = Object.keys(allUsers[uid].lists);
-        let redirectPath = `/lists/${lists[0]}`;
+        const lists = Object.keys(allUsers[uid].lists)
+        let redirectPath = `/lists/${lists[0]}`
 
         // If it turns out user is leaving the first list
         // then check if there is a second list to redirect to
         if (lists[0] === this.props.match.params.listId) {
           if (lists[1]) {
-            redirectPath = `/lists/${lists[1]}`;
+            redirectPath = `/lists/${lists[1]}`
           } else {
-            redirectPath = "/";
+            redirectPath = "/"
           }
         }
-        this.context.router.history.push(`${redirectPath}`);
+        this.context.router.history.push(`${redirectPath}`)
       } else {
-        this.context.router.history.push("/");
+        this.context.router.history.push("/")
       }
     }
 
@@ -244,8 +343,8 @@ class App extends Component {
         // do nothing
       })
       .catch(err => {
-        console.error(err);
-      });
+        console.error(err)
+      })
 
     // If the list has no owners after current user leaves, delete
     // the list from database altogether.
@@ -262,68 +361,56 @@ class App extends Component {
               // do nothing
             })
             .catch(err => {
-              console.error(err);
-            });
+              console.error(err)
+            })
         }
       })
       .catch(error => {
-        console.log("Couldn't find owners.");
-      });
+        console.log("Couldn't find owners.")
+      })
 
-    this.setState({ allUsers });
+    this.setState({ allUsers })
   }
 
   updateTitle(newTitle) {
-    const currentListInfo = { ...this.state.currentListInfo };
-    currentListInfo.listName = newTitle;
+    const currentListInfo = { ...this.state.currentListInfo }
+    currentListInfo.listName = newTitle
 
-    const lists = { ...this.state.lists };
-    lists[this.props.match.params.listId].listName = newTitle;
+    const lists = { ...this.state.lists }
+    lists[this.props.match.params.listId].listName = newTitle
 
     this.setState({
       currentListInfo,
       lists,
       editTitle: !this.state.editTitle
-    });
+    })
   }
 
   addItem(item) {
-    const items = { ...this.state.items };
-    const timestamp = Date.now();
+    const items = { ...this.state.items }
+    const timestamp = Date.now()
 
-    items[`item-${timestamp}`] = item;
+    items[`item-${timestamp}`] = item
 
-    this.setState({ items });
+    this.setState({ items })
   }
 
   toggleDisplay(e) {
-    let editTitle = this.state.editTitle;
-    let addItem = this.state.addItem;
-    let removableList = this.state.removableList;
-    let shareItem = this.state.shareItem;
+    let editTitle = false
+    let addItem = false
+    let removableList = false
+    let shareItem = false
 
-    let modal = e.target.name;
+    let modal = e.target.name
 
     if (modal === "editTitle") {
-      editTitle = !editTitle;
-      addItem = false;
-      removableList = false;
-      shareItem = false;
+      editTitle = !this.state.editTitle
     } else if (modal === "add") {
-      editTitle = false;
-      addItem = !addItem;
-      removableList = false;
-      shareItem = false;
+      addItem = !this.state.addItem
     } else if (modal === "share") {
-      editTitle = false;
-      addItem = false;
-      removableList = false;
-      shareItem = !shareItem;
+      shareItem = !this.state.shareItem
     } else if (modal === "removeList") {
-      editTitle = false;
-      addItem = false;
-      removableList = !removableList;
-      shareItem = false;
+      removableList = !this.state.removableList
     }
 
     this.setState({
@@ -331,35 +418,41 @@ class App extends Component {
       addItem,
       removableList,
       shareItem
-    });
+    })
   }
 
   renderEditItem(key) {
-    this.setState({ showEditItem: key });
+    this.setState({ showEditItem: key })
   }
 
   closeEditItem() {
-    this.setState({ showEditItem: "" });
+    this.setState({ showEditItem: "" })
   }
 
   editItem(key, currentListInfo, detail) {
-    const items = { ...this.state.items };
-    items[key].title = currentListInfo || "";
-    items[key].detail = detail || "";
+    const items = { ...this.state.items }
+    items[key].title = currentListInfo || ""
+    items[key].detail = detail || ""
 
-    this.setState({ items, showEditItem: "" });
+    this.setState({ items, showEditItem: "" })
   }
 
   deleteItem(key) {
-    const items = { ...this.state.items };
-    items[key] = null;
-    this.setState({ items });
+    const items = {...this.state.items}
+    const title = items[key].title
+    let res = window.confirm(`Delete '${title}'?`)
+
+    if (res) {
+      const items = { ...this.state.items }
+      items[key] = null
+      this.setState({ items })
+    }
   }
 
   toggleItemComplete(key) {
-    const items = { ...this.state.items };
-    items[key].completed = !items[key].completed;
-    this.setState({ items });
+    const items = { ...this.state.items }
+    items[key].completed = !items[key].completed
+    this.setState({ items })
   }
 
   logout() {
@@ -367,47 +460,47 @@ class App extends Component {
       .auth()
       .signOut()
       .then(() => {
-        this.setState({ uid: null });
+        this.setState({ uid: null })
         // User leaves local storage
-        localStorage.setItem(`uid`, null);
+        localStorage.setItem(`uid`, null)
         // Pass current listID so when they login it will redirect to this page
         this.context.router.history.replace("/", {
           sharedId: this.props.match.params.listId
-        });
-      });
+        })
+      })
   }
 
   authHandler(err, authData) {
     if (err) {
-      console.error(err);
-      return;
+      console.error(err)
+      return
     }
 
     // Let's grab data about the user
-    const uid = authData.user.uid;
+    const uid = authData.user.uid
 
     // We are interested in their name and photo in particular
     let user = {
       name: authData.user.displayName,
       photo: authData.user.photoURL
-    };
+    }
 
-    const currentListOwners = { ...this.state.currentListOwners };
-    const allUsers = { ...this.state.allUsers };
-    const lists = { ...this.state.lists };
-    const listId = this.props.match.params.listId;
+    const currentListOwners = { ...this.state.currentListOwners }
+    const allUsers = { ...this.state.allUsers }
+    const lists = { ...this.state.lists }
+    const listId = this.props.match.params.listId
 
     if (allUsers[uid]) {
       // User is logged in!
       // If the user is an owner of this list, let's update the list 
       // currentListInfo. Otherwise, this would just add the list to the 
       // allUsers' lists
-      allUsers[uid].lists[listId] = this.state.currentListInfo;
+      allUsers[uid].lists[listId] = this.state.currentListInfo
     } else {
       // User has never logged in before
-      user.lists = {};
-      user.lists[listId] = this.state.currentListInfo;
-      allUsers[uid] = user;
+      user.lists = {}
+      user.lists[listId] = this.state.currentListInfo
+      allUsers[uid] = user
     }
 
     // Regardless, add this list to the user's lists
@@ -416,29 +509,29 @@ class App extends Component {
     }
 
     // Let the current user be one of the currentListOwners of this list
-    currentListOwners[uid] = true;
+    currentListOwners[uid] = true
 
     this.setState({
       allUsers,
       currentListOwners,
       uid,
       lists
-    });
+    })
 
     // Set current user's uid into local storage
     // so we don't have to reauthenticate the user when they revisit
-    localStorage.setItem(`uid`, JSON.stringify(uid));
+    localStorage.setItem(`uid`, JSON.stringify(uid))
   }
 
   openMobileNav(nav) {
-    let openLeftNav = this.state.openLeftNav;
-    let openRightNav = this.state.openRightNav;
+    let openLeftNav = this.state.openLeftNav
+    let openRightNav = this.state.openRightNav
     if (nav === "left") {
-      openLeftNav = !openLeftNav;
-      openRightNav = false;
+      openLeftNav = !openLeftNav
+      openRightNav = false
     } else if (nav === "right") {
-      openLeftNav = false;
-      openRightNav = !openRightNav;
+      openLeftNav = false
+      openRightNav = !openRightNav
     }
 
     this.setState({
@@ -448,18 +541,18 @@ class App extends Component {
       addItem: false,
       removableList: false,
       shareItem: false
-    });
+    })
   }
 
   render() {
     return (
-      <div>
+      <Body>
         <MobileNav
           owner={this.state.allUsers[this.state.uid]}
           refreshLists={this.refreshLists}
           openMobileNav={this.openMobileNav}
         />
-        <div className="dashboard">
+        <Dashboard>
           <LeftNav
             listId={this.props.match.params.listId}
             owner={this.state.allUsers[this.state.uid]}
@@ -469,71 +562,31 @@ class App extends Component {
             openLeftNav={this.state.openLeftNav}
           />
 
-          <div className="list">
-            <div className="list-top">
-              <div className="list-title">
-                <span className="title">
-                  {this.state.currentListInfo.listName || this.props.match.params.listId}
-                </span>
-                <button name="editTitle" onClick={this.toggleDisplay}>
-                  Edit title
-                </button>
+          <Main>
+            <MainTop
+              {...this.props}
+              title={this.state.currentListInfo.listName || this.props.match.params.listId}
+              editable={this.state.editTitle}
+              currentListInfo={this.state.currentListInfo}
+              updateTitle={this.updateTitle}
+              toggleDisplay={this.toggleDisplay}
+              listId={this.props.match.params.listId}
+              owners={this.state.currentListOwners}
+              allUsers={this.state.allUsers}
+              addable={this.state.addItem}
+              addItem={this.addItem}
+              owner={this.state.uid}
+              shareable={this.state.shareItem}
+            />
 
-                <EditModal
-                  editable={this.state.editTitle}
-                  currentListInfo={this.state.currentListInfo}
-                  updateTitle={this.updateTitle}
-                  toggleDisplay={this.toggleDisplay}
-                  listId={this.props.match.params.listId}
-                />
-              </div>
+            <ListItems>
+              <Labels>
+                <div>Item</div>
+                <div>Owner</div>
+                <div>Actions</div>
+              </Labels>
 
-              <div className="members">
-                {this.state.currentListOwners &&
-                  Object.keys(this.state.currentListOwners).map(uid => (
-                    <Owners owner={this.state.allUsers[uid]} key={uid} />
-                  ))}
-              </div>
-            </div>
-
-            <div className="add-share">
-              <div className="add-section">
-                <button className="add" name="add" onClick={this.toggleDisplay}>
-                  Add Item
-                </button>
-
-                <AddModal
-                  addable={this.state.addItem}
-                  addItem={this.addItem}
-                  owner={this.state.uid}
-                  toggleDisplay={this.toggleDisplay}
-                />
-              </div>
-
-              <div className="share-section">
-                <button
-                  className="share"
-                  name="share"
-                  onClick={this.toggleDisplay}
-                >
-                  Share
-                </button>
-
-                <ShareModal
-                  shareable={this.state.shareItem}
-                  toggleDisplay={this.toggleDisplay}
-                />
-              </div>
-            </div>
-
-            <div className="list-table">
-              <div className="list-labels">
-                <div className="item-col">Item</div>
-                <div className="owner-col">Owner</div>
-                <div className="remove-col">Actions</div>
-              </div>
-
-              <div className="list-item">
+              <Items>
                 {Object.keys(this.state.items).map(key => (
                   <Item
                     item={this.state.items[key]}
@@ -551,9 +604,9 @@ class App extends Component {
                     editItem={this.editItem}
                   />
                 ))}
-              </div>
-            </div>
-          </div>
+              </Items>
+            </ListItems>
+          </Main>
 
           <RightNav
             removableList={this.state.removableList}
@@ -566,15 +619,15 @@ class App extends Component {
             openRightNav={this.state.openRightNav}
             router={this.context.router}
           />
-        </div>
-      </div>
-    );
+        </Dashboard>
+      </Body>
+    )
   }
 }
 
 App.contextTypes = {
   router: PropTypes.object,
   params: PropTypes.object
-};
+}
 
-export default App;
+export default App

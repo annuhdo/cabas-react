@@ -1,34 +1,30 @@
 {
   "name": "cabas",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
-    "firebase": "^4.5.0",
+    "clipboard": "^1.7.1",
+    "firebase": "^4.5.2",
     "prop-types": "^15.6.0",
-    "re-base": "^3.0.4",
+    "re-base": "^3.0.5",
     "react": "^16.0.0",
     "react-clipboard.js": "^1.1.2",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
-    "react-test-renderer": "^16.0.0"
+    "react-test-renderer": "^16.0.0",
+    "styled-components": "^2.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "watch": "concurrently --names \"webpack, stylus\" --prefix name \"npm run start\" \"npm run styles:watch\" \"npm run frontstyles:watch\"",
+    "watch": "concurrently --names \"webpack\" --prefix name \"npm run start\" \"npm run styles:watch\"",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --setupTestFrameworkScriptFile=raf/polyfill",
-    "eject": "react-scripts eject",
-    "styles": "stylus -u autoprefixer-stylus ./src/css/style.styl -o ./src/css/style.css",
-    "frontstyles": "stylus -u autoprefixer-stylus ./src/css/frontpage.styl -o ./src/css/frontpage.css",
-    "styles:watch": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./src/css/style.css",
-    "frontstyles:watch": "stylus -u autoprefixer-stylus -w ./src/css/frontpage.styl -o ./src/css/frontpage.css"
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "autoprefixer-stylus": "^0.14.0",
     "concurrently": "^3.5.0",
     "enzyme": "^3.1.0",
-    "enzyme-adapter-react-16": "^1.0.1",
-    "stylus": "^0.54.5"
+    "enzyme-adapter-react-16": "^1.0.2"
   }
 }

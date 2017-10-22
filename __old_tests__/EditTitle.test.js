@@ -5,7 +5,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import { StaticRouter } from 'react-router'
 
 Enzyme.configure({ adapter: new Adapter() });
-import EditModal from '../EditModal';
+import EditTitle from '../EditTitle';
 
 it('renders without crashing', () => {
   const updateTitle = jest.fn();
@@ -14,7 +14,7 @@ it('renders without crashing', () => {
   const currentListInfo = {
     listName: "test-title"
   };
-  shallow( <EditModal updateTitle={updateTitle} toggleDisplay={toggleDisplay} editable={editable} currentListInfo={currentListInfo} /> );
+  shallow( <EditTitle updateTitle={updateTitle} toggleDisplay={toggleDisplay} editable={editable} currentListInfo={currentListInfo} /> );
 });
 
 it('displays modal when editable is true', () => {
@@ -26,7 +26,7 @@ it('displays modal when editable is true', () => {
   };
 
   const wrapper = shallow(
-  <EditModal
+  <EditTitle
     updateTitle={updateTitle}
     toggleDisplay={toggleDisplay}
     editable={editable}
@@ -50,7 +50,7 @@ it('hides modal when editable is false', () => {
   }
 
   const wrapper = shallow(
-  <EditModal
+  <EditTitle
     updateTitle={updateTitle}
     toggleDisplay={toggleDisplay}
     editable={editable}
@@ -70,7 +70,7 @@ it('should call toggleDisplay fn when clicked Cancel', () => {
   };
   
   const wrapper = shallow(
-  <EditModal
+  <EditTitle
     updateTitle={updateTitle}
     toggleDisplay={toggleDisplay}
     editable={editable}
