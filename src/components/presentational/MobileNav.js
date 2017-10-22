@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import Logo from './Logo.js'
-import hamburger from '../images/cabas_hamburger.svg'
+import { UserAvatar, Logo } from './index'
 import styled from 'styled-components'
 import {
-  Owner,
   HorizontalFlex
-} from '../styles/'
+} from '../../styles/'
+
+import hamburger from '../../images/cabas_hamburger.svg'
 
 const Nav = styled('nav') `
   z-index: 11;
@@ -50,13 +49,16 @@ class MobileNav extends Component {
     this.props.openMobileNav(nav)
   }
   render() {
-    let photo = this.props.owner && this.props.owner.photo
-    let name = this.props.owner && this.props.owner.name
     return (
       <Nav>
-        <Owner size='40' circular margin='0 20px 0 0' onClick={() => this.open("left")}>
-          <img src={photo} alt={name} />
-        </Owner>
+        <div
+          onClick={() => this.open("left")}>
+          <UserAvatar
+            size='40'
+            margin='0 20px 0 0'
+            owner={this.props.owner}
+          />
+        </div>
 
         <Logo width='80px' margin='0 20px 0 0' />
 

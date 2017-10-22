@@ -3,16 +3,13 @@ import PropTypes from "prop-types"
 import styled, { injectGlobal } from 'styled-components'
 import {
   HorizontalFlex
-} from '../styles/'
+} from '../../styles/'
 
-import LeftNav from "./LeftNav"
-import RightNav from "./RightNav"
-import Item from "./Item"
-import MobileNav from "./MobileNav"
-import MainTop from "./MainTop"
+import { LeftNav, RightNav, Item } from './index'
+import { MobileNav, MainTop } from '../presentational'
 
-import '../css/_normalize.css'
-import { app, base } from "../base"
+import '../../styles/_normalize.css'
+import { app, base } from "../../base"
 import "firebase/auth"
 
 injectGlobal`

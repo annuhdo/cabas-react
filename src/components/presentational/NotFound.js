@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import {
-	VerticalFlex
-} from '../styles/'
+  VerticalFlex
+} from '../../styles/'
 
 const Container = styled('div') `
 	${VerticalFlex}
@@ -25,18 +25,18 @@ const Header = styled('div') `
 `
 
 class NotFound extends Component {
-	goBack(e) {
-		e.preventDefault()
-		window.history.go(-1)
-	}
-	render() {
-		return (
-			<Container>
-				<Header>404</Header>
-				This page does not exist :( <span onClick={this.goBack}>Go back?</span>
-			</Container>
-		)
-	}
+  goBack(e) {
+    e.preventDefault()
+    window.history.go(-1)
+  }
+  render() {
+    return (
+      <Container>
+        <Header>404</Header>
+        This page does not exist :( <span onClick={this.goBack}>Go back?</span>
+      </Container>
+    )
+  }
 }
 
 export default NotFound

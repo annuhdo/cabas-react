@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { randomId } from '../helpers.js'
+import { randomId } from '../../helpers.js'
 import styled from 'styled-components'
 import {
-    Button,
-    HorizontalFlex
-} from '../styles/'
+  Button,
+  HorizontalFlex
+} from '../../styles/'
 
 const Nav = styled('nav') `
     background: white;
@@ -98,7 +98,7 @@ const List = styled('li') `
     max-width: 100%;
     padding: 20px;
     background: ${ props => props.current === 'current' ?
-        'rgb(238, 242, 245)' : '#eef2f5'};
+    'rgb(238, 242, 245)' : '#eef2f5'};
     text-align: center;
     border-radius: 5px;
     border: 1px solid #FCFCFD;
@@ -107,7 +107,7 @@ const List = styled('li') `
 
     &:hover {
         ${ props => props.current === 'current' &&
-        'background: rgb(238, 242, 245) !important; color: #4A5080 !important;'};
+    'background: rgb(238, 242, 245) !important; color: #4A5080 !important;'};
     }
 `
 
@@ -146,101 +146,101 @@ const FootNote = styled('div') `
 `
 
 class RightNav extends Component {
-    constructor() {
-        super()
-        this.renderLists = this.renderLists.bind(this)
-        this.leaveList = this.leaveList.bind(this)
-        this.redirectNewList = this.redirectNewList.bind(this)
+  constructor() {
+    super()
+    this.renderLists = this.renderLists.bind(this)
+    this.leaveList = this.leaveList.bind(this)
+    this.redirectNewList = this.redirectNewList.bind(this)
+  }
+
+  leaveList(key) {
+    let res = window.confirm(`You are about to leave list: ${key}. Are you sure?`)
+
+    if (res) {
+      this.props.leaveList(key)
     }
+  }
 
-    leaveList(key) {
-        let res = window.confirm(`You are about to leave list: ${key}. Are you sure?`)
-        
-        if (res) {
-            this.props.leaveList(key)
-        }
+  transitionToList(key) {
+    this.props.router.history.push(`/lists/${key}`)
+  }
+
+  decideLeave(key) {
+    if (this.props.removableList) {
+      this.leaveList(key)
+    } else {
+      if (key === this.props.listId) {
+        return
+      }
+      this.transitionToList(key)
     }
+  }
 
-    transitionToList(key) {
-        this.props.router.history.push(`/lists/${key}`)
-    }
+  renderLists(key) {
+    const leaveButton = <LeaveBlock>Leave this list</LeaveBlock>
+    return (
+      <List
+        current={key === this.props.listId ? 'current' : 'normal'}
+        title={key}
+        key={key}
+        onClick={() => this.decideLeave(key)}
+      >
+        <ListName title={key}>
+          {this.props.lists[key].listName || key}
+        </ListName>
 
-    decideLeave(key) {
-        if (this.props.removableList) {
-            this.leaveList(key)
-        } else {
-            if (key === this.props.listId) {
-                return
-            }
-            this.transitionToList(key)
-        }
-    }
+        {this.props.removableList ? leaveButton : null}
+      </List>
+    )
+  }
 
-    renderLists(key) {
-        const leaveButton = <LeaveBlock>Leave this list</LeaveBlock>
-        return (
-            <List
-                current={key === this.props.listId ? 'current' : 'normal'}
-                title={key}
-                key={key}
-                onClick={() => this.decideLeave(key)}
-            >
-                <ListName title={key}>
-                    {this.props.lists[key].listName || key}
-                </ListName>
+  redirectNewList(e) {
+    const newPath = randomId()
+    this.transitionToList(newPath)
+  }
 
-                {this.props.removableList ? leaveButton : null}
-            </List>
-        )
-    }
+  render() {
+    return (
+      <Nav display={this.props.openRightNav ? 'block' : 'none'}>
 
-    redirectNewList(e) {
-        const newPath = randomId()
-        this.transitionToList(newPath)
-    }
+        <CloseButton onClick={this.props.closeLists}></CloseButton>
 
-    render() {
-        return (
-            <Nav display={this.props.openRightNav ? 'block' : 'none'}>
+        <Header>My Lists</Header>
 
-                <CloseButton onClick={this.props.closeLists}></CloseButton>
-
-                <Header>My Lists</Header>
-
-                <ActionButtons>
-                    <PrimaryButton
-                        name="add-list"
-                        onClick={this.redirectNewList}
-                    >
-                        New
+        <ActionButtons>
+          <PrimaryButton
+            name="add-list"
+            onClick={this.redirectNewList}
+          >
+            New
                         </PrimaryButton>
-                    <SecondaryButton
-                        name="removeList"
-                        onClick={this.props.toggleDisplay}>
-                        {this.props.removableList ? "Done" : "Leave"}
-                    </SecondaryButton>
-                </ActionButtons>
+          <SecondaryButton
+            name="removeList"
+            onClick={this.props.toggleDisplay}>
+            {this.props.removableList ? "Done" : "Leave"}
+          </SecondaryButton>
+        </ActionButtons>
 
-                <ListDirectory editable={this.props.removableList}>
-                    {Object.keys(this.props.lists).map(this.renderLists)}
-                </ListDirectory>
+        <ListDirectory editable={this.props.removableList}>
+          {Object.keys(this.props.lists).map(this.renderLists)}
+        </ListDirectory>
 
-                <FootNote display={this.props.removableList ? 'block' : 'none'}>
-                    You will be able to join the list again by accessing the URL of the list.
+        <FootNote display={this.props.removableList ? 'block' : 'none'}>
+          You will be able to join the list again by accessing the URL of the list.
                 </FootNote>
-            </Nav>
-        )
-    }
+      </Nav>
+    )
+  }
 }
 
 RightNav.propTypes = {
-    leaveList: PropTypes.func,
-    router: PropTypes.object,
-    removableList: PropTypes.bool,
-    listId: PropTypes.string,
-    openRightNav: PropTypes.bool,
-    closeLists: PropTypes.func,
-    lists: PropTypes.object,
+  leaveList: PropTypes.func,
+  router: PropTypes.object,
+  removableList: PropTypes.bool,
+  listId: PropTypes.string,
+  openRightNav: PropTypes.bool,
+  closeLists: PropTypes.func,
+  lists: PropTypes.object,
 }
 
 export default RightNav

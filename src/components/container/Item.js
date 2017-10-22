@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import EditItem from './EditItem'
+import { EditItem } from './index'
+import { UserAvatar } from '../presentational'
 import styled from 'styled-components'
 import {
-  Owner,
   Button,
   HorizontalFlex,
   VerticalFlex,
-} from '../styles/'
+} from '../../styles/'
 
 const ListRow = styled('div') `
   ${ props => props.display ? HorizontalFlex : 'display: none'};
@@ -104,9 +104,6 @@ class Item extends Component {
   }
 
   render() {
-    let photo = this.props.owner && this.props.owner.photo
-    let name = this.props.owner && this.props.owner.name
-
     return (
       <div>
         <ListRow
@@ -131,9 +128,7 @@ class Item extends Component {
             </ItemDetail>
           </ItemInfo>
 
-          <Owner size='45' circular margin='0 32px'>
-            <img src={photo} alt={name} />
-          </Owner>
+          <UserAvatar size='45' margin='0 32px' owner={this.props.owner} />
 
           <ActionButtons>
             <PrimaryButton

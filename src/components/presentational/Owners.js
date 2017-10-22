@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Member from "./Member"
+import { Member } from './index'
 import styled from 'styled-components'
 import {
   HorizontalFlex
-} from '../styles/'
+} from '../../styles/'
 
 const Container = styled('div') `
   ${HorizontalFlex}

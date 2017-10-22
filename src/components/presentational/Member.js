@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { UserAvatar } from './index'
 import {
   Owner,
   VerticalFlex
-} from '../styles/'
+} from '../../styles/'
 
 const Container = styled('div')`
   ${VerticalFlex}
@@ -47,15 +48,11 @@ const Name = styled('div')`
 
 class Member extends Component {
 	render() {
-    let photo = this.props.owner && this.props.owner.photo
     let name = this.props.owner && this.props.owner.name
 
 	    return (
         <Container>
-          <Owner size='40' circular margin='0'>
-          <img src={photo} alt={name} />
-        </Owner>
-
+          <UserAvatar size='40' owner={this.props.owner} />
            <Name>{name}</Name>
         </Container>
 

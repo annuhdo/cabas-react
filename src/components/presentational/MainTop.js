@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Owners from "./Owners"
-import EditTitle from "./EditTitle"
-import AddModal from "./AddModal"
-import ShareModal from "./ShareModal"
+import { Owners } from './index'
+import { EditTitle, AddModal, ShareModal } from '../container'
 import styled from 'styled-components'
 import {
   Button,
   HorizontalFlex
-} from '../styles/'
+} from '../../styles/'
 
 const Top = styled('div') `
   ${HorizontalFlex}

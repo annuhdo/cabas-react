@@ -8,7 +8,7 @@ import {
   ModalLabel,
   HorizontalFlex,
   VerticalFlex
-} from '../styles/'
+} from '../../styles/'
 
 const PrimaryButton = styled('button') `
     ${Button}

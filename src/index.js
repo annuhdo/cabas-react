@@ -1,14 +1,13 @@
-import React from 'react';
-import { render } from 'react-dom';
+import React from 'react'
+import { render } from 'react-dom'
 import {
   BrowserRouter as Router,
   Route,
   Switch
 } from 'react-router-dom'
-import NotFound from './components/NotFound';
-import Login from './components/Login';
 
-import App from './components/App';
+import { Login, NotFound } from './components/presentational'
+import { App } from './components/container'
 
 const Root = () => {
 	return (
@@ -22,4 +21,4 @@ const Root = () => {
 	)
 }
 
-render(<Root/>, document.querySelector('#root'));
+render(<Root/>, document.querySelector('#root'))
