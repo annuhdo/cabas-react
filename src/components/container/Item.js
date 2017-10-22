@@ -11,7 +11,6 @@ import {
 
 const ListRow = styled('div') `
   ${ props => props.display ? HorizontalFlex : 'display: none'};
-  font-size: 15px;
   cursor: pointer;
   transition: all 0.15s;
   position: relative;
@@ -42,7 +41,6 @@ const ItemInfo = styled('div') `
 `
 
 const ItemTitle = styled('div') `
-  font-size: 16px;
   overflow: hidden;
   white-space: initial;
   word-wrap: break-word;
