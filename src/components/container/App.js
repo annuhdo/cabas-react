@@ -8,7 +8,6 @@ import {
 import { LeftNav, RightNav, Item } from './index'
 import { MobileNav, MainTop } from '../presentational'
 
-import '../../styles/_normalize.css'
 import { app, base } from "../../base"
 import "firebase/auth"
 
