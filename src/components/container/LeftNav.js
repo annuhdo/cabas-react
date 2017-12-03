@@ -5,7 +5,6 @@ import { UserAvatar, Logo } from '../presentational'
 
 const Nav = styled('nav') `
 	background: white;
-	width: 200px;
 	order: 1;
 	padding: 30px 30px 20px 30px;
 	box-sizing: border-box;

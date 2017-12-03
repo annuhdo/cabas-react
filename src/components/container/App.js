@@ -16,6 +16,8 @@ body {
   font-size: 62.5%;
   font-family: Sans-Serif;
   font-weight: 400;
+  margin: 0;
+  padding: 0;
 }
 `;
 
@@ -47,19 +49,20 @@ const Body = styled('div') `
 `
 
 const Dashboard = styled('div') `
-  ${HorizontalFlex}
-  flex: 1;
+  display: grid;
+  grid-template: 1fr / 200px 1fr ${ props => props.openRightNav };
   min-height: 100%;
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   font-size: 1.6em;
 
   @media (max-width: 790px) {
     width: 100%;
     overflow-x: hidden;
     margin-top: 60px;
+    grid-template: 1fr / 1fr;
   }
 `
 
@@ -551,7 +554,7 @@ class App extends Component {
           refreshLists={this.refreshLists}
           openMobileNav={this.openMobileNav}
         />
-        <Dashboard>
+        <Dashboard openRightNav={this.state.openRightNav ? '200px' : '0'}>
           <LeftNav
             listId={this.props.match.params.listId}
             owner={this.state.allUsers[this.state.uid]}
